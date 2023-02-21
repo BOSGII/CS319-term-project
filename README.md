@@ -8,4 +8,4 @@ Berkay İnceişçi - 21802088\
 Safa Eren Kuday \
 Oğuz Kuyucu \
 Göktuğ Yılmaz \
-İlayda Zehra Yılmaz
+İlayda Zehra Yılmaz - 22001760\
