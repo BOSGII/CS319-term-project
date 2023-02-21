@@ -6,6 +6,6 @@ CS319 Spring 2023 Term Project -- Bilkent Internship Management System
 İsmail Emre Deniz - 21901913\
 Berkay İnceişçi - 21802088\
 Safa Eren Kuday \
-Oğuz Kuyucu \
+Oğuz Kuyucu - 21902683\ 
 Göktuğ Yılmaz - 21903048 \
 İlayda Zehra Yılmaz - 22001769
