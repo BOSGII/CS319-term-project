@@ -15,10 +15,10 @@ The aim of the project is to unify pre and post internship processes through a s
 
 Student Features:
 - Choose the Company of the Internship either by accepted list or by proposing
-- Download the mandotary internship documents (in the link http://mf.bilkent.edu.tr/?page_id=844)\
-- Upload the necessary documents for the internship (Acceptance Letter etc.)\
+- Download the mandotary internship documents (in the link http://mf.bilkent.edu.tr/?page_id=844)
+- Upload the necessary documents for the internship (Acceptance Letter etc.)
 - See the progress of internship application
-- Upload the internship report\
+- Upload the internship report
 - See the Feedback and revision information of the report
 - See the Grade of Summer Internship I/II 
 
