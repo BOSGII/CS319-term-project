@@ -23,8 +23,10 @@ Student Features:
 - See the Grade of Summer Internship I/II 
 
 Coordinator Features:
+- See the student list with their status
 - See and evaluate (accept/reject) the students' selected companies
 - See and evaluate the student reports (Download the draft and Upload the version with feedback)
 
 Instructor/Grader Features:
+- See the assigned student list
 - See and evaluate the student reports (Download the draft and Upload the version with feedback)
