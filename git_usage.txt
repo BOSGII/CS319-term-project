@@ -1,0 +1,37 @@
+Steps to implement a feature:
+
+1) Open terminal, change the directory into the folder where git repository will be cloned.
+2) Clone the repository:
+    $ git clone https://github.com/BOSGII/CS319-term-project.git <name-of-the-folder>
+    * Name of the clone folder (<name-of-the-folder>) can be the same as the name of the feature branch to make the naming consistent.
+    * When the above command is executed for the first time, username and password of the GitHub account will be asked.
+    * Do not enter the account's password, create an access token from: 
+    * GitHub->Settings->Developer settings->Personal access tokens->Tokens(classic)->Generate new token->Generate new token (classic).
+    * Set expiration to 90 days, select 'repo' scope and generate the token (when expired, new access token can be generated to access the repo)
+    * Paste the generated token number instead of password
+3) Change directory into the cloned folder
+4) Create a new branch:
+    $ git checkout -b <branch-name>
+    * naming for feature branches: feature/{b or f}-{number} (e.g: feature/b-3 or feature/f-5)
+    * naming for bugfix branches: bugfix/{b or f}-{number} (e.g: bugfix/b-3 or bugfix/f-5)
+5) Open the repository in a code editor and implement the feature (or bugfix)
+6) To create a commit, open the terminal, change directory into the repository, run the following commands:
+    $ git add .   # . means stash all the changes in the repository
+    $ git commit -m "commit message"
+
+-- When the implementation of the feature is finished:
+7) If there are changes in the remote main branch, we need to rebase our feature branch to the main branch (perform below steps always, regardless of whether remote main branch has changed):
+    $ git checkout main
+    $ git pull
+    $ git checkout <branch-name>
+    $ git rebase main
+8) Ideally, there will be no conflicts. However, if there are any, fix them using a code editor, stage changes (git add .) and continue rebase (git rebase --continue). Repeat these steps until rebase is finished.
+9) Push your local branch to the remote repository:
+    $ git push -u origin <branch-name>
+10) From Github, open a pull request:
+    * Open repository on Github
+    * Navigate to "Pull requests" tab
+    * Click "New pull request"
+    * Select base "main" and compare "<branch-name>"
+    * Create pull request
+11) After viewing the changes you made (and making sure that your rebased branch works properly), approve the pull request.
