@@ -28,7 +28,7 @@ Steps to implement a feature:
 8) Ideally, there will be no conflicts. However, if there are any, fix them using a code editor, stage changes (git add .) and continue rebase (git rebase --continue). Repeat these steps until rebase is finished.
 9) Push your local branch to the remote repository:
     $ git push -u origin <branch-name>
-10) From Github, open a pull request:
+10) From Github, open a pull request (note that it is OK to make changes (and push to feature branch) after a pull request is open, opening pull request just allows seeing differences from Github):
     * Open repository on Github
     * Navigate to "Pull requests" tab
     * Click "New pull request"
