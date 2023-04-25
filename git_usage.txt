@@ -34,4 +34,4 @@ Steps to implement a feature:
     * Click "New pull request"
     * Select base "main" and compare "<branch-name>"
     * Create pull request
-11) After viewing the changes you made (and making sure that your rebased branch works properly), approve the pull request.
+11) After viewing the changes you made (and making sure that your rebased branch works properly), approve the pull request by selecting option "Squash and merge".
