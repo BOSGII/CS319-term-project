@@ -11,4 +11,4 @@ feature-f6: /instructors page
 
 Backend features:
 feature-b1: Boilerplate code for a Spring Boot app (along with MySQL connection)
-feature-b2: Basic Entity, Controller, Service components
+feature-b2: Entity, Controller, Service, Repository components and related associations
