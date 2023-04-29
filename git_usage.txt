@@ -12,8 +12,8 @@ Steps to implement a feature:
 3) Change directory into the cloned folder
 4) Create a new branch:
     $ git checkout -b <branch-name>
-    * naming for feature branches: feature/{b or f}-{number} (e.g: feature/b-3 or feature/f-5)
-    * naming for bugfix branches: bugfix/{b or f}-{number} (e.g: bugfix/b-3 or bugfix/f-5)
+    * naming for feature branches: feature-{b or f}{number} (e.g: feature-b3 or feature-f5)
+    * naming for bugfix branches: bugfix-{b or f}{number} (e.g: bugfix-b3 or bugfix-f5)
 5) Open the repository in a code editor and implement the feature (or bugfix)
 6) To create a commit, open the terminal, change directory into the repository, run the following commands:
     $ git add .   # . means stash all the changes in the repository
