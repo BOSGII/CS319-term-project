@@ -1,14 +1,14 @@
 Frontend features:
-feature/f-1: Boilerplate code for a React app (along with MUI integration)
-feature/f-2: Routing paths and corresponding empty page components
-feature/f-3: Basic authentication (create a global state for user role and render pages accordingly) 
-feature/f-4: Login screen
-feature/f-5: /students page
-feature/f-6: /instructors page
+feature-f1: Boilerplate code for a React app (along with MUI integration)
+feature-f2: Routing paths and corresponding empty page components
+feature-f3: Basic authentication (create a global state for user role and render pages accordingly) 
+feature-f4: Login screen
+feature-f5: /students page
+feature-f6: /instructors page
 
 
 
 
 Backend features:
-feature/b-1: Boilerplate code for a Spring Boot app (along with MySQL connection)
-feature/b-2: Basic Entity, Controller, Service components
+feature-b1: Boilerplate code for a Spring Boot app (along with MySQL connection)
+feature-b2: Basic Entity, Controller, Service components
