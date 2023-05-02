@@ -1,13 +1,13 @@
 import { Container, Typography } from '@mui/material'
 
 // styles
-import './TAsPage.css'
+import './SecretaryInstructorsPage.css'
 
-export default function TAsPage(){
+export default function SecretaryInstructorsPage(){
     return(
         <Container>
             <Typography>
-                Secretary screen showing all TAs
+                Secretary page showing all instructors
             </Typography>
         </Container>
     )

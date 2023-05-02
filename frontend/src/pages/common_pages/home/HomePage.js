@@ -1,10 +1,10 @@
 // styles
 import './HomePage.css'
-import AdminHomePage from './home_admin/AdminHomePage'
-import InstructorHomePage from './home_instructor/InstructorHomePage'
-import SecretaryHomePage from './home_secretary/SecretaryHomePage'
-import StudentHomePage from './home_student/StudentHomePage'
-import TAHomePage from './home_ta/TAHomePage'
+import AdminHomePage from '../../admin_pages/home/AdminHomePage'
+import InstructorHomePage from '../../instructor_pages/home/InstructorHomePage'
+import SecretaryHomePage from '../../secretary_pages/home/SecretaryHomePage'
+import StudentHomePage from '../../student_pages/home/StudentHomePage'
+import TAHomePage from '../../ta_pages/home/TAHomePage'
 
 export default function HomePage(){
     // TODO: determine role based on authentication

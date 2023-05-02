@@ -1,13 +1,13 @@
 import { Container, Typography } from '@mui/material'
 
 // styles
-import './InstructorsPage.css'
+import './StudentInternshipsPage.css'
 
-export default function InstructorsPage(){
+export default function StudentInternshipsPage(){
     return(
         <Container>
             <Typography>
-                Secretary page showing all instructors
+                student screen showing all internships (299 and 399)
             </Typography>
         </Container>
     )
