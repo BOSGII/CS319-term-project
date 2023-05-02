@@ -12,3 +12,4 @@ feature-f6: /instructors page
 Backend features:
 MERGED feature-b1: Boilerplate code for a Spring Boot app (along with MySQL connection)
 MERGED feature-b2: Entity, Controller, Service, Repository components and related associations
+MERGED feature-b3: /students ,/students/{studentId}, /students/{studentId}/internships, /students/{studentId}/internships/{internshipType} responses

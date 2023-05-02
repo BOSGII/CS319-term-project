@@ -1,12 +1,22 @@
 package com.bosgii.internshipmanagement.entities;
 
+import java.util.List;
+import java.util.Set;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Data;
 
 @Entity
 @Table(name="Student")
-@Data
 public class Student extends User {
-	String department;
+	private String department;
+
+	public String getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(String department) {
+		this.department = department;
+	}
 }
