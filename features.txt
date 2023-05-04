@@ -4,12 +4,30 @@ MERGED feature-f2: Routing paths and corresponding empty page components
 feature-f3: Basic authentication (create a global state for user role and render pages accordingly) 
 feature-f4: Login screen
 MERGED feature-f5: /students ,/students/{studentId}, /students/{studentId}/internships, /students/{studentId}/internships/{internshipType} pages
-feature-f6: /students -- add student functionality
-feature-f7: /students/{studentId}/internships -- add internship functionality
-feature-f8: /instructors page
+DISCARDED feature-f6: /students -- add student functionality
+feature-f7: /internships -- add internship functionality
+feature-f8: Instead of nesting routes as /students/{studentId}/internships, use single page for internships, in which multiple import, single add functionality is provided (only buttons for now). Remove /students and /students/{studentId} from frontend. There will be only /internships on the secretary side.
+feature-f9: Secretary /instructors page
+feature-f10: Student /my_internships page (list of internships -- at most two)
+feature-f11: Instructor /assigned_internships page (list of assigned internships)
+
 
 
 Backend features:
 MERGED feature-b1: Boilerplate code for a Spring Boot app (along with MySQL connection)
 MERGED feature-b2: Entity, Controller, Service, Repository components and related associations
 MERGED feature-b3: /students ,/students/{studentId}, /students/{studentId}/internships, /students/{studentId}/internships/{internshipType} responses
+feature-b4: Authentication using Spring Security
+feature-b5: File storage service
+feature-b6: Controller-service layer for the Student
+feature-b7: Controller-service layer for the Instructor
+
+
+
+Decide later:
+Deadlines for submitting reports, revisions, etc.
+TA
+Notification
+Automatic format check
+Instructor home page (maybe statistics about the overall progress, the number of reports remaining, etc.
+Student home page
