@@ -1,8 +1,8 @@
 Frontend features:
 MERGED feature-f1: Boilerplate code for a React app (along with MUI integration)
 MERGED feature-f2: Routing paths and corresponding empty page components
-feature-f3: Basic authentication (create a global state for user role and render pages accordingly) 
-feature-f4: Login screen
+MERGED feature-f3: Basic authentication (create a global state for user role and render pages accordingly) 
+RESOLVED IN "f3" feature-f4: Login screen
 MERGED feature-f5: /students ,/students/{studentId}, /students/{studentId}/internships, /students/{studentId}/internships/{internshipType} pages
 DISCARDED feature-f6: /students -- add student functionality
 feature-f7: /internships -- add internship functionality
