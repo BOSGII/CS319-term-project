@@ -21,7 +21,7 @@ export default function LoginPage() {
     // Initialize state variables for ID, password, and role
     const [id, setId] = useState('');
     const [password, setPassword] = useState('');
-    const [role, setRole] = useState(null);
+    const [role, setRole] = useState('student');
   
     // Handle form submission
     const handleSubmit = (event) => {
