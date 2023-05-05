@@ -5,12 +5,14 @@ import InstructorHomePage from '../../instructor_pages/home/InstructorHomePage'
 import SecretaryHomePage from '../../secretary_pages/home/SecretaryHomePage'
 import StudentHomePage from '../../student_pages/home/StudentHomePage'
 import TAHomePage from '../../ta_pages/home/TAHomePage'
+import { useContext } from 'react'
+import { UserContext } from '../../../contexts/UserContext'
 
 export default function HomePage(){
     // TODO: determine role based on authentication
-    const role = "student";
+    const {user} = useContext(UserContext);
 
-    switch(role){
+    switch(user.role){
         case "admin":
             return <AdminHomePage/>;
         case "instructor":
