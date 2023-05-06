@@ -25,6 +25,9 @@ public class Submission {
 	@ManyToOne
 	TA formatCheckPerformedBy;
 
+	@ManyToOne 
+	Internship internship;
+
 	SubmissionStatus status;
 
 	public Long getId() {
@@ -57,6 +60,12 @@ public class Submission {
 
 	public void setStatus(SubmissionStatus status) {
 		this.status = status;
+	}
+	public Internship getInternship(){
+		return internship;
+	}
+	public void setInternship(Internship internship){
+		this.internship = internship;
 	}
 
 }

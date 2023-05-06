@@ -29,6 +29,8 @@ public class Internship {
 	
 	@ManyToOne
 	Supervisor supervisor;
+
+	
 	
 	Date startDate;
 	Date endDate;
