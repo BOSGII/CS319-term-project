@@ -105,7 +105,7 @@ public class InternshipService {
 		i.setType(type);
 		i.setStartDate(req.getStartDate());
 		i.setEndDate(req.getEndDate());
-		i.setnumOfVersions(0);
+		i.setNumOfVersions(0);
 
 		return internshipRepository.save(i);
 	}

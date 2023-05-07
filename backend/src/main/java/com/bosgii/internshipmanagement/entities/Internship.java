@@ -90,12 +90,7 @@ public class Internship {
 	public void setType(InternshipType type) {
 		this.type = type;
 	}
-	public int getnumOfVersions() {
-		return numOfVersions;
-	}
-	public void setnumOfVersions(int numOfVersions) {
-		this.numOfVersions = numOfVersions;
-	}
+
 	public InternshipStatus getStatus() {
 		return status;
 	}
