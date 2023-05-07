@@ -27,7 +27,7 @@ feature-b8: Return empty json object instead of null from controllers
 
 Bugfixes:
 MERGED bugfix-b1: Use separate controllers for entities, instead of associating controllers with the user types, which causes code duplication.
-
+MERGED bugfix-b2: Internship entity duplicate methods are cleared
 
 
 
