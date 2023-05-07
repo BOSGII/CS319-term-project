@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.bosgii.internshipmanagement.entities.Comment;
 
 public interface CommentRepository extends JpaRepository<Comment, Long>{
-    List<Comment> getCommentsByRevisionId(int revisionId);
+	List<Comment> getAllByVersionId(Long versionId);
 }

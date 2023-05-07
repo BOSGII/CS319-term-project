@@ -8,8 +8,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -20,15 +18,17 @@ public class Submission {
 	Long id;
 	
 	@ManyToOne
-	Instructor gradedBy;
-	
-	@ManyToOne
-	TA formatCheckPerformedBy;
-
-	@ManyToOne 
 	Internship internship;
-
+	
 	SubmissionStatus status;
+
+	public Internship getInternship() {
+		return internship;
+	}
+
+	public void setInternship(Internship internship) {
+		this.internship = internship;
+	}
 
 	public Long getId() {
 		return id;
@@ -38,22 +38,6 @@ public class Submission {
 		this.id = id;
 	}
 
-	public Instructor getGradedBy() {
-		return gradedBy;
-	}
-
-	public void setGradedBy(Instructor gradedBy) {
-		this.gradedBy = gradedBy;
-	}
-
-	public TA getFormatCheckPerformedBy() {
-		return formatCheckPerformedBy;
-	}
-
-	public void setFormatCheckPerformedBy(TA formatCheckPerformedBy) {
-		this.formatCheckPerformedBy = formatCheckPerformedBy;
-	}
-
 	public SubmissionStatus getStatus() {
 		return status;
 	}
@@ -61,11 +45,4 @@ public class Submission {
 	public void setStatus(SubmissionStatus status) {
 		this.status = status;
 	}
-	public Internship getInternship(){
-		return internship;
-	}
-	public void setInternship(Internship internship){
-		this.internship = internship;
-	}
-
 }

@@ -3,6 +3,7 @@ package com.bosgii.internshipmanagement.entities;
 import java.util.Date;
 
 import com.bosgii.internshipmanagement.enums.InternshipType;
+import com.bosgii.internshipmanagement.enums.InternshipStatus;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,6 +26,12 @@ public class Internship {
 	Student student;
 	
 	@ManyToOne
+	Instructor instructor;
+	
+	@ManyToOne
+	TA tA;
+	
+	@ManyToOne
 	Company company;
 	
 	@ManyToOne
@@ -32,17 +39,20 @@ public class Internship {
 
 	
 	
+	InternshipStatus status;
+	
 	Date startDate;
 	Date endDate;
 	InternshipType type;
-	int numOfDrafts;
+	int numOfVersions;
+	
 	// TODO: company evaluation form
 	
-	public Long getInternshipId() {
+	public Long getId() {
 		return id;
 	}
-	public void setInternshipId(Long internshipId) {
-		this.id = internshipId;
+	public void setId(Long id) {
+		this.id = id;
 	}
 	public Student getStudent() {
 		return student;
@@ -80,10 +90,34 @@ public class Internship {
 	public void setType(InternshipType type) {
 		this.type = type;
 	}
-	public int getNumOfDrafts() {
-		return numOfDrafts;
+	public int getnumOfVersions() {
+		return numOfVersions;
 	}
-	public void setNumOfDrafts(int numOfDrafts) {
-		this.numOfDrafts = numOfDrafts;
+	public void setnumOfVersions(int numOfVersions) {
+		this.numOfVersions = numOfVersions;
+	}
+	public InternshipStatus getStatus() {
+		return status;
+	}
+	public void setStatus(InternshipStatus status) {
+		this.status = status;
+	}
+	public Instructor getInstructor() {
+		return instructor;
+	}
+	public void setInstructor(Instructor instructor) {
+		this.instructor = instructor;
+	}
+	public TA gettA() {
+		return tA;
+	}
+	public void settA(TA tA) {
+		this.tA = tA;
+	}
+	public int getNumOfVersions() {
+		return numOfVersions;
+	}
+	public void setNumOfVersions(int numOfVersions) {
+		this.numOfVersions = numOfVersions;
 	}
 }
