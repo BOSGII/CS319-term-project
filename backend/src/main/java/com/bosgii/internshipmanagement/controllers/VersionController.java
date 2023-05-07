@@ -35,17 +35,17 @@ public class VersionController {
 	}
 	
 	@PostMapping("/versions")
-	public Internship addVersionOnASubmission(@RequestParam Long submissionId, @RequestBody AddVersionRequest req) {
+	public Version addVersionOnASubmission(@RequestParam Long submissionId, @RequestBody AddVersionRequest req) {
 		return versionService.addVersionOnASubmission(submissionId, req);
 	}
 	
 	@PutMapping("/versions/{versionId}")
-	public Internship changeVersion(@PathVariable Long versionId, @RequestBody ChangeVersionRequest req) {
+	public Version changeVersion(@PathVariable Long versionId, @RequestBody ChangeVersionRequest req) {
 		return versionService.changeVersion(versionId, req);
 	}
 	
 	@DeleteMapping("/versions/{versionId}")
-	public Internship deleteVersion(@PathVariable Long versionId) {
+	public Version deleteVersion(@PathVariable Long versionId) {
 		return versionService.deleteVersion(versionId);
 	}
 }
