@@ -44,6 +44,10 @@ public class InternshipService {
 		return internshipRepository.findAll();
 	}
 
+	public Internship getOneInternshipById(Long internshipId) {
+		return internshipRepository.findById(internshipId).orElse(null);
+	}
+
 	public Internship addInternship(AddInternshipRequest req) {
 		// check if the internship already exists
 		Long studentId = req.getStudentId();
