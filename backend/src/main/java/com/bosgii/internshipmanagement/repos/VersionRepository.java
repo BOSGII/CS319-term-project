@@ -8,5 +8,5 @@ import com.bosgii.internshipmanagement.entities.Submission;
 import com.bosgii.internshipmanagement.entities.Version;
 
 public interface VersionRepository extends JpaRepository<Version, Long>{
-	List<Submission> getAllBySubmissionId(Long submissionId);
+	List<Version> getAllBySubmissionId(Long submissionId);
 }
