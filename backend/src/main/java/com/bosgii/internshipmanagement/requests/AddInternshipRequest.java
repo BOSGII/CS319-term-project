@@ -2,13 +2,20 @@ package com.bosgii.internshipmanagement.requests;
 
 import java.util.Date;
 
+import com.bosgii.internshipmanagement.enums.InternshipStatus;
 import com.bosgii.internshipmanagement.enums.InternshipType;
 
 public class AddInternshipRequest {
 	// general info
+	InternshipType type;
 	Date startDate;
 	Date endDate;
-	InternshipType type;
+	
+	// student info
+	Long studentId;
+	String studentFullName;
+	String studentMail;
+	String studentDepartment;
 	
 	// company info
 	String companyName;
@@ -21,6 +28,33 @@ public class AddInternshipRequest {
 	String supervisorGraduationDepartment;
 	String supervisorUniversity;
 	
+	// TODO: company evaluation form
+	
+	
+	public Long getStudentId() {
+		return studentId;
+	}
+	public void setStudentId(Long studentId) {
+		this.studentId = studentId;
+	}
+	public String getStudentFullName() {
+		return studentFullName;
+	}
+	public void setStudentFullName(String studentFullName) {
+		this.studentFullName = studentFullName;
+	}
+	public String getStudentMail() {
+		return studentMail;
+	}
+	public void setStudentMail(String studentMail) {
+		this.studentMail = studentMail;
+	}
+	public String getStudentDepartment() {
+		return studentDepartment;
+	}
+	public void setStudentDepartment(String studentDepartment) {
+		this.studentDepartment = studentDepartment;
+	}
 	public Date getStartDate() {
 		return startDate;
 	}

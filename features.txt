@@ -21,6 +21,13 @@ feature-b4: Authentication using Spring Security
 feature-b5: File storage service
 feature-b6: Controller-service layer for the Student
 feature-b7: Controller-service layer for the Instructor
+feature-b8: Return empty json object instead of null from controllers
+
+
+
+Bugfixes:
+MERGED bugfix-b1: Use separate controllers for entities, instead of associating controllers with the user types, which causes code duplication.
+
 
 
 

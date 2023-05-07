@@ -8,7 +8,5 @@ import com.bosgii.internshipmanagement.entities.Company;
 import com.bosgii.internshipmanagement.entities.Supervisor;
 
 public interface SupervisorRepository extends JpaRepository<Supervisor, Long>{
-
 	Optional<Supervisor> findByNameAndUniversity(String name, String university);
-
 }

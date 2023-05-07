@@ -1,11 +1,9 @@
 package com.bosgii.internshipmanagement.entities;
-import java.util.Date;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -17,10 +15,9 @@ public class Comment {
 	Long id;
 	
 	@ManyToOne
-	Revision revision;
+	Version version;
 	
-	Date date;
-	String message;	
+	String message;
 	
 	public Long getId() {
 		return id;
@@ -28,17 +25,11 @@ public class Comment {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Revision getRevision() {
-		return revision;
+	public Version getRevision() {
+		return version;
 	}
-	public void setRevision(Revision revision) {
-		this.revision = revision;
-	}
-	public Date getDate() {
-		return date;
-	}
-	public void setDate(Date date) {
-		this.date = date;
+	public void setRevision(Version revision) {
+		this.version = revision;
 	}
 	public String getMessage() {
 		return message;
@@ -46,4 +37,11 @@ public class Comment {
 	public void setMessage(String message) {
 		this.message = message;
 	}
+	public Version getVersion() {
+		return version;
+	}
+	public void setVersion(Version version) {
+		this.version = version;
+	}
+	
 }
