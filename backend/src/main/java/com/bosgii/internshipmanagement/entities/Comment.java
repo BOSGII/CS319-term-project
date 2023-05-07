@@ -25,12 +25,6 @@ public class Comment {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Version getRevision() {
-		return version;
-	}
-	public void setRevision(Version revision) {
-		this.version = revision;
-	}
 	public String getMessage() {
 		return message;
 	}

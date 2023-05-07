@@ -1,10 +1,6 @@
 package com.bosgii.internshipmanagement.entities;
 
-import java.util.List;
-import java.util.Set;
-
 import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity

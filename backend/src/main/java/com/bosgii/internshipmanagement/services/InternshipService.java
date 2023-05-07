@@ -3,6 +3,7 @@ package com.bosgii.internshipmanagement.services;
 import java.util.List;
 import java.util.Optional;
 
+
 import org.springframework.stereotype.Service;
 
 import com.bosgii.internshipmanagement.entities.Company;
@@ -65,6 +66,7 @@ public class InternshipService {
 			st.setMail(req.getStudentMail());
 			st.setRole("Student");
 			st.setDepartment(req.getStudentDepartment());
+			studentRepository.save(st);
 		}
 		
 		// check if the company already exists
@@ -111,13 +113,56 @@ public class InternshipService {
 	}
 
 	public Internship changeInternship(Long internshipId, ChangeInternshipRequest req) {
-		// TODO Auto-generated method stub
+		Internship toBeUpdated;
+		Optional<Internship> opt = internshipRepository.findById(internshipId);
+		if (opt.isPresent()) {
+			toBeUpdated = opt.get();
+
+			// check if the company already exists
+			Company c;
+			Optional<Company> company = companyRepository.findByNameAndEmail(req.getCompanyName(),
+					req.getCompanyEmail());
+			if (company.isPresent())
+				c = company.get();
+			else {
+				c = new Company();
+				c.setName(req.getCompanyName());
+				c.setCompanyEmail(req.getCompanyEmail());
+				companyRepository.save(c);
+			}
+
+			// check if the supervisor already exists
+			Supervisor su;
+			Optional<Supervisor> supervisor = supervisorRepository.findByNameAndUniversity(
+					req.getSupervisorName(), req.getSupervisorUniversity());
+			if (supervisor.isPresent())
+				su = supervisor.get();
+			else {
+				su = new Supervisor();
+				su.setName(req.getSupervisorName());
+				su.setUniversity(req.getSupervisorUniversity());
+				su.setEmail(req.getSupervisorMail());
+				su.setGraduationDepartment(req.getSupervisorGraduationDepartment());
+				su.setGraduationYear(req.getSupervisorGraduationYear());
+				supervisorRepository.save(su);
+			}
+
+			toBeUpdated.setCompany(c);
+			toBeUpdated.setSupervisor(su);
+			toBeUpdated.setStartDate(req.getStartDate());
+			toBeUpdated.setEndDate(req.getEndDate());
+			toBeUpdated.setType(req.getType());
+			
+			return internshipRepository.save(toBeUpdated);
+		}
 		return null;
 	}
 
 	public Internship deleteInternship(Long internshipId) {
-		// TODO Auto-generated method stub
-		return null;
+		Optional<Internship> opt = internshipRepository.findById(internshipId);
+		internshipRepository.deleteById(internshipId);
+
+		return opt.get();
 	}
 
 }
