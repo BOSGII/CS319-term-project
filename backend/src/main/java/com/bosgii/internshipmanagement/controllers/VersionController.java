@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bosgii.internshipmanagement.entities.Internship;
 import com.bosgii.internshipmanagement.entities.Version;
-import com.bosgii.internshipmanagement.requests.AddInternshipRequest;
 import com.bosgii.internshipmanagement.requests.AddVersionRequest;
-import com.bosgii.internshipmanagement.requests.ChangeInternshipRequest;
 import com.bosgii.internshipmanagement.requests.ChangeVersionRequest;
 import com.bosgii.internshipmanagement.services.VersionService;
 
