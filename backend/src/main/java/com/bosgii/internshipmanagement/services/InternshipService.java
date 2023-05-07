@@ -143,13 +143,13 @@ public class InternshipService {
 				su = supervisor.get();
 			else {
 				su = new Supervisor();
-				su.setName(req.getSupervisorName());
-				su.setUniversity(req.getSupervisorUniversity());
-				su.setEmail(req.getSupervisorMail());
-				su.setGraduationDepartment(req.getSupervisorGraduationDepartment());
-				su.setGraduationYear(req.getSupervisorGraduationYear());
-				supervisorRepository.save(su);
 			}
+			su.setName(req.getSupervisorName());
+			su.setUniversity(req.getSupervisorUniversity());
+			su.setEmail(req.getSupervisorMail());
+			su.setGraduationDepartment(req.getSupervisorGraduationDepartment());
+			su.setGraduationYear(req.getSupervisorGraduationYear());
+			supervisorRepository.save(su);
 
 			toBeUpdated.setCompany(c);
 			toBeUpdated.setSupervisor(su);

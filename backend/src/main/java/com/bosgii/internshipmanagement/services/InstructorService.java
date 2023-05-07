@@ -25,6 +25,7 @@ public class InstructorService {
 
 	public Instructor createInstructor(AddInstructorRequest req) {
 		Instructor newInstructor = new Instructor();
+		newInstructor.setId(req.getId());
 		newInstructor.setFullName(req.getFullName());
 		newInstructor.setMail(req.getMail());
 		newInstructor.setDepartment(req.getDepartment());
