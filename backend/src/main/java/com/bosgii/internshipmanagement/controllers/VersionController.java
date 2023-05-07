@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bosgii.internshipmanagement.entities.Internship;
 import com.bosgii.internshipmanagement.entities.Version;
-import com.bosgii.internshipmanagement.requests.AddInternshipRequest;
 import com.bosgii.internshipmanagement.requests.AddVersionRequest;
-import com.bosgii.internshipmanagement.requests.ChangeInternshipRequest;
 import com.bosgii.internshipmanagement.requests.ChangeVersionRequest;
 import com.bosgii.internshipmanagement.services.VersionService;
 
@@ -35,17 +33,17 @@ public class VersionController {
 	}
 	
 	@PostMapping("/versions")
-	public Internship addVersionOnASubmission(@RequestParam Long submissionId, @RequestBody AddVersionRequest req) {
+	public Version addVersionOnASubmission(@RequestParam Long submissionId, @RequestBody AddVersionRequest req) {
 		return versionService.addVersionOnASubmission(submissionId, req);
 	}
 	
 	@PutMapping("/versions/{versionId}")
-	public Internship changeVersion(@PathVariable Long versionId, @RequestBody ChangeVersionRequest req) {
+	public Version changeVersion(@PathVariable Long versionId, @RequestBody ChangeVersionRequest req) {
 		return versionService.changeVersion(versionId, req);
 	}
 	
 	@DeleteMapping("/versions/{versionId}")
-	public Internship deleteVersion(@PathVariable Long versionId) {
+	public Version deleteVersion(@PathVariable Long versionId) {
 		return versionService.deleteVersion(versionId);
 	}
 }

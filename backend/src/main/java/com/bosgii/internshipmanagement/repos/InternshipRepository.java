@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.bosgii.internshipmanagement.entities.Internship;
-import com.bosgii.internshipmanagement.entities.Student;
 import com.bosgii.internshipmanagement.enums.InternshipType;
 
 public interface InternshipRepository extends JpaRepository<Internship, Long>{

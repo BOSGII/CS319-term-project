@@ -5,5 +5,9 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name="Instructor")
 public class Instructor extends Evaluator{
+
+    public Instructor() {
+        
+    }
 	
 }

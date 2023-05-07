@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bosgii.internshipmanagement.entities.Submission;
-import com.bosgii.internshipmanagement.requests.AddCommentRequest;
-import com.bosgii.internshipmanagement.requests.ChangeCommentRequest;
+import com.bosgii.internshipmanagement.requests.AddSubmissionRequest;
+import com.bosgii.internshipmanagement.requests.ChangeSubmissionRequest;
 import com.bosgii.internshipmanagement.services.SubmissionService;
 
 @RestController
@@ -32,13 +32,13 @@ public class SubmissionController {
 	}
 
 	@PostMapping("/submissions")
-	public Submission addSubmissionOnAnInternship(@RequestParam Long internshipId, @RequestBody AddCommentRequest req) {
+	public Submission addSubmissionOnAnInternship(@RequestParam Long internshipId, @RequestBody AddSubmissionRequest req) {
 		return submissionService.addSubmissionOnAnInternship(internshipId, req);
 	}
 
 	@PutMapping("/submissions/{submissionId}")
 	public Submission changeSubmission(@PathVariable Long submissionId,
-			@RequestBody ChangeCommentRequest req) {
+			@RequestBody ChangeSubmissionRequest req) {
 		return submissionService.changeSubmission(submissionId, req);
 	}
 

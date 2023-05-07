@@ -1,6 +1,7 @@
 package com.bosgii.internshipmanagement.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -14,27 +15,52 @@ public class InstructorService {
 
 	private InstructorRepository instructorRepository;
 
-	public InstructorService(InstructorRepository submissionRepository) {
-		this.instructorRepository = submissionRepository;
+	public InstructorService(InstructorRepository instructorRepository) {
+		this.instructorRepository = instructorRepository;
 	}
 
 	public List<Instructor> getAllInstructors() {
-		// TODO Auto-generated method stub
-		return null;
+		return instructorRepository.findAll();
 	}
 
 	public Instructor createInstructor(AddInstructorRequest req) {
-		// TODO Auto-generated method stub
-		return null;
+		Instructor newInstructor = new Instructor();
+		newInstructor.setId(req.getId());
+		newInstructor.setFullName(req.getFullName());
+		newInstructor.setMail(req.getMail());
+		newInstructor.setDepartment(req.getDepartment());
+		newInstructor.setMaxNumOfSubmissions(req.getMaxNumOfSubmissions());
+
+		newInstructor.setRole("instructor");
+		newInstructor.setCompleted(0);
+		
+		return instructorRepository.save(newInstructor);
 	}
 
 	public Instructor changeInstructorDetails(Long instructorId, ChangeInstructorRequest req) {
-		// TODO Auto-generated method stub
-		return null;
+		Instructor toBeUpdated;
+		Optional<Instructor> opt = instructorRepository.findById(instructorId);
+		
+		if (opt.isPresent()) {
+			toBeUpdated = opt.get();
+		} else {
+			toBeUpdated = new Instructor();
+			toBeUpdated.setCompleted(0);
+			toBeUpdated.setRole("instructor");
+		}
+
+		toBeUpdated.setFullName(req.getFullName());
+		toBeUpdated.setMail(req.getMail());
+		toBeUpdated.setDepartment(req.getDepartment());
+		toBeUpdated.setMaxNumOfSubmissions(req.getMaxNumOfSubmissions());
+
+		return instructorRepository.save(toBeUpdated);
 	}
 
 	public Instructor deleteInstructor(Long instructorId) {
-		// TODO Auto-generated method stub
-		return null;
+		Optional<Instructor> opt = instructorRepository.findById(instructorId);
+		instructorRepository.deleteById(instructorId);
+		
+		return opt.get();
 	}
 }

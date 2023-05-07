@@ -1,5 +1,4 @@
 package com.bosgii.internshipmanagement.entities;
-import java.util.List;
 
 import com.bosgii.internshipmanagement.enums.SubmissionStatus;
 
