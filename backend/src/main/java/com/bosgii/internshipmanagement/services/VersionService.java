@@ -1,6 +1,7 @@
 package com.bosgii.internshipmanagement.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -38,5 +39,9 @@ public class VersionService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+    public Optional<Version> getVersionById(Long versionId) {
+        return versionRepository.findById(versionId);
+    }
 
 }
