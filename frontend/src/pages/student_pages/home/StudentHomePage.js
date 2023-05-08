@@ -1,14 +1,10 @@
-import { Container, Typography } from '@mui/material'
+import { Navigate } from 'react-router-dom'
 
 // styles
 import './StudentHomePage.css'
 
 export default function StudentHomePage(){
     return(
-        <Container>
-            <Typography>
-                Student Home Page
-            </Typography>
-        </Container>
+        <Navigate to="/my_internships" replace={true}/>
     )
 }

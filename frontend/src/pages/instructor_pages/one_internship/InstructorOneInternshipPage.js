@@ -1,20 +1,17 @@
 import { Container } from '@mui/material'
-import { useContext, useState } from 'react'
-import { UserContext } from '../../../contexts/UserContext'
+
+// styles
+import './InstructorOneInternshipPage.css'
 import { useParams } from 'react-router-dom';
 import { useFetch } from '../../../hooks/useFetch';
 import Submission from '../../../components/Submission/Submission';
 import SubmissionSidebar from '../../../components/SubmissionSidebar/SubmissionSidebar';
+import { useState } from 'react';
 
-// styles
-import './StudentOneInternshipPage.css'
+export default function InstructorOneInternshipPage(){
+    const {internshipId} = useParams();
 
-export default function StudentOneInternshipPage(){
-    const {user} = useContext(UserContext);
-    const studentId = user.id;
-    const {internshipType} = useParams();
-
-    const {internship, isPending, error} = useFetch(`/internships?studentId=${studentId}&internshipType=${internshipType}`)
+    const {internship, isPending, error} = useFetch(`/internships/${internshipId}`);
 
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
