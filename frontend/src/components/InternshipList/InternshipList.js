@@ -25,10 +25,10 @@ export default function InternshipList({ internships }){
                             }
                             break;
                         case "instructor":
-                            navigate(`/assigned_internships/${internship.id}`)
+                            navigate(`/internships/${internship.id}`)
                             break;
                         case "secretary":
-                            navigate(`/internships/${internship.id}`)
+                            // TODO: decide whether secretary will see submission screen
                             break;
                         default:
 

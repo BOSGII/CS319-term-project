@@ -8,11 +8,12 @@ import {
     Box 
   } from '@mui/material';
 
+import { useNavigate} from 'react-router-dom';
+import { UserContext } from '../../contexts/UserContext';
+import { useContext, useState } from 'react';
+
 // styles
 import './LoginPage.css'
-import { useNavigate} from 'react-router-dom';
-import { UserContext } from '../../../contexts/UserContext';
-import { useContext, useState } from 'react';
 
 
 export default function LoginPage() {

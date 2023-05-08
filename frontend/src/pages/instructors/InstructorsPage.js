@@ -1,11 +1,11 @@
-import { Container, Typography } from '@mui/material'
-import { useFetch } from '../../../hooks/useFetch';
-import InstructorList from '../../../components/InstructorList/InstructorList';
+import { Container, Typography } from '@mui/material';
+import { useFetch } from '../../hooks/useFetch';
+import InstructorList from '../../components/InstructorList/InstructorList';
 
 // styles
-import './SecretaryInstructorsPage.css'
+import './InstructorsPage.css'
 
-export default function SecretaryInstructorsPage(){
+export default function InstructorsPage(){
     const {instructors, isPending, error } = useFetch(`/instructors`);
 
     return(
