@@ -1,14 +1,12 @@
 package com.bosgii.internshipmanagement.services;
 
-import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.bosgii.internshipmanagement.entities.Internship;
 import com.bosgii.internshipmanagement.entities.Submission;
-import com.bosgii.internshipmanagement.enums.InternshipStatus;
+import com.bosgii.internshipmanagement.enums.InternshipType;
 import com.bosgii.internshipmanagement.enums.SubmissionStatus;
-import com.bosgii.internshipmanagement.repos.CommentRepository;
 import com.bosgii.internshipmanagement.repos.SubmissionRepository;
 import com.bosgii.internshipmanagement.requests.AddSubmissionRequest;
 import com.bosgii.internshipmanagement.requests.ChangeSubmissionRequest;
@@ -24,12 +22,33 @@ public class SubmissionService {
 		this.internshipService = internshipService;
 	}
 	
+
+	public Optional<Submission> findSubmission(Optional<Long> internshipId, Optional<Long> studentId,
+			Optional<InternshipType> type) {
+		if(internshipId.isPresent()) {
+			return submissionRepository.findSubmissionByInternshipId(internshipId.get());
+		} else if(studentId.isPresent() && type.isPresent()) {
+			return findSubmissionByStudentIdAndInternshipType(studentId.get(), type.get());
+		}
+		
+		return Optional.empty();
+	}
+	
 	public Submission getOneSubmissionById(Long SubmissionId) {
 		return submissionRepository.findById(SubmissionId).orElse(null);
 	}
+	
+	private Optional<Submission> findSubmissionByStudentIdAndInternshipType(Long studentId, InternshipType internshipType){
+		Optional<Internship> i = internshipService.findInternshipByStudentIdAndType(studentId, internshipType);
+		if(i.isPresent()) {
+			return findSubmissionOfAnInternship(i.get().getId());
+		}
+		
+		return Optional.empty();
+	}
 
-	public List<Submission> getSubmissionOfAnInternship(Long internshipId) {
-		return submissionRepository.getSubmissionByInternshipId(internshipId);
+	public Optional<Submission> findSubmissionOfAnInternship(Long internshipId) {
+		return submissionRepository.findSubmissionByInternshipId(internshipId);
 	}
 
 	public Submission addSubmissionOnAnInternship(Long internshipId, AddSubmissionRequest req) {
@@ -64,5 +83,6 @@ public class SubmissionService {
 		return submission.get();
 		
 	}
+
 
 }

@@ -20,6 +20,8 @@ public class Submission {
 	Internship internship;
 	
 	SubmissionStatus status;
+	
+	int numOfVersions;
 
 	public Internship getInternship() {
 		return internship;
@@ -43,5 +45,13 @@ public class Submission {
 
 	public void setStatus(SubmissionStatus status) {
 		this.status = status;
+	}
+
+	public int getNumOfVersions() {
+		return numOfVersions;
+	}
+
+	public void setNumOfVersions(int numOfVersions) {
+		this.numOfVersions = numOfVersions;
 	}
 }

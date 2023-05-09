@@ -1,37 +1,33 @@
 import './App.css';
+
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom"
-import LoginPage from './pages/common_pages/login_page/LoginPage';
-import HomePage from './pages/common_pages/home/HomePage';
-import SecretaryStudentsPage from './pages/secretary_pages/students/SecretaryStudentsPage';
-import SecretaryOneStudentPage from './pages/secretary_pages/one_student/SecretaryOneStudentPage';
-import SecretaryOneStudentInternshipsPage from './pages/secretary_pages/one_student_internships/SecretaryOneStudentInternshipsPage';
-import SecretaryOneStudentOneInternshipPage from './pages/secretary_pages/one_student_one_internship/SecretaryOneStudentOneInternshipPage';
-import SecretaryInstructorsPage from './pages/secretary_pages/instructors/SecretaryInstructorsPage';
-import SecretaryTAsPage from './pages/secretary_pages/tas/SecretaryTAsPage';
+import { useContext } from 'react';
+import { UserContext } from './contexts/UserContext';
+
+import LoginPage from './pages/login_page/LoginPage';
+import HomePage from './pages/home/HomePage';
+import InternshipsPage from './pages/internships/InternshipsPage';
+import InstructorsPage from './pages/instructors/InstructorsPage';
+import SubmissionPage from './pages/submission/SubmissionPage';
+import InitialSubmissionPage from './pages/submission/InitialSubmissionPage';
 
 function App() {
+  const {user} = useContext(UserContext);
+
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          {/* TODO: redirect to respective home page if authenticated */}
           <Route path="/" element={<Navigate to="/login"/>}/>
           <Route path="/login" element={<LoginPage/>}/>
-          <Route path="/home" element={<HomePage/>}/>
-
-          {/* Secretary Pages */}
-          <Route path="/students" element={<SecretaryStudentsPage/>}/>
-          <Route path="/students/:studentId" element={<SecretaryOneStudentPage/>}/>
-          <Route path="/students/:studentId/internships" element={<SecretaryOneStudentInternshipsPage/>}/>
-          <Route path="/students/:studentId/internships/:internshipType" element={<SecretaryOneStudentOneInternshipPage/>}/>
-          <Route path="/instructors" element={<SecretaryInstructorsPage/>}/>
-          <Route path="/tas" element={<SecretaryTAsPage/>}/>
-
-          {/* Instructor Pages */}
-
-
-          {/* Student Pages */}
-
+          <Route path="/home" element={user.role ? <HomePage/> : <Navigate to="/login" replace={true}/>}/>
+          <Route path="/internships" element={user.role ? <InternshipsPage/> : <Navigate to="/login" replace={true}/>}/>
+          <Route path="/internships/:internshipId" element={user.role ? <SubmissionPage/> : <Navigate to="/login" replace={true}/>}/>
+          <Route path="/my_internships" element={user.role === "student" ? <InternshipsPage/> : <Navigate to="/login" replace={true}/>}/>
+          <Route path="/my_internships/:internshipType" element={user.role === "student" ? <SubmissionPage/> : <Navigate to="/login" replace={true}/>}/>
+          <Route path="/submit" element={user.role === "student" ? <InitialSubmissionPage/> : <Navigate to="/login" replace={true}/>}/>
+          <Route path="/instructors" element={user.role === "secretary" ? <InstructorsPage/> : <Navigate to="/login" replace={true}/>}/>
+          <Route path="/instructors/:instructorId" element={user.role === "secretary" ? <InternshipsPage/> : <Navigate to="/login" replace={true}/>}/>
         </Routes>
       </BrowserRouter>
     </div>
