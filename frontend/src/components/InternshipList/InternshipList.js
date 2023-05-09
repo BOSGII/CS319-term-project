@@ -17,15 +17,25 @@ export default function InternshipList({ internships }){
             </Typography>
             <List>
                 {internships?.map(internship => (
-                <ListItem key={internship.type} sx={{border: 1}} onClick={()=>{
+                <ListItem key={internship.id} sx={{border: 1}} onClick={()=>{
                     switch(user.role){
                         case "student":
-                            if(internship.status === "NOT_SUBMITTED" || internship.status === "UNDER_EVALUATION" || internship.status === "FAIL_UNSATISFACTORY_REPORT" || internship.status === "SUCCESSFUL"){
+                            if(internship.status === "UNDER_EVALUATION" 
+                            || internship.status === "FAIL_UNSATISFACTORY_REPORT" 
+                            || internship.status ===  "SUCCESSFUL"){
                                 navigate(`/my_internships/${internship.type}`);
+                            }
+                            else if (internship.status === "NOT_SUBMITTED"){
+                                navigate(`/submit?internshipType=${internship.type}`);
                             }
                             break;
                         case "instructor":
-                            navigate(`/internships/${internship.id}`)
+                            console.log(internship.status)
+                            if(internship.status === "UNDER_EVALUATION" 
+                            || internship.status === "FAIL_UNSATISFACTORY_REPORT" 
+                            || internship.status ===  "SUCCESSFUL"){
+                                navigate(`/internships/${internship.id}`)
+                            }
                             break;
                         case "secretary":
                             // TODO: decide whether secretary will see submission screen
@@ -35,8 +45,7 @@ export default function InternshipList({ internships }){
                     }
                     }}>
                     <ListItemText>
-                        {internship.type}
-                        {internship.status}
+                        {internship.type} Student Id:{internship.student.id}
                     </ListItemText>
                 </ListItem>
                 ))}

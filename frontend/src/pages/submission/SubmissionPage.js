@@ -1,9 +1,9 @@
 import { Container, Typography } from '@mui/material'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { UserContext } from '../../contexts/UserContext'
 import { useParams } from 'react-router-dom';
 import { useFetch } from '../../hooks/useFetch';
-import Submission from '../../components/Submission/Submission';
+import Version from '../../components/Version/Version';
 import SubmissionSidebar from '../../components/SubmissionSidebar/SubmissionSidebar';
 
 // styles
@@ -11,36 +11,39 @@ import './SubmissionPage.css'
 
 export default function SubmissionPage(){
     const {user} = useContext(UserContext);
-    const {internshipTypeOrId} = useParams();
+    const {internshipId} = useParams();
+    const {internshipType} = useParams();
     let fetchUrl;
 
     switch(user.role){
         case "student":
             const studentId = user.id;
-            fetchUrl = `/internships?studentId=${studentId}&internshipType=${internshipTypeOrId}`;
+            fetchUrl = `/api/submissions?studentId=${studentId}&internshipType=${internshipType}`;
             break;
 
         case "instructor":
-            fetchUrl = `/internships/${internshipTypeOrId}`;
+            fetchUrl = `/api/submissions?internshipId=${internshipId}`;
             break;
 
         default:
     }
 
-    const {internship, isPending, error} = useFetch(fetchUrl);
+    const {data, isPending, error} = useFetch(fetchUrl);
 
-    if(internship){
-
-    }
+    const [versionUnderFocus, setVersionUnderFocus] = useState(0);
 
     return(
         <Container>
             <Typography>
-                student screen showing all internships (299 and 399)
+                Submission Page
             </Typography>
             {error && <div>{error}</div>}
             {isPending && <div>loading...</div>}
-            {internship && <><SubmissionSidebar/><Submission/></>}
+            {data && 
+            <>
+                <SubmissionSidebar numberOfVersions={data.numOfVersions} versionUnderFocus={versionUnderFocus} setVersionUnderFocus={setVersionUnderFocus}/>
+                <Version submissionId={data.id} versionUnderFocus={versionUnderFocus}/>
+            </>}
         </Container>
     )
 }

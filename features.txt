@@ -5,11 +5,17 @@ MERGED feature-f3: Basic authentication (create a global state for user role and
 RESOLVED IN "f3" feature-f4: Login screen
 MERGED feature-f5: /students ,/students/{studentId}, /students/{studentId}/internships, /students/{studentId}/internships/{internshipType} pages
 DISCARDED feature-f6: /students -- add student functionality
-feature-f7: /internships -- add internship functionality
-feature-f8: Instead of nesting routes as /students/{studentId}/internships, use single page for internships, in which multiple import, single add functionality is provided (only buttons for now). Remove /students and /students/{studentId} from frontend. There will be only /internships on the secretary side.
-feature-f9: Secretary /instructors page
-feature-f10: Student /my_internships page (list of internships -- at most two)
-feature-f11: Instructor /assigned_internships page (list of assigned internships)
+MERGED feature-f7: /internships -- add internship functionality
+MERGED feature-f8: Instead of nesting routes as /students/{studentId}/internships, use single page for internships, in which multiple import, single add functionality is provided (only buttons for now). Remove /students and /students/{studentId} from frontend. There will be only /internships on the secretary side.
+MERGED feature-f9: Secretary /instructors page
+MERGED feature-f10: Student /my_internships page (list of internships -- at most two)
+MERGED feature-f11: Instructor /assigned_internships page (list of assigned internships)
+feature-f12: change internship functionality
+feature-f13: change instructor details functionality
+feature-f14: assignment of an internship to an instructor (create a special button for each internship)
+feature-f15: upload component
+feature-f16: version system (including comment section)
+feature-f17: import excel file button for adding internships to the system
 
 
 
@@ -19,9 +25,11 @@ MERGED feature-b2: Entity, Controller, Service, Repository components and relate
 MERGED feature-b3: /students ,/students/{studentId}, /students/{studentId}/internships, /students/{studentId}/internships/{internshipType} responses
 feature-b4: Authentication using Spring Security
 feature-b5: File storage service
-feature-b6: Controller-service layer for the Student
-feature-b7: Controller-service layer for the Instructor
+MERGED feature-b6: Controller-service layer for the Student
+MERGED feature-b7: Controller-service layer for the Instructor
 feature-b8: Return empty json object instead of null from controllers
+feature-b9: Notifications using Observer pattern
+feature-f10: read internships from excel
 
 
 

@@ -1,7 +1,11 @@
 // import { useCallback, useState} from "react";
 // import { useDropzone } from "react-dropzone";
 
-export default function Submission({ internship }) {
+import { Container, Typography } from "@mui/material";
+import { useFetch } from "../../hooks/useFetch"
+
+export default function Version({ submissionId, versionUnderFocus }) {
+  const {version, isPending, error} = useFetch(`/api/versions?submissionId=${submissionId}&versionNumber=${versionUnderFocus}`);
     /*
     const [file, setFile] = useState(null);
   
@@ -54,5 +58,17 @@ export default function Submission({ internship }) {
       );
     }
     */
-    return <div>Submission Component</div>
+    return(
+        <Container>
+            <Typography>
+                Version {versionUnderFocus}
+            </Typography>
+            {error && <div>{error}</div>}
+            {isPending && <div>loading...</div>}
+            {version &&
+            <>
+              
+            </>}
+        </Container>
+    );
   } 

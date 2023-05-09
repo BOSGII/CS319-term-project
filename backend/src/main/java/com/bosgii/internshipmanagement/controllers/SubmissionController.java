@@ -1,6 +1,6 @@
 package com.bosgii.internshipmanagement.controllers;
 
-import java.util.List;
+import java.util.Optional;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bosgii.internshipmanagement.entities.Submission;
+import com.bosgii.internshipmanagement.enums.InternshipType;
 import com.bosgii.internshipmanagement.requests.AddSubmissionRequest;
 import com.bosgii.internshipmanagement.requests.ChangeSubmissionRequest;
 import com.bosgii.internshipmanagement.services.SubmissionService;
@@ -27,8 +28,8 @@ public class SubmissionController {
 	}
 	
 	@GetMapping("/submissions")
-	public List<Submission> getSubmissionOfAnInternship(@RequestParam Long internshipId) {
-		return submissionService.getSubmissionOfAnInternship(internshipId);
+	public Optional<Submission> getSubmissionOfAnInternship(@RequestParam Optional<Long> internshipId, @RequestParam Optional<Long> studentId, @RequestParam Optional<InternshipType> internshipType) {
+		return submissionService.findSubmission(internshipId, studentId, internshipType);
 	}
 
 	@PostMapping("/submissions")

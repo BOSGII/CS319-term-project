@@ -9,6 +9,7 @@ import HomePage from './pages/home/HomePage';
 import InternshipsPage from './pages/internships/InternshipsPage';
 import InstructorsPage from './pages/instructors/InstructorsPage';
 import SubmissionPage from './pages/submission/SubmissionPage';
+import InitialSubmissionPage from './pages/submission/InitialSubmissionPage';
 
 function App() {
   const {user} = useContext(UserContext);
@@ -24,6 +25,7 @@ function App() {
           <Route path="/internships/:internshipId" element={user.role ? <SubmissionPage/> : <Navigate to="/login" replace={true}/>}/>
           <Route path="/my_internships" element={user.role === "student" ? <InternshipsPage/> : <Navigate to="/login" replace={true}/>}/>
           <Route path="/my_internships/:internshipType" element={user.role === "student" ? <SubmissionPage/> : <Navigate to="/login" replace={true}/>}/>
+          <Route path="/submit" element={user.role === "student" ? <InitialSubmissionPage/> : <Navigate to="/login" replace={true}/>}/>
           <Route path="/instructors" element={user.role === "secretary" ? <InstructorsPage/> : <Navigate to="/login" replace={true}/>}/>
           <Route path="/instructors/:instructorId" element={user.role === "secretary" ? <InternshipsPage/> : <Navigate to="/login" replace={true}/>}/>
         </Routes>

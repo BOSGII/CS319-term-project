@@ -10,6 +10,7 @@ import com.bosgii.internshipmanagement.entities.Company;
 import com.bosgii.internshipmanagement.entities.Internship;
 import com.bosgii.internshipmanagement.entities.Student;
 import com.bosgii.internshipmanagement.entities.Supervisor;
+import com.bosgii.internshipmanagement.enums.InternshipStatus;
 import com.bosgii.internshipmanagement.enums.InternshipType;
 import com.bosgii.internshipmanagement.repos.CompanyRepository;
 import com.bosgii.internshipmanagement.repos.SupervisorRepository;
@@ -34,18 +35,23 @@ public class InternshipService {
 	}
 
 	public List<Internship> getAllInternships(Optional<Long> studentId, Optional<Long> instructorId) {
+		System.out.println("here");
 		// studentId and instructorId cannot be present at the same time
 		if (studentId.isPresent()) {
 			return internshipRepository.getAllByStudentId(studentId.get());
 		} else if (instructorId.isPresent()) {
 			return internshipRepository.getAllByInstructorId(instructorId.get());
-		}
+		} 
 
 		return internshipRepository.findAll();
 	}
 
 	public Internship getOneInternshipById(Long internshipId) {
 		return internshipRepository.findById(internshipId).orElse(null);
+	}
+	
+	public Optional<Internship> findInternshipByStudentIdAndType(Long studentId, InternshipType type){
+		return internshipRepository.findByStudentIdAndType(studentId, type);
 	}
 
 	public Internship addInternship(AddInternshipRequest req) {
@@ -107,11 +113,11 @@ public class InternshipService {
 		i.setStudent(st);
 		i.setCompany(c);
 		i.setSupervisor(su);
+		i.setStatus(InternshipStatus.WAITING_FOR_COMPANY_APPROVAL);
 		
 		i.setType(type);
 		i.setStartDate(req.getStartDate());
 		i.setEndDate(req.getEndDate());
-		i.setNumOfVersions(0);
 
 		return internshipRepository.save(i);
 	}

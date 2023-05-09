@@ -35,14 +35,11 @@ public class Internship {
 	@ManyToOne
 	Supervisor supervisor;
 
-	
-	
 	InternshipStatus status;
 	
 	Date startDate;
 	Date endDate;
 	InternshipType type;
-	int numOfVersions;
 	
 	// TODO: company evaluation form
 	
@@ -88,7 +85,6 @@ public class Internship {
 	public void setType(InternshipType type) {
 		this.type = type;
 	}
-
 	public InternshipStatus getStatus() {
 		return status;
 	}
@@ -106,11 +102,5 @@ public class Internship {
 	}
 	public void settA(TA tA) {
 		this.tA = tA;
-	}
-	public int getNumOfVersions() {
-		return numOfVersions;
-	}
-	public void setNumOfVersions(int numOfVersions) {
-		this.numOfVersions = numOfVersions;
 	}
 }
