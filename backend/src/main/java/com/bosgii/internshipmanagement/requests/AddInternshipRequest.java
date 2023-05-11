@@ -2,7 +2,6 @@ package com.bosgii.internshipmanagement.requests;
 
 import java.util.Date;
 
-import com.bosgii.internshipmanagement.enums.InternshipStatus;
 import com.bosgii.internshipmanagement.enums.InternshipType;
 
 public class AddInternshipRequest {

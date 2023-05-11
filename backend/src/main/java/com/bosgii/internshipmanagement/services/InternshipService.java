@@ -35,7 +35,6 @@ public class InternshipService {
 	}
 
 	public List<Internship> getAllInternships(Optional<Long> studentId, Optional<Long> instructorId) {
-		System.out.println("here");
 		// studentId and instructorId cannot be present at the same time
 		if (studentId.isPresent()) {
 			return internshipRepository.getAllByStudentId(studentId.get());

@@ -1,16 +1,13 @@
 package com.bosgii.internshipmanagement.services;
 import java.util.Optional;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.bosgii.internshipmanagement.entities.Internship;
 import com.bosgii.internshipmanagement.entities.Version;
 import com.bosgii.internshipmanagement.enums.VersionStatus;
 import com.bosgii.internshipmanagement.entities.Submission;
 import com.bosgii.internshipmanagement.repos.VersionRepository;
-import com.bosgii.internshipmanagement.repos.SubmissionRepository;
 import com.bosgii.internshipmanagement.requests.AddVersionRequest;
 import com.bosgii.internshipmanagement.requests.ChangeVersionRequest;
 
