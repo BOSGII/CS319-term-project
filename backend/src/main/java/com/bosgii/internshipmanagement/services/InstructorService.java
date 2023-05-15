@@ -29,8 +29,9 @@ public class InstructorService {
 		newInstructor.setFullName(req.getFullName());
 		newInstructor.setMail(req.getMail());
 		newInstructor.setDepartment(req.getDepartment());
-		newInstructor.setMaxNumOfSubmissions(req.getMaxNumOfSubmissions());
+		newInstructor.setMaxNumOfInternships(req.getMaxNumOfInternships());
 
+		newInstructor.setNumOfAssignedInternships(0);
 		newInstructor.setRole("instructor");
 		newInstructor.setCompleted(0);
 		
@@ -52,15 +53,12 @@ public class InstructorService {
 		toBeUpdated.setFullName(req.getFullName());
 		toBeUpdated.setMail(req.getMail());
 		toBeUpdated.setDepartment(req.getDepartment());
-		toBeUpdated.setMaxNumOfSubmissions(req.getMaxNumOfSubmissions());
+		toBeUpdated.setMaxNumOfInternships(req.getMaxNumOfInternships());
 
 		return instructorRepository.save(toBeUpdated);
 	}
 
-	public Instructor deleteInstructor(Long instructorId) {
-		Optional<Instructor> opt = instructorRepository.findById(instructorId);
+	public void deleteInstructor(Long instructorId) {
 		instructorRepository.deleteById(instructorId);
-		
-		return opt.get();
 	}
 }

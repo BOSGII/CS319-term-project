@@ -7,6 +7,10 @@ import InternshipList from '../../components/InternshipList/InternshipList';
 import './InternshipsPage.css'
 import { useLocation } from 'react-router-dom';
 
+function MatchInternshipsButton({refreshList}) {
+
+}
+
 function AddInternshipButton({refreshList}) {
   const {postData} = useFetch("/api/internships", "POST");
 
@@ -216,6 +220,7 @@ export default function InternshipsPage(){
                 internships page
             </Typography>
             <AddInternshipButton refreshList={refreshList}/>
+            <MatchInternshipsButton refreshList={refreshList}/>
             {error && <div>{error}</div>}
             {isPending && <div>loading...</div>}
             {data && <InternshipList internships={data}/>}

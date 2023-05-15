@@ -6,8 +6,10 @@ export const useFetch = (url, method = "GET") => {
   const [error, setError] = useState(null)
   const [options, setOptions] = useState(null)
   const [refresh, setRefresh] = useState(false);
+  const [urlState, setUrlState] = useState(url)
 
-  const refreshList = () => {
+  const refreshList = async () => {
+   await new Promise(r => setTimeout(r, 100));
    setRefresh(!refresh);
   }
 
@@ -21,6 +23,13 @@ export const useFetch = (url, method = "GET") => {
     })
   }
 
+  const deleteData = (pathVariable) => {
+    setUrlState(url.concat(`/${pathVariable}`));
+    setOptions({
+      method: "DELETE"
+    })
+  }
+
   useEffect(() => {
     const controller = new AbortController()
 
@@ -28,7 +37,7 @@ export const useFetch = (url, method = "GET") => {
       setIsPending(true)
       
       try {
-        const res = await fetch(url, { ...fetchOptions, signal: controller.signal })
+        const res = await fetch(urlState, { ...fetchOptions, signal: controller.signal })
         if(!res.ok) {
           throw new Error(res.statusText)
         }
@@ -52,7 +61,7 @@ export const useFetch = (url, method = "GET") => {
     if (method === "GET") {
       fetchData()
     }
-    if (method === "POST" && options) {
+    if ((method === "POST" || method === "DELETE") && options) {
       fetchData(options)
     }
 
@@ -62,5 +71,5 @@ export const useFetch = (url, method = "GET") => {
 
   }, [url, method, options, refresh])
 
-  return { data, isPending, error, postData, refreshList }
+  return { data, isPending, error, postData, deleteData, refreshList }
 }

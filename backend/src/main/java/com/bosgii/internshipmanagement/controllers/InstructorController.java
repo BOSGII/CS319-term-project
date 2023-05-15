@@ -42,7 +42,7 @@ public class InstructorController {
 	}
 
 	@DeleteMapping("/instructors/{instructorId}")
-	public Instructor deleteInstructor(@PathVariable Long instructorId) {
-		return instructorService.deleteInstructor(instructorId);
+	public void deleteInstructor(@PathVariable Long instructorId) {
+		instructorService.deleteInstructor(instructorId);
 	}
 }

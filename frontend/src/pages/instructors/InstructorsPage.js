@@ -12,7 +12,7 @@ function AddInstructorButton({refreshList}) {
   const [fullName, setFullName] = useState('');
   const [mail, setMail] = useState('');
   const [department, setDepartment] = useState('');
-  const [maxNumOfSubmissions, setMaxNumOfSubmissions] = useState('');
+  const [maxNumOfInternships, setMaxNumOfInternships] = useState('');
   const {postData} = useFetch("/api/instructors", "POST");
 
   // Define a state variable for the modal
@@ -21,14 +21,14 @@ function AddInstructorButton({refreshList}) {
   // Define a function to handle the form submit
   const handleSubmit = async (event) => {
     event.preventDefault();
-    postData({id, fullName, mail, department, maxNumOfSubmissions});
+    postData({id, fullName, mail, department, maxNumOfInternships});
     setOpen(false);
     refreshList();
     setId('');
     setFullName('');
     setMail('');
     setDepartment('');
-    setMaxNumOfSubmissions('');
+    setMaxNumOfInternships('');
   };
 
   return (
@@ -69,10 +69,10 @@ function AddInstructorButton({refreshList}) {
             fullWidth
           />
           <TextField
-            label="Max Number of Submissions"
-            value={maxNumOfSubmissions}
+            label="Max Number of Internships"
+            value={maxNumOfInternships}
             onChange={(event) =>
-              setMaxNumOfSubmissions(parseInt(event.target.value))
+              setMaxNumOfInternships(parseInt(event.target.value))
             }
             fullWidth
             type="number"
@@ -88,6 +88,7 @@ function AddInstructorButton({refreshList}) {
 
 export default function InstructorsPage(){
     const {data, isPending, error, refreshList } = useFetch(`/api/instructors`);
+    const {deleteData} = useFetch("/api/instructors", "DELETE");
 
     return(
         <Container>
@@ -97,7 +98,7 @@ export default function InstructorsPage(){
             <AddInstructorButton refreshList={refreshList} />
             {error && <div>{error}</div>}
             {isPending && <div>loading...</div>}
-            {data && <InstructorList instructors={data}/>}
+            {data && <InstructorList instructors={data} deleteInstructor={deleteData} refreshList={refreshList}/>}
         </Container>
     )
 }

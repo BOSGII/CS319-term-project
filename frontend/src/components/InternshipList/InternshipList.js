@@ -45,7 +45,7 @@ export default function InternshipList({ internships }){
                     }
                     }}>
                     <ListItemText>
-                        {internship.type} Student Id:{internship.student.id}
+                        {internship.type} Student Id:{internship.student.id} Instructor Id: {internship.instructor?.id}
                     </ListItemText>
                 </ListItem>
                 ))}
