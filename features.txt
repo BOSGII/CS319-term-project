@@ -27,9 +27,9 @@ feature-b4: Authentication using Spring Security
 feature-b5: File storage service
 MERGED feature-b6: Controller-service layer for the Student
 MERGED feature-b7: Controller-service layer for the Instructor
-feature-b8: Return empty json object instead of null from controllers
+feature-b8: read internships from excel
 feature-b9: Notifications using Observer pattern
-feature-f10: read internships from excel
+feature-b10: Return empty json object instead of null from controllers
 
 
 
