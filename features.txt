@@ -36,6 +36,7 @@ feature-b11: Notifications using Observer pattern
 Bugfixes:
 MERGED bugfix-b1: Use separate controllers for entities, instead of associating controllers with the user types, which causes code duplication.
 MERGED bugfix-b2: Internship entity duplicate methods are cleared
+bugfix-b3: Remove CS from InternshipType enum (CS299 -> 299 && CS399 -> 399)
 
 
 

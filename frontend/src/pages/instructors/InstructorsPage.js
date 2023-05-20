@@ -15,24 +15,23 @@ export default function InstructorsPage() {
     setRefresh(true);
   };
 
-  const getInstructorsFromServer = () => {
-    setIsPending(true);
-
-    axios
-      .get("/api/instructors")
-      .then((response) => {
-        setInstructors(response.data);
-      })
-      .catch((error) => {
-        setError(error);
-      })
-      .finally(() => {
-        setIsPending(false);
-        setRefresh(false);
-      });
-  };
-
   useEffect(() => {
+    const getInstructorsFromServer = () => {
+      setIsPending(true);
+
+      axios
+        .get("/api/instructors")
+        .then((response) => {
+          setInstructors(response.data);
+        })
+        .catch((error) => {
+          setError(error);
+        })
+        .finally(() => {
+          setIsPending(false);
+          setRefresh(false);
+        });
+    };
     getInstructorsFromServer();
   }, [refresh]);
 

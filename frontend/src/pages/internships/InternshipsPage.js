@@ -6,6 +6,7 @@ import InternshipList from "../../components/InternshipList/InternshipList";
 import AddInternshipButton from "../../components/AddInternshipButton/AddInternshipButton";
 import MatchInternshipsButton from "../../components/MatchInternshipsButton/MatchInternshipsButton";
 import axios from "axios";
+import ImportInternshipsButton from "../../components/ImportInternhipsButton/ImportInternshipsButton";
 
 export default function InternshipsPage() {
   const { user } = useContext(UserContext);
@@ -20,53 +21,54 @@ export default function InternshipsPage() {
     setRefresh(true);
   };
 
-  const getInternshipsFromServer = () => {
-    let fetchUrl;
-    switch (user.role) {
-      case "student":
-        fetchUrl = `/api/internships?studentId=${user.id}`;
-        break;
-      case "instructor":
-        fetchUrl = `/api/internships?instructorId=${user.id}`;
-        break;
-
-      case "secretary":
-        if (location.pathname === "/internships") {
-          fetchUrl = `/api/internships`;
-        } else {
-          // /instructors/{instructorId}
-          const instructorId = location.pathname.split("/").at(-1);
-          fetchUrl = `/api/internships?instructorId=${instructorId}`;
-        }
-        break;
-      default:
-    }
-
-    setIsPending(true);
-
-    axios
-      .get(fetchUrl)
-      .then((response) => {
-        setInternships(response.data);
-      })
-      .catch((error) => {
-        setError(error);
-      })
-      .finally(() => {
-        setIsPending(false);
-        setRefresh(false);
-      });
-  };
-
   useEffect(() => {
+    const getInternshipsFromServer = () => {
+      let fetchUrl;
+      switch (user.role) {
+        case "student":
+          fetchUrl = `/api/internships?studentId=${user.id}`;
+          break;
+        case "instructor":
+          fetchUrl = `/api/internships?instructorId=${user.id}`;
+          break;
+
+        case "secretary":
+          if (location.pathname === "/internships") {
+            fetchUrl = `/api/internships`;
+          } else {
+            // /instructors/{instructorId}
+            const instructorId = location.pathname.split("/").at(-1);
+            fetchUrl = `/api/internships?instructorId=${instructorId}`;
+          }
+          break;
+        default:
+      }
+
+      setIsPending(true);
+
+      axios
+        .get(fetchUrl)
+        .then((response) => {
+          setInternships(response.data);
+        })
+        .catch((error) => {
+          setError(error);
+        })
+        .finally(() => {
+          setIsPending(false);
+          setRefresh(false);
+        });
+    };
+
     getInternshipsFromServer();
-  }, [refresh]);
+  }, [user, location, refresh]);
 
   return (
     <Container>
       <Typography>internships page</Typography>
-      {user.role === "secretary" && (
+      {user.role === "secretary" && location.pathname === "/internships" && (
         <>
+          <ImportInternshipsButton />
           <AddInternshipButton refreshInternships={refreshInternships} />
           <MatchInternshipsButton refreshInternships={refreshInternships} />
         </>
