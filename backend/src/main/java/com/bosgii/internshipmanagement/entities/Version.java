@@ -18,7 +18,8 @@ public class Version {
 	
 	@ManyToOne
 	Submission submission;
-	
+
+
 	VersionStatus status;
 
 	int versionNumber;

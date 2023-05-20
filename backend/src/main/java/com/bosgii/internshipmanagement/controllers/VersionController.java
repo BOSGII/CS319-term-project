@@ -22,12 +22,12 @@ import com.bosgii.internshipmanagement.services.VersionService;
 @RestController
 @RequestMapping("/api")
 public class VersionController {
-	private final VersionService versionService;
+	VersionService versionService;
 
 	public VersionController(VersionService versionService) {
 		this.versionService = versionService;
 	}
-	
+
 	@GetMapping("/versions")
 	public Optional<Version> getOneVersion(@RequestParam Optional<Long> submissionId, @RequestParam Optional<Long> internshipId, @RequestParam int versionNumber){
 		return versionService.getOneVersion(submissionId, internshipId, versionNumber);
@@ -42,10 +42,10 @@ public class VersionController {
 	public Version requestRevisionForVersion(@PathVariable Long versionId, @ModelAttribute AskForRevisionRequest req){
 		return versionService.requestRevisionForVersion(versionId, req);
 	}
-	
+
 	@PutMapping("/versions/{versionId}")
 	public Version changeVersion(@PathVariable Long versionId, @RequestBody ChangeVersionRequest req) {
-		return null;
+		return versionService.changeVersion(versionId, req);
 	}
 	
 	@DeleteMapping("/versions/{versionId}")

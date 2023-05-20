@@ -4,6 +4,12 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+
+import com.bosgii.internshipmanagement.entities.Internship;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
 import com.bosgii.internshipmanagement.entities.Version;
 import com.bosgii.internshipmanagement.enums.VersionStatus;
 import com.bosgii.internshipmanagement.entities.Comment;
@@ -12,18 +18,27 @@ import com.bosgii.internshipmanagement.repos.CommentRepository;
 import com.bosgii.internshipmanagement.repos.VersionRepository;
 import com.bosgii.internshipmanagement.requests.AddVersionRequest;
 import com.bosgii.internshipmanagement.requests.AskForRevisionRequest;
+import com.bosgii.internshipmanagement.requests.ChangeVersionRequest;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class VersionService {
 
-	private VersionRepository versionRepository;
-	private SubmissionService submissionService;
-	private CommentRepository commentRepository;
+	private final VersionRepository versionRepository;
+	private final SubmissionService submissionService;
+	private final CommentRepository commentRepository;
+	private final DocumentService documentService;
 	
-	public VersionService(VersionRepository versionRepository, SubmissionService submissionService, CommentRepository commentRepository) {
+	public VersionService(VersionRepository versionRepository, SubmissionService submissionService, CommentRepository commentRepository, DocumentService documentService) {
 		this.versionRepository = versionRepository;
 		this.submissionService = submissionService;
 		this.commentRepository = commentRepository;
+		this.documentService = documentService;
+	}
+
+	// TODO
+	public ResponseEntity<Resource> getVersionByID(Long id){
+		return documentService.getDocumentByFolderNameAndRequestID("versions",id);
 	}
 	
 	public Optional<Version> getOneVersion(Optional<Long> submissionId, Optional<Long> internshipId, int versionNumber) {
@@ -73,10 +88,10 @@ public class VersionService {
 		version.setStatus(VersionStatus.NOT_EVALUATED);
 		version.setSubmission(newSubmission);
 
-		// handle uploaded report
+		// TODO: handle uploaded report
 		System.out.println(req.getReport().getOriginalFilename());
+		// documentService.saveDocument(file,"versions",savedVersion.getId());
 		return versionRepository.save(version);
-
 	}
 
 	public Version deleteVersion(Long versionId) {
