@@ -20,6 +20,9 @@ public class ChangeInternshipRequest {
 	Date supervisorGraduationYear;
 	String supervisorGraduationDepartment;
 	String supervisorUniversity;
+
+	// assigned instructor info
+	Long instructorId;
 	
 	// TODO: company evaluation form
 	
@@ -84,5 +87,12 @@ public class ChangeInternshipRequest {
 	public void setSupervisorUniversity(String supervisorUniversity) {
 		this.supervisorUniversity = supervisorUniversity;
 	}
+	public Long getInstructorId() {
+		return instructorId;
+	}
+	public void setInstructorId(Long instructorId) {
+		this.instructorId = instructorId;
+	}
+	
 }
 

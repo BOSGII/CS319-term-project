@@ -1,104 +1,53 @@
-import { Button, Container, Modal, TextField, Typography } from '@mui/material';
-import { useFetch } from '../../hooks/useFetch';
-import InstructorList from '../../components/InstructorList/InstructorList';
+import { Container, Typography } from "@mui/material";
+import InstructorList from "../../components/InstructorList/InstructorList";
+import axios from "axios";
+import AddInstructorButton from "../../components/AddInstructorButton/AddInstructorButton";
 
-// styles
-import './InstructorsPage.css'
-import { useState } from 'react';
+import { useEffect, useState } from "react";
 
-function AddInstructorButton({refreshList}) {
-  // Define state variables for the form fields
-  const [id, setId] = useState('');
-  const [fullName, setFullName] = useState('');
-  const [mail, setMail] = useState('');
-  const [department, setDepartment] = useState('');
-  const [maxNumOfInternships, setMaxNumOfInternships] = useState('');
-  const {postData} = useFetch("/api/instructors", "POST");
+export default function InstructorsPage() {
+  const [instructors, setInstructors] = useState([]);
+  const [isPending, setIsPending] = useState(false);
+  const [error, setError] = useState(null);
+  const [refresh, setRefresh] = useState(false);
 
-  // Define a state variable for the modal
-  const [open, setOpen] = useState(false);
-
-  // Define a function to handle the form submit
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    postData({id, fullName, mail, department, maxNumOfInternships});
-    setOpen(false);
-    refreshList();
-    setId('');
-    setFullName('');
-    setMail('');
-    setDepartment('');
-    setMaxNumOfInternships('');
+  const refreshInstructors = () => {
+    setRefresh(true);
   };
 
+  const getInstructorsFromServer = () => {
+    setIsPending(true);
+
+    axios
+      .get("/api/instructors")
+      .then((response) => {
+        setInstructors(response.data);
+      })
+      .catch((error) => {
+        setError(error);
+      })
+      .finally(() => {
+        setIsPending(false);
+        setRefresh(false);
+      });
+  };
+
+  useEffect(() => {
+    getInstructorsFromServer();
+  }, [refresh]);
+
   return (
-    <>
-      <Button variant="contained" onClick={() => setOpen(true)}>
-        Add Instructor
-      </Button>
-      <Modal sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          bgcolor: 'rgba(0, 0, 0, 0.5)',
-        }}
-        open={open} onClose={() => setOpen(false)}>
-        <form style={{backgroundColor: 'white'}} onSubmit={handleSubmit}>
-          <TextField
-            label="ID"
-            value={id}
-            onChange={(event) => setId(event.target.value)}
-            fullWidth
-          />
-          <TextField
-            label="Full Name"
-            value={fullName}
-            onChange={(event) => setFullName(event.target.value)}
-            fullWidth
-          />
-          <TextField
-            label="Email"
-            value={mail}
-            onChange={(event) => setMail(event.target.value)}
-            fullWidth
-          />
-          <TextField
-            label="Department"
-            value={department}
-            onChange={(event) => setDepartment(event.target.value)}
-            fullWidth
-          />
-          <TextField
-            label="Max Number of Internships"
-            value={maxNumOfInternships}
-            onChange={(event) =>
-              setMaxNumOfInternships(parseInt(event.target.value))
-            }
-            fullWidth
-            type="number"
-          />
-          <Button type="submit" variant="contained">
-            Add Instructor
-          </Button>
-        </form>
-      </Modal>
-    </>
+    <Container>
+      <Typography>Secretary page showing all instructors</Typography>
+      <AddInstructorButton refreshInstructors={refreshInstructors} />
+      {error && <div>{error}</div>}
+      {isPending && <div>loading...</div>}
+      {instructors && (
+        <InstructorList
+          instructors={instructors}
+          refreshInstructors={refreshInstructors}
+        />
+      )}
+    </Container>
   );
-}
-
-export default function InstructorsPage(){
-    const {data, isPending, error, refreshList } = useFetch(`/api/instructors`);
-    const {deleteData} = useFetch("/api/instructors", "DELETE");
-
-    return(
-        <Container>
-            <Typography>
-                Secretary page showing all instructors
-            </Typography>
-            <AddInstructorButton refreshList={refreshList} />
-            {error && <div>{error}</div>}
-            {isPending && <div>loading...</div>}
-            {data && <InstructorList instructors={data} deleteInstructor={deleteData} refreshList={refreshList}/>}
-        </Container>
-    )
 }

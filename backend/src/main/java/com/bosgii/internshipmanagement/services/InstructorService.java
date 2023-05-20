@@ -19,7 +19,10 @@ public class InstructorService {
 		this.instructorRepository = instructorRepository;
 	}
 
-	public List<Instructor> getAllInstructors() {
+	public List<Instructor> getAllInstructors(Optional<Boolean> available) {
+		if(available.isPresent()){
+			return instructorRepository.findAllAvailable();
+		}
 		return instructorRepository.findAll();
 	}
 

@@ -10,6 +10,8 @@ import com.bosgii.internshipmanagement.entities.Internship;
 import com.bosgii.internshipmanagement.enums.MatchType;
 import com.bosgii.internshipmanagement.matcher.IMatcher;
 import com.bosgii.internshipmanagement.matcher.MatcherFactory;
+import com.bosgii.internshipmanagement.repos.InstructorRepository;
+import com.bosgii.internshipmanagement.repos.InternshipRepository;
 
 @Service
 public class MatchService {
@@ -17,8 +19,8 @@ public class MatchService {
     private final InternshipService internshipService;
     private final InstructorService instructorService;
 
-    public MatchService(InternshipService internshipService, InstructorService instructorService){
-        matcherFactory = new MatcherFactory();
+    public MatchService(InternshipService internshipService, InstructorService instructorService, InternshipRepository internshipRepository, InstructorRepository instructorRepository){
+        matcherFactory = new MatcherFactory(internshipRepository, instructorRepository);
         this.internshipService = internshipService;
         this.instructorService = instructorService;
     }
@@ -26,7 +28,7 @@ public class MatchService {
     public Boolean matchInstructorsWithInternships(MatchType matchType) {
         IMatcher matcher = matcherFactory.createMatcher(matchType);
         List<Internship> internships = internshipService.getAllInternships(Optional.empty(), Optional.empty());
-        List<Instructor> instructors = instructorService.getAllInstructors();
+        List<Instructor> instructors = instructorService.getAllInstructors(Optional.empty());
         return matcher.match(internships, instructors);
     }
 }

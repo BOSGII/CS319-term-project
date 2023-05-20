@@ -4,8 +4,14 @@ import java.util.List;
 
 import com.bosgii.internshipmanagement.entities.Instructor;
 import com.bosgii.internshipmanagement.entities.Internship;
+import com.bosgii.internshipmanagement.repos.InstructorRepository;
+import com.bosgii.internshipmanagement.repos.InternshipRepository;
 
 public class RatioMatcher extends IMatcher{
+
+    public RatioMatcher(InternshipRepository internshipRepository, InstructorRepository instructorRepository ){
+        super(internshipRepository, instructorRepository);
+    }
 
     @Override
     public void performMatching(List<Internship> internships, List<Instructor> instructors) {
@@ -21,6 +27,7 @@ public class RatioMatcher extends IMatcher{
             for(int i = idx; i < idx + toBeAssigned; i++)
                 internships.get(i).setInstructor(instructor);
             
+            instructor.setNumOfAssignedInternships(toBeAssigned);
             idx += toBeAssigned;
         }
     }
