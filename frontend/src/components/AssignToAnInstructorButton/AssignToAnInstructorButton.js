@@ -13,12 +13,15 @@ import {
 
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 export default function AssignToAnInstructorButton({
   internshipId,
   instructorId,
   setInstructorId,
+  refreshInternships,
 }) {
+  const location = useLocation();
   const [open, setOpen] = useState(false);
   const [availableInstructors, setAvailableInstructors] = useState([]);
   const [error, setError] = useState(null);
@@ -64,7 +67,11 @@ export default function AssignToAnInstructorButton({
         instructorId: selectedInstructorId,
       })
       .then((response) => {
-        setInstructorId(selectedInstructorId);
+        if (location.pathname === "/internships") {
+          setInstructorId(selectedInstructorId);
+        } else {
+          refreshInternships();
+        }
         handleClose();
       })
       .catch(() => {

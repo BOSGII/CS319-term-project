@@ -39,6 +39,7 @@ export default function Internship({ internship, refreshInternships }) {
             internshipId={internship.id}
             instructorId={instructorId}
             setInstructorId={setInstructorId}
+            refreshInternships={refreshInternships}
           />
         </>
       )}
