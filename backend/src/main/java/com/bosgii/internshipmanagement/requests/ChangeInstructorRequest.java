@@ -4,7 +4,7 @@ public class ChangeInstructorRequest {
     String fullName;
     String mail;
     String department;
-    int maxNumOfSubmissions;
+    int maxNumOfInternships;
 
 	public String getFullName() {
         return fullName;
@@ -15,7 +15,7 @@ public class ChangeInstructorRequest {
 	public String getDepartment() {
         return department;
     }
-    public int getMaxNumOfSubmissions() {
-        return maxNumOfSubmissions;
+    public int getMaxNumOfInternships() {
+        return maxNumOfInternships;
     }
 }

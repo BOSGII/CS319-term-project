@@ -52,14 +52,14 @@ public class SubmissionService {
 	}
 
 	public Submission addSubmissionOnAnInternship(Long internshipId, AddSubmissionRequest req) {
-		Internship internship = internshipService.getOneInternshipById(internshipId);
+		Optional<Internship> internship = internshipService.getOneInternshipById(internshipId);
 
-		if(internship == null)
+		if(internship.isEmpty())
 			return null;
 
 		Submission submission = new Submission();
 		submission.setStatus(SubmissionStatus.UNDER_FORMAT_CHECK);//dikkat 
-		submission.setInternship(internship);
+		submission.setInternship(internship.get());
 		return submissionRepository.save(submission);
 	}
 

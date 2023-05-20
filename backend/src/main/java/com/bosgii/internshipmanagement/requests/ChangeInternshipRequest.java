@@ -2,7 +2,6 @@ package com.bosgii.internshipmanagement.requests;
 
 import java.util.Date;
 
-import com.bosgii.internshipmanagement.enums.InternshipStatus;
 import com.bosgii.internshipmanagement.enums.InternshipType;
 
 public class ChangeInternshipRequest {
@@ -21,6 +20,9 @@ public class ChangeInternshipRequest {
 	Date supervisorGraduationYear;
 	String supervisorGraduationDepartment;
 	String supervisorUniversity;
+
+	// assigned instructor info
+	Long instructorId;
 	
 	// TODO: company evaluation form
 	
@@ -85,5 +87,12 @@ public class ChangeInternshipRequest {
 	public void setSupervisorUniversity(String supervisorUniversity) {
 		this.supervisorUniversity = supervisorUniversity;
 	}
+	public Long getInstructorId() {
+		return instructorId;
+	}
+	public void setInstructorId(Long instructorId) {
+		this.instructorId = instructorId;
+	}
+	
 }
 

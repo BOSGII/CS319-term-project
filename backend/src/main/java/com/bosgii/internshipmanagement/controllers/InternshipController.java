@@ -32,6 +32,11 @@ public class InternshipController {
 		return internshipService.getAllInternships(studentId, instructorId);
 	}
 	
+	@GetMapping("/internships/{internshipId}")
+	public Optional<Internship> getInternship(@PathVariable Long internshipId){
+		return internshipService.getOneInternshipById(internshipId);
+	}
+	
 	@PostMapping("/internships")
 	public Internship addInternship(@RequestBody AddInternshipRequest req) {
 		return internshipService.addInternship(req);

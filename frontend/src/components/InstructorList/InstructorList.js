@@ -1,24 +1,19 @@
-import { List, ListItem, ListItemText, Container, Typography } from '@mui/material'
-import { useNavigate } from 'react-router-dom';
+import { List, Container, Typography } from "@mui/material";
+import Instructor from "../Instructor/Instructor";
 
-export default function InstructorList({ instructors }){
-    const navigate = useNavigate();
-
-    return(
-        <Container>
-            <Typography>
-                InstructorList Component
-            </Typography>
-            <List>
-                {instructors?.map(instructor => (
-                <ListItem key={instructor.id} sx={{border: 1}} onClick={()=>{navigate(`/instructors/${instructor.id}`)}}>
-                    <ListItemText>
-                        {instructor.fullName}
-                        {instructor.department}
-                    </ListItemText>
-                </ListItem>
-                ))}
-            </List>
-        </Container>
-    )
+export default function InstructorList({ instructors, refreshInstructors }) {
+  return (
+    <Container>
+      <Typography>InstructorList Component</Typography>
+      <List>
+        {instructors.map((instructor) => (
+          <Instructor
+            key={instructor.id}
+            instructor={instructor}
+            refreshInstructors={refreshInstructors}
+          />
+        ))}
+      </List>
+    </Container>
+  );
 }

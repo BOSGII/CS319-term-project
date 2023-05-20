@@ -5,7 +5,7 @@ public class AddInstructorRequest {
     String fullName;
     String mail;
     String department;
-    int maxNumOfSubmissions;
+    int maxNumOfInternships;
     
     public Long getId() {
         return id;
@@ -19,7 +19,7 @@ public class AddInstructorRequest {
 	public String getDepartment() {
         return department;
     }
-    public int getMaxNumOfSubmissions() {
-        return maxNumOfSubmissions;
+    public int getMaxNumOfInternships() {
+        return maxNumOfInternships;
     }
 }
