@@ -13,7 +13,7 @@ MERGED feature-f11: Instructor /assigned_internships page (list of assigned inte
 feature-f12: change internship functionality
 feature-f13: change instructor details functionality
 MERGED feature-f14: assignment of an internship to an instructor (create a special button for each internship)
-feature-f15: upload component
+MERGED feature-f15: upload component
 feature-f16: version system (including comment section)
 feature-f17: import excel file button for adding internships to the system
 
@@ -37,6 +37,7 @@ Bugfixes:
 MERGED bugfix-b1: Use separate controllers for entities, instead of associating controllers with the user types, which causes code duplication.
 MERGED bugfix-b2: Internship entity duplicate methods are cleared
 bugfix-b3: Remove CS from InternshipType enum (CS299 -> 299 && CS399 -> 399)
+MERGED bugfix-b4: Assigning internship to an instructor causes all internship data to be deleted
 
 
 

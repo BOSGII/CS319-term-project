@@ -63,8 +63,8 @@ export default function AssignToAnInstructorButton({
 
   const assign = () => {
     axios
-      .put(`/api/internships/${internshipId}`, {
-        instructorId: selectedInstructorId,
+      .post(`/api/internships/${internshipId}`, {
+        newInstructorId: selectedInstructorId,
       })
       .then((response) => {
         if (location.pathname === "/internships") {

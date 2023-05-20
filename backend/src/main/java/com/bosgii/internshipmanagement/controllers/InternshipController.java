@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bosgii.internshipmanagement.entities.Internship;
 import com.bosgii.internshipmanagement.requests.AddInternshipRequest;
+import com.bosgii.internshipmanagement.requests.AssignRequest;
 import com.bosgii.internshipmanagement.requests.ChangeInternshipRequest;
 import com.bosgii.internshipmanagement.services.InternshipService;
 
@@ -41,12 +42,17 @@ public class InternshipController {
 	public Internship addInternship(@RequestBody AddInternshipRequest req) {
 		return internshipService.addInternship(req);
 	}
+
+	@PostMapping("/internships/{internshipId}")
+	public Internship assignToDifferentInstructor(@PathVariable Long internshipId, @RequestBody AssignRequest req){
+		return internshipService.assignToDifferentInstructor(internshipId, req);
+	}
 	
 	@PutMapping("/internships/{internshipId}")
 	public Internship changeInternship(@PathVariable Long internshipId, @RequestBody ChangeInternshipRequest req) {
 		return internshipService.changeInternship(internshipId, req);
 	}
-	
+
 	@DeleteMapping("/internships/{internshipId}")
 	public Internship deleteInternship(@PathVariable Long internshipId) {
 		return internshipService.deleteInternship(internshipId);
