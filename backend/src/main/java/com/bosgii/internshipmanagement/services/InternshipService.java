@@ -19,6 +19,7 @@ import com.bosgii.internshipmanagement.repos.SupervisorRepository;
 import com.bosgii.internshipmanagement.repos.InternshipRepository;
 import com.bosgii.internshipmanagement.repos.StudentRepository;
 import com.bosgii.internshipmanagement.requests.AddInternshipRequest;
+import com.bosgii.internshipmanagement.requests.AssignRequest;
 import com.bosgii.internshipmanagement.requests.ChangeInternshipRequest;
 
 @Service
@@ -131,25 +132,6 @@ public class InternshipService {
 		if (opt.isPresent()) {
 			toBeUpdated = opt.get();
 
-			if(req.getInstructorId() == null){
-				Instructor currentAssignedInstructor = toBeUpdated.getInstructor();
-				if(currentAssignedInstructor != null) {
-					currentAssignedInstructor.setNumOfAssignedInternships(currentAssignedInstructor.getNumOfAssignedInternships() - 1);
-					instructorRepository.save(currentAssignedInstructor);
-				}
-				toBeUpdated.setInstructor(null);
-			} else {
-				Instructor currentAssignedInstructor = toBeUpdated.getInstructor();
-				if(currentAssignedInstructor != null) {
-					currentAssignedInstructor.setNumOfAssignedInternships(currentAssignedInstructor.getNumOfAssignedInternships() - 1);
-					instructorRepository.save(currentAssignedInstructor);
-				}
-				Instructor newAssignedInstructor = instructorRepository.findById(req.getInstructorId()).get();
-				newAssignedInstructor.setNumOfAssignedInternships(newAssignedInstructor.getNumOfAssignedInternships() + 1);
-				instructorRepository.save(newAssignedInstructor);
-				toBeUpdated.setInstructor(newAssignedInstructor);
-			}
-
 			// check if the company already exists
 			Company c;
 			Optional<Company> company = companyRepository.findByNameAndEmail(req.getCompanyName(),
@@ -197,4 +179,27 @@ public class InternshipService {
 		return opt.get();
 	}
 
+    public Internship assignToDifferentInstructor(Long internshipId, AssignRequest req) {
+		Internship toBeUpdated = internshipRepository.findById(internshipId).get();
+		if(req.getNewInstructorId() == null){
+			Instructor currentAssignedInstructor = toBeUpdated.getInstructor();
+			if(currentAssignedInstructor != null) {
+				currentAssignedInstructor.setNumOfAssignedInternships(currentAssignedInstructor.getNumOfAssignedInternships() - 1);
+				instructorRepository.save(currentAssignedInstructor);
+			}
+			toBeUpdated.setInstructor(null);
+		} else {
+			Instructor currentAssignedInstructor = toBeUpdated.getInstructor();
+			if(currentAssignedInstructor != null) {
+				currentAssignedInstructor.setNumOfAssignedInternships(currentAssignedInstructor.getNumOfAssignedInternships() - 1);
+				instructorRepository.save(currentAssignedInstructor);
+			}
+			Instructor newAssignedInstructor = instructorRepository.findById(req.getNewInstructorId()).get();
+			newAssignedInstructor.setNumOfAssignedInternships(newAssignedInstructor.getNumOfAssignedInternships() + 1);
+			instructorRepository.save(newAssignedInstructor);
+			toBeUpdated.setInstructor(newAssignedInstructor);
+		}
+
+        return internshipRepository.save(toBeUpdated);
+    }
 }
