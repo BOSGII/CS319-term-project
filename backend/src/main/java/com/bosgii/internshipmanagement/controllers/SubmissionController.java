@@ -32,11 +32,6 @@ public class SubmissionController {
 		return submissionService.findSubmission(internshipId, studentId, internshipType);
 	}
 
-	@PostMapping("/submissions")
-	public Submission addSubmissionOnAnInternship(@RequestParam Long internshipId, @RequestBody AddSubmissionRequest req) {
-		return submissionService.addSubmissionOnAnInternship(internshipId, req);
-	}
-
 	@PutMapping("/submissions/{submissionId}")
 	public Submission changeSubmission(@PathVariable Long submissionId,
 			@RequestBody ChangeSubmissionRequest req) {

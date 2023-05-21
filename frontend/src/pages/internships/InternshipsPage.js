@@ -68,7 +68,7 @@ export default function InternshipsPage() {
       <Typography>internships page</Typography>
       {user.role === "secretary" && location.pathname === "/internships" && (
         <>
-          <ImportInternshipsButton />
+          <ImportInternshipsButton refreshInternships={refreshInternships} />
           <AddInternshipButton refreshInternships={refreshInternships} />
           <MatchInternshipsButton refreshInternships={refreshInternships} />
         </>

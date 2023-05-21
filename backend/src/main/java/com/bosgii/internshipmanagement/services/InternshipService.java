@@ -202,4 +202,15 @@ public class InternshipService {
 
         return internshipRepository.save(toBeUpdated);
     }
+
+	public void handleNewSubmission(Long internshipId){
+		Internship i = internshipRepository.findById(internshipId).get();
+		i.setStatus(InternshipStatus.UNDER_EVALUATION);
+		internshipRepository.save(i);
+	}
+
+	public void handleNewVersion(Internship i) {
+		i.setNumOfVersions(i.getNumOfVersions() + 1);
+		internshipRepository.save(i);
+	}
 }

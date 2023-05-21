@@ -10,10 +10,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.bosgii.internshipmanagement.entities.Version;
-import com.bosgii.internshipmanagement.requests.AddVersionRequest;
 import com.bosgii.internshipmanagement.requests.ChangeVersionRequest;
 import com.bosgii.internshipmanagement.services.VersionService;
 
@@ -32,8 +33,8 @@ public class VersionController {
 	}
 	
 	@PostMapping("/versions")
-	public Version addVersionOnASubmission(@RequestParam Long submissionId, @RequestBody AddVersionRequest req) {
-		return versionService.addVersionOnASubmission(submissionId, req);
+	public Version addVersionOnASubmission(@RequestParam Long internshipId, @RequestPart("file") MultipartFile file){
+		return versionService.addVersionOnASubmission(internshipId, file);
 	}
 	
 	@PutMapping("/versions/{versionId}")

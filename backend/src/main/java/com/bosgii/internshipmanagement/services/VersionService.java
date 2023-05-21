@@ -3,6 +3,7 @@ import java.util.Optional;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.bosgii.internshipmanagement.entities.Version;
 import com.bosgii.internshipmanagement.enums.VersionStatus;
@@ -34,11 +35,27 @@ public class VersionService {
 		return null;
 	}
 
-	public Version addVersionOnASubmission(Long submissionId, AddVersionRequest req) {
-		Submission s = submissionService.getOneSubmissionById(submissionId);
+	public Version addVersionOnASubmission(Long internshipId, MultipartFile file) {
+		// check if submission exists
+		Optional<Submission> s = submissionService.findSubmission(Optional.of(internshipId), Optional.empty(), Optional.empty());
+		Submission newSubmission;
+
+		if(s.isEmpty()){
+			// create a submission
+			newSubmission = submissionService.addSubmissionOnAnInternship(internshipId);
+		} else {
+			newSubmission = s.get();
+		}
+
+		System.out.println(file);
+
+		submissionService.handleNewVersion(newSubmission.getId());
+
+		// add version to submission
 		Version version = new Version();
+
 		version.setStatus(VersionStatus.NOT_EVALUATED);
-		version.setSubmission(s);
+		version.setSubmission(newSubmission);
 		return versionRepository.save(version);
 
 	}

@@ -51,14 +51,17 @@ public class SubmissionService {
 		return submissionRepository.findSubmissionByInternshipId(internshipId);
 	}
 
-	public Submission addSubmissionOnAnInternship(Long internshipId, AddSubmissionRequest req) {
+	public Submission addSubmissionOnAnInternship(Long internshipId) {
 		Optional<Internship> internship = internshipService.getOneInternshipById(internshipId);
 
 		if(internship.isEmpty())
 			return null;
+		
+		internshipService.handleNewSubmission(internshipId);
 
 		Submission submission = new Submission();
 		submission.setStatus(SubmissionStatus.UNDER_FORMAT_CHECK);//dikkat 
+		submission.setNumOfVersions(0);
 		submission.setInternship(internship.get());
 		return submissionRepository.save(submission);
 	}
@@ -84,5 +87,11 @@ public class SubmissionService {
 		
 	}
 
+	public void handleNewVersion(Long submissionId){
+		Submission s = submissionRepository.findById(submissionId).get();
+		s.setNumOfVersions(s.getNumOfVersions() + 1);
+		submissionRepository.save(s);
+		internshipService.handleNewVersion(s.getInternship());
+	}
 
 }

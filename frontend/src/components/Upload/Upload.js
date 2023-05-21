@@ -2,7 +2,11 @@ import { Button, Typography } from "@mui/material";
 import { useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 
-export default function Upload({ acceptedFileTypes, handleCancel }) {
+export default function Upload({
+  acceptedFileTypes,
+  handleSubmit,
+  handleCancel,
+}) {
   const [file, setFile] = useState(null);
 
   const handleChange = (file) => {
@@ -18,7 +22,15 @@ export default function Upload({ acceptedFileTypes, handleCancel }) {
         fileOrFiles={file}
       ></FileUploader>
       <Typography>Uploaded file: {file ? file.name : "None"}</Typography>
-      <Button>Submit</Button>
+      <Button
+        onClick={() => {
+          if (file) {
+            handleSubmit(file);
+          }
+        }}
+      >
+        Submit
+      </Button>
       <Button
         onClick={() => {
           setFile(null);
