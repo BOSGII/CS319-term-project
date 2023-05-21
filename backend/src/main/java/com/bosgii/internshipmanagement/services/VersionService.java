@@ -5,10 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 
-import com.bosgii.internshipmanagement.entities.Internship;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 
 import com.bosgii.internshipmanagement.entities.Version;
 import com.bosgii.internshipmanagement.enums.VersionStatus;
@@ -18,8 +16,6 @@ import com.bosgii.internshipmanagement.repos.CommentRepository;
 import com.bosgii.internshipmanagement.repos.VersionRepository;
 import com.bosgii.internshipmanagement.requests.AddVersionRequest;
 import com.bosgii.internshipmanagement.requests.AskForRevisionRequest;
-import com.bosgii.internshipmanagement.requests.ChangeVersionRequest;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class VersionService {
@@ -39,6 +35,10 @@ public class VersionService {
 	// TODO
 	public ResponseEntity<Resource> getVersionByID(Long id){
 		return documentService.getDocumentByFolderNameAndRequestID("versions",id);
+	}
+
+	public Version getVersionEntityById(Long id){
+		return versionRepository.findById(id).get();
 	}
 	
 	public Optional<Version> getOneVersion(Optional<Long> submissionId, Optional<Long> internshipId, int versionNumber) {

@@ -45,7 +45,7 @@ public class VersionController {
 
 	@PutMapping("/versions/{versionId}")
 	public Version changeVersion(@PathVariable Long versionId, @RequestBody ChangeVersionRequest req) {
-		return versionService.changeVersion(versionId, req);
+		return null;
 	}
 	
 	@DeleteMapping("/versions/{versionId}")

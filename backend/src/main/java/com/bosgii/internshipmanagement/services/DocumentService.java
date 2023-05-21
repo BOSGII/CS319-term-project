@@ -1,7 +1,5 @@
 package com.bosgii.internshipmanagement.services;
 
-import com.bosgii.internshipmanagement.entities.Document;
-import com.bosgii.internshipmanagement.repos.DocumentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -15,16 +13,12 @@ import java.net.MalformedURLException;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Optional;
 
 @Service
 public class DocumentService {
-    DocumentRepository documentRepository;
 
     @Autowired
-    public DocumentService(DocumentRepository documentRepository) {
-        this.documentRepository = documentRepository;
-    }
+    public DocumentService() {}
 
     public String saveDocument(MultipartFile multipartFile,String folder, Long requestID) {
 
@@ -32,9 +26,6 @@ public class DocumentService {
         Path root = Path.of(path);
         root = root.resolve("documents").resolve(folder).resolve(requestID + ".pdf");
 
-        Document newDocument = new Document();
-        newDocument.setFolder(folder);
-        newDocument.setRequestID(requestID);
 
         try {
             Files.copy(multipartFile.getInputStream(), root);
@@ -46,7 +37,6 @@ public class DocumentService {
             return e.getMessage();
         }
 
-        documentRepository.save(newDocument);
         return "File saved successfully!";
 
 
