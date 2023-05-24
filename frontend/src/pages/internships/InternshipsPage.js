@@ -73,7 +73,7 @@ export default function InternshipsPage() {
           <MatchInternshipsButton refreshInternships={refreshInternships} />
         </>
       )}
-      {error && <div>{error}</div>}
+      {error && <div>{error.message}</div>}
       {isPending && <div>loading...</div>}
       {internships && (
         <InternshipList

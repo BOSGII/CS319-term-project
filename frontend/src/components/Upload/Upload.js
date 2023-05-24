@@ -26,6 +26,8 @@ export default function Upload({
         onClick={() => {
           if (file) {
             handleSubmit(file);
+          } else {
+            handleSubmit();
           }
         }}
       >

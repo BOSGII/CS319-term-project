@@ -7,24 +7,28 @@ export default function ImportInternshipsButton({ refreshInternships }) {
   const [open, setOpen] = useState(false);
 
   const handleSubmit = (file) => {
-    let formData = new FormData();
-    formData.append("file", file);
+    if (file) {
+      let formData = new FormData();
+      formData.append("file", file);
 
-    axios
-      .post(`/api/import`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((response) => {
-        refreshInternships();
-      })
-      .catch((error) => {
-        console.log("import error");
-      })
-      .finally(() => {
-        setOpen(false);
-      });
+      axios
+        .post(`/api/import`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((response) => {
+          refreshInternships();
+        })
+        .catch((error) => {
+          console.log("import error");
+        })
+        .finally(() => {
+          setOpen(false);
+        });
+    } else {
+      // do nothing
+    }
   };
 
   const handleCancel = () => {

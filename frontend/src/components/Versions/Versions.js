@@ -1,6 +1,6 @@
 import { Container, Typography } from "@mui/material";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import SubmissionSideBar from "../SubmissionSidebar/SubmissionSidebar";
 import Version from "../Version/Version";
 
@@ -11,11 +11,12 @@ export default function Versions({
   const [submission, setSubmission] = useState(null);
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState(null);
-  const [refresh, setRefresh] = useState(false);
 
-  const refreshSubmission = () => {
-    setRefresh(true);
-  };
+  const [versionUnderFocus, setVersionUnderFocus] = useState(0);
+
+  const changeVersionUnderFocus = useCallback((versionToBeFocused) => {
+    setVersionUnderFocus(versionToBeFocused);
+  }, []);
 
   useEffect(() => {
     const getSubmissionFromServer = () => {
@@ -25,6 +26,7 @@ export default function Versions({
         .get(`/api/submissions?internshipId=${internship.id}`)
         .then((response) => {
           setSubmission(response.data);
+          setVersionUnderFocus(response.data.numOfVersions);
         })
         .catch((error) => {
           setError(error);
@@ -37,22 +39,20 @@ export default function Versions({
     getSubmissionFromServer();
   }, [internship]);
 
-  const [versionUnderFocus, setVersionUnderFocus] = useState(0);
-
   return (
     <Container>
       <Typography>Versions component</Typography>
-      {error && <div>{error}</div>}
+      {error && <div>{error.message}</div>}
       {isPending && <div>loading...</div>}
       {submission && (
         <>
           <SubmissionSideBar
             numberOfVersions={submission.numOfVersions}
             versionUnderFocus={versionUnderFocus}
-            setVersionUnderFocus={setVersionUnderFocus}
+            changeVersionUnderFocus={changeVersionUnderFocus}
           />
           <Version
-            submissionId={submission.id}
+            submission={submission}
             versionUnderFocus={versionUnderFocus}
             setAddNewVersionButtonPressed={setAddNewVersionButtonPressed}
           />

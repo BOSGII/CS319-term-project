@@ -89,7 +89,9 @@ function App() {
             path="/instructors/:instructorId"
             element={
               user.role === "secretary" ? (
-                <InternshipsPage />
+                <InternshipIDProvider>
+                  <InternshipsPage />
+                </InternshipIDProvider>
               ) : (
                 <Navigate to="/login" replace={true} />
               )

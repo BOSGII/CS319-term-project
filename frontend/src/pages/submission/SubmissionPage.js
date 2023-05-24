@@ -38,6 +38,7 @@ export default function SubmissionPage() {
         })
         .finally(() => {
           setIsPending(false);
+          setRefresh(false);
         });
     };
 
@@ -47,13 +48,14 @@ export default function SubmissionPage() {
   return (
     <Container>
       <Typography>Submission Page</Typography>
-      {error && <div>{error}</div>}
+      {error && <div>{error.message}</div>}
       {isPending && <div>loading...</div>}
       {internship && (
         <>
           {internship.status === "NOT_SUBMITTED" ||
+          internship.numOfVersions === 0 ||
           addNewVersionButtonPressed ? (
-            <UploadReport
+            <UploadReport // component that is rendered only on student side
               internship={internship}
               refreshInternship={refreshInternship}
             />
