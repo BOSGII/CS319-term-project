@@ -3,5 +3,6 @@ package com.bosgii.internshipmanagement.enums;
 public enum VersionStatus {
 	NOT_EVALUATED,
 	SATISFACTORY,
-	REVISION_REQUIRED
+	REVISION_REQUIRED,
+	OLD_VERSION
 }

@@ -3,39 +3,44 @@ import java.util.Optional;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.bosgii.internshipmanagement.entities.Version;
 import com.bosgii.internshipmanagement.enums.VersionStatus;
+import com.bosgii.internshipmanagement.entities.Comment;
 import com.bosgii.internshipmanagement.entities.Submission;
+import com.bosgii.internshipmanagement.repos.CommentRepository;
 import com.bosgii.internshipmanagement.repos.VersionRepository;
 import com.bosgii.internshipmanagement.requests.AddVersionRequest;
-import com.bosgii.internshipmanagement.requests.ChangeVersionRequest;
+import com.bosgii.internshipmanagement.requests.AskForRevisionRequest;
 
 @Service
 public class VersionService {
 
 	private VersionRepository versionRepository;
-
-	SubmissionService submissionService;
-
+	private SubmissionService submissionService;
+	private CommentRepository commentRepository;
 	
-	public VersionService(VersionRepository versionRepository, SubmissionService submissionService) {
+	public VersionService(VersionRepository versionRepository, SubmissionService submissionService, CommentRepository commentRepository) {
 		this.versionRepository = versionRepository;
 		this.submissionService = submissionService;
+		this.commentRepository = commentRepository;
 	}
 	
-	public List<Version> getAllVersionsOfASubmission(Long submissionId) {
-		Submission submission = submissionService.getOneSubmissionById(submissionId);
-
-		if(submission != null){
-			return versionRepository.getAllBySubmissionId(submissionId);	
+	public Optional<Version> getOneVersion(Optional<Long> submissionId, Optional<Long> internshipId, int versionNumber) {
+		Optional<Version> version;
+		if(submissionId.isPresent()){
+			version = versionRepository.findOneBySubmissionIdAndVersionNumber(submissionId.get(), versionNumber);
+		} else if(internshipId.isPresent()){
+			Submission s = submissionService.findSubmissionOfAnInternship(internshipId.get()).get();
+			version = versionRepository.findOneBySubmissionIdAndVersionNumber(s.getId(), versionNumber);
+		} else {
+			version = Optional.empty();
 		}
 
-		return null;
+		return version;
 	}
 
-	public Version addVersionOnASubmission(Long internshipId, MultipartFile file) {
+	public Version addVersionOnASubmission(Long internshipId, AddVersionRequest req) {
 		// check if submission exists
 		Optional<Submission> s = submissionService.findSubmission(Optional.of(internshipId), Optional.empty(), Optional.empty());
 		Submission newSubmission;
@@ -46,31 +51,32 @@ public class VersionService {
 		} else {
 			newSubmission = s.get();
 		}
-
-		System.out.println(file);
+		// there will be definitely a file in the request, but replies are not present in the inital submission
+		if(req.getReplies() != null && !req.getReplies().isEmpty()){
+			// get the last version
+			Version lastVersion = this.getOneVersion(Optional.empty(), Optional.of(internshipId), newSubmission.getNumOfVersions()).get();
+			List<Comment> comments = commentRepository.getAllByVersionId(lastVersion.getId());
+			for(int i = 0; i < req.getReplies().size(); i++){
+				Comment c = comments.get(i);
+				c.setReply(req.getReplies().get(i));
+			}
+			lastVersion.setStatus(VersionStatus.OLD_VERSION);
+			commentRepository.saveAllAndFlush(comments);
+		}
 
 		submissionService.handleNewVersion(newSubmission.getId());
 
 		// add version to submission
 		Version version = new Version();
 
+		version.setVersionNumber(newSubmission.getNumOfVersions());
 		version.setStatus(VersionStatus.NOT_EVALUATED);
 		version.setSubmission(newSubmission);
+
+		// handle uploaded report
+		System.out.println(req.getReport().getOriginalFilename());
 		return versionRepository.save(version);
 
-	}
-
-	public Version changeVersion(Long versionId, ChangeVersionRequest req) {
-		Optional<Version> version = versionRepository.findById(versionId);
-
-		if(version.isPresent()){
-			Version foundVersion = version.get();
-			foundVersion.setStatus(req.getVersionStatus());
-			versionRepository.save(foundVersion);
-			return foundVersion;
-		}
-
-		return null;
 	}
 
 	public Version deleteVersion(Long versionId) {
@@ -81,6 +87,33 @@ public class VersionService {
 
     public Optional<Version> getVersionById(Long versionId) {
         return versionRepository.findById(versionId);
+    }
+
+    public Version requestRevisionForVersion(Long versionId, AskForRevisionRequest req) {
+		Version version = versionRepository.findById(versionId).get();
+		version.setStatus(VersionStatus.REVISION_REQUIRED);
+
+		if(!req.getComments().isEmpty()){
+			version.setAreCommentsProvided(true);
+
+			for(String message : req.getComments()) {
+				Comment comment = new Comment();
+				comment.setMessage(message);
+				comment.setVersion(version);
+				commentRepository.saveAndFlush(comment);
+			}
+		} else {
+			version.setAreCommentsProvided(false);
+		}
+
+		if(req.getFeedback() != null){
+			version.setIsFeedbackFileProvided(true);
+		} else {
+			version.setIsFeedbackFileProvided(false);
+		}
+		
+
+        return null;
     }
 
 }

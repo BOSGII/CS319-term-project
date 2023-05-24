@@ -8,7 +8,6 @@ import com.bosgii.internshipmanagement.entities.Submission;
 import com.bosgii.internshipmanagement.enums.InternshipType;
 import com.bosgii.internshipmanagement.enums.SubmissionStatus;
 import com.bosgii.internshipmanagement.repos.SubmissionRepository;
-import com.bosgii.internshipmanagement.requests.AddSubmissionRequest;
 import com.bosgii.internshipmanagement.requests.ChangeSubmissionRequest;
 
 @Service

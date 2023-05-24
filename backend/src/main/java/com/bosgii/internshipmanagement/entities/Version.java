@@ -20,14 +20,12 @@ public class Version {
 	Submission submission;
 	
 	VersionStatus status;
+
+	int versionNumber;
+
+	boolean isFeedbackFileProvided;
+	boolean areCommentsProvided;
 	
-	// TODO: add file property (maybe only path?)
-
-	/* 
-	@OneToMany(mappedBy="revision", cascade = CascadeType.ALL, orphanRemoval = true)
-    Set<Comment> comments;
-	*/
-
 	public Long getId() {
 		return id;
 	}
@@ -51,4 +49,29 @@ public class Version {
 	public void setStatus(VersionStatus status) {
 		this.status = status;
 	}
+
+	public int getVersionNumber() {
+		return versionNumber;
+	}
+
+	public void setVersionNumber(int versionNumber) {
+		this.versionNumber = versionNumber;
+	}
+
+	public boolean getIsFeedbackFileProvided() {
+		return isFeedbackFileProvided;
+	}
+
+	public void setIsFeedbackFileProvided(boolean isFeedbackFileProvided) {
+		this.isFeedbackFileProvided = isFeedbackFileProvided;
+	}
+
+	public boolean getAreCommentsProvided() {
+		return areCommentsProvided;
+	}
+
+	public void setAreCommentsProvided(boolean areCommentsProvided) {
+		this.areCommentsProvided = areCommentsProvided;
+	}
+
 }

@@ -14,8 +14,17 @@ feature-f12: change internship functionality
 feature-f13: change instructor details functionality
 MERGED feature-f14: assignment of an internship to an instructor (create a special button for each internship)
 MERGED feature-f15: upload component
-feature-f16: version system (including comment section)
-feature-f17: import excel file button for adding internships to the system
+MERGED feature-f16: version system (including comment section)
+MERGED feature-f17: import excel file button for adding internships to the system
+MERGED feature-f18: request revision component
+feature-f19: finalize report component
+feature-f20: add signature for instructor component
+feature-f21: secretary set initial deadline button
+feature-f22: revision set deadline option
+feature-f23: upload company evaluation form button for secretary
+feature-f24: secretary sidebar
+feature-f25: navbar
+
 
 
 Backend features:
@@ -29,7 +38,12 @@ feature-b7: Return empty json object instead of null from controllers
 MERGED feature-b8: read internships from excel
 feature-b9: Notifications using Observer pattern
 MERGED feature-b10: Matching internships to instructors using Strategy && Factory patterns
-feature-b11: Notifications using Observer pattern
+feature-b11: internship initial deadline checker
+feature-b12: report generation
+feature-b13: handle uploaded company evaluation form
+feature-b14: statistics generator
+feature-b15: revise response objects (nested objects are mostly unused in frontend and causes overhead)
+feature-b16: match ta's with internships
 
 
 
@@ -46,5 +60,5 @@ Deadlines for submitting reports, revisions, etc.
 TA
 Notification
 Automatic format check
-Instructor home page (maybe statistics about the overall progress, the number of reports remaining, etc.
+Instructor home page maybe statistics about the overall progress, the number of reports remaining, etc.
 Student home page
