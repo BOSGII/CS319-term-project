@@ -52,6 +52,7 @@ MERGED bugfix-b1: Use separate controllers for entities, instead of associating 
 MERGED bugfix-b2: Internship entity duplicate methods are cleared
 bugfix-b3: Remove CS from InternshipType enum (CS299 -> 299 && CS399 -> 399)
 MERGED bugfix-b4: Assigning internship to an instructor causes all internship data to be deleted
+bugfix-b5: Handle delete internship, delete instructor buttons accordingly
 
 
 
