@@ -22,8 +22,8 @@ feature-f20: add signature for instructor component
 feature-f21: secretary set initial deadline button
 feature-f22: revision set deadline option
 feature-f23: upload company evaluation form button for secretary
-feature-f24: secretary sidebar
-feature-f25: navbar
+MERGED feature-f24: secretary sidebar
+MERGED feature-f25: navbar
 
 
 
