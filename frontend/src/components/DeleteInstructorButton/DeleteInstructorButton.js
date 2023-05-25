@@ -1,4 +1,6 @@
-import { Button } from "@mui/material";
+import { IconButton } from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
+
 import axios from "axios";
 
 export default function DeleteInstructorButton({
@@ -16,5 +18,5 @@ export default function DeleteInstructorButton({
       });
   };
 
-  return <Button onClick={handleDeleteInstructor}>Delete</Button>;
+  return <IconButton onClick={handleDeleteInstructor}><CloseIcon color="error"></CloseIcon></IconButton>;
 }

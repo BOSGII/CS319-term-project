@@ -1,5 +1,6 @@
 import {
   Button,
+  IconButton,
   Dialog,
   DialogActions,
   DialogContent,
@@ -10,6 +11,7 @@ import {
   MenuItem,
   Typography,
 } from "@mui/material";
+import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -81,10 +83,16 @@ export default function AssignToAnInstructorButton({
 
   return (
     <div>
+<<<<<<< HEAD
       <Button variant="outlined" onClick={handleClickOpen}>
         Assign/
         Reassign
       </Button>
+=======
+      <IconButton onClick={handleClickOpen}>
+        <ChangeCircleIcon></ChangeCircleIcon>
+      </IconButton>
+>>>>>>> 072d63e (Styling improvements in Instructors and Internships)
       {error && <div>{error.message}</div>}
       {availableInstructors && (
         <Dialog

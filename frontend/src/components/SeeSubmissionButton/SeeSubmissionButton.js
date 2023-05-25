@@ -1,8 +1,10 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
-import { Button } from "@mui/material";
+import { IconButton } from "@mui/material";
 import { InternshipIDContext } from "../../contexts/InternshipIDContext";
+
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 export default function SeeSubmissionButton({
   internshipId,
@@ -43,5 +45,9 @@ export default function SeeSubmissionButton({
     }
   };
 
+<<<<<<< HEAD
   return <Button variant= "outlined" onClick={redirectToSubmissionPage}>Submission</Button>;
+=======
+  return <IconButton onClick={redirectToSubmissionPage}><VisibilityIcon></VisibilityIcon></IconButton>;
+>>>>>>> 072d63e (Styling improvements in Instructors and Internships)
 }

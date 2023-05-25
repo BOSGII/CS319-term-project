@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { ListItem, ListItemText, Container, Typography, Stack } from "@mui/material";
+=======
+import { ListItem, ListItemText, Card, Stack } from "@mui/material";
+>>>>>>> 072d63e (Styling improvements in Instructors and Internships)
 import { useContext, useEffect, useState } from "react";
 import ChangeInternshipDetailsButton from "../ChangeInternshipDetailsButton/ChangeInternshipDetailsButton";
 import UploadCompanyEvaluationFormButton from "../UploadCompanyEvaluationFormButton/UploadCompanyEvaluationFormButton";
@@ -25,6 +29,7 @@ export default function Internship({ internship, refreshInternships }) {
   }, [internship]);
 
   return (
+<<<<<<< HEAD
   
     <ListItem sx={{ border: 1 }}>
       <ListItemText sx={{ whiteSpace: 'pre-line'}}>
@@ -56,5 +61,44 @@ export default function Internship({ internship, refreshInternships }) {
       )}
       </Stack>
     </ListItem>
+=======
+    <Card elevation={10} style={{ borderRadius: 15 }}>
+      <ListItem >
+        <Stack direction={"row"} alignItems={"center"}> 
+          <Stack direction={"column"} spacing={1} alignItems={"left"} marginRight={40}>
+            <ListItemText>{internshipType} </ListItemText>
+            <ListItemText>Student Id:{studentId} </ListItemText>
+            <ListItemText>Instructor Id: {instructorId === -1 ? "Not assigned" : instructorId}</ListItemText>
+            <ListItemText>Status:{" "} {internshipStatus}</ListItemText>
+          </Stack>
+          <Stack direction={"row"} spacing={5}>
+            {user.role === "secretary" && (
+              <Stack direction={"row"} spacing={5}>
+                <ChangeInternshipDetailsButton />
+                <UploadCompanyEvaluationFormButton />
+                <AssignToAnInstructorButton
+                  internshipId={internship.id}
+                  instructorId={instructorId}
+                  setInstructorId={setInstructorId}
+                  refreshInternships={refreshInternships}
+                />
+              </Stack >
+            )}
+            <SeeSubmissionButton
+              internshipId={internship.id}
+              internshipStatus={internship.status}
+              internshipType={internship.type}
+            />
+            {user.role === "secretary" && (
+              <DeleteInternshipButton
+                internshipId={internship.id}
+                refreshInternships={refreshInternships}
+              />
+            )}
+            </Stack>
+          </Stack>
+      </ListItem>
+    </Card>
+>>>>>>> 072d63e (Styling improvements in Instructors and Internships)
   );
 }

@@ -38,6 +38,7 @@ export default function ImportInternshipsButton({ refreshInternships }) {
   return (
     <>
       <Button
+        variant="contained"
         onClick={() => {
           setOpen(true);
         }}
