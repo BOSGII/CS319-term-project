@@ -36,7 +36,7 @@ export default function InstructorsPage() {
   }, [refresh]);
 
   return (
-    <Container>
+    <Container sx={{mt: 10}}>
       <Typography>Secretary page showing all instructors</Typography>
       <AddInstructorButton refreshInstructors={refreshInstructors} />
       {error && <div>{error.message} </div>}
