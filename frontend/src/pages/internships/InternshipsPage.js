@@ -64,7 +64,7 @@ export default function InternshipsPage() {
   }, [user, location, refresh]);
 
   return (
-    <Container>
+    <Container sx={{mt: 10}}>
       <Typography>internships page</Typography>
       {user.role === "secretary" && location.pathname === "/internships" && (
         <>

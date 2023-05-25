@@ -11,6 +11,7 @@ import InstructorsPage from "./pages/instructors/InstructorsPage";
 import SubmissionPage from "./pages/submission/SubmissionPage";
 
 import { InternshipIDProvider } from "./contexts/InternshipIDContext";
+import CustomNavbar from "./components/CustomNavbar/CustomNavbar";
 
 function App() {
   const { user } = useContext(UserContext);
@@ -18,6 +19,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
+        <CustomNavbar/>
         <Routes>
           <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/login" element={<LoginPage />} />
