@@ -18,6 +18,7 @@ public class Comment {
 	Version version;
 	
 	String message;
+	String reply;
 	
 	public Long getId() {
 		return id;
@@ -36,6 +37,12 @@ public class Comment {
 	}
 	public void setVersion(Version version) {
 		this.version = version;
+	}
+	public String getReply() {
+		return reply;
+	}
+	public void setReply(String reply) {
+		this.reply = reply;
 	}
 	
 }

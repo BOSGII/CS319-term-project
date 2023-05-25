@@ -39,7 +39,7 @@ export default function InstructorsPage() {
     <Container>
       <Typography>Secretary page showing all instructors</Typography>
       <AddInstructorButton refreshInstructors={refreshInstructors} />
-      {error && <div>{error}</div>}
+      {error && <div>{error.message} </div>}
       {isPending && <div>loading...</div>}
       {instructors && (
         <InstructorList

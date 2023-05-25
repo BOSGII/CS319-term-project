@@ -19,6 +19,7 @@ import com.bosgii.internshipmanagement.entities.Company;
 import com.bosgii.internshipmanagement.entities.Internship;
 import com.bosgii.internshipmanagement.entities.Student;
 import com.bosgii.internshipmanagement.entities.Supervisor;
+import com.bosgii.internshipmanagement.enums.InternshipStatus;
 import com.bosgii.internshipmanagement.enums.InternshipType;
 import com.bosgii.internshipmanagement.repos.CompanyRepository;
 import com.bosgii.internshipmanagement.repos.InternshipRepository;
@@ -132,6 +133,7 @@ public class ImportService {
                 }
 
                 internship.setSupervisor(supervisor);
+                internship.setStatus(InternshipStatus.WAITING_FOR_COMPANY_APPROVAL);
 
                 internshipRepository.saveAndFlush(internship);
 

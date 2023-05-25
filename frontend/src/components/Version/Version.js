@@ -1,74 +1,90 @@
-// import { useCallback, useState} from "react";
-// import { useDropzone } from "react-dropzone";
+import { Button, Typography } from "@mui/material";
+import axios from "axios";
+import { useContext, useEffect, useState } from "react";
+import { UserContext } from "../../contexts/UserContext";
+import CommentSection from "../CommentSection/CommentSection";
+import RequestRevisionButton from "../RequestRevisionButton/RequestRevisionButton";
+import FinalizeButton from "../FinalizeButton/FinalizeButton";
+import DownloadReport from "../DownloadReport/DownloadReport";
+import DownloadFeedback from "../DownloadFeedback/DownloadFeedback";
 
-import { Container, Typography } from "@mui/material";
-import { useFetch } from "../../hooks/useFetch"
+export default function Version({
+  submission,
+  versionUnderFocus,
+  setAddNewVersionButtonPressed,
+}) {
+  const { user } = useContext(UserContext);
+  const [version, setVersion] = useState(null);
+  const [isPending, setIsPending] = useState(false);
+  const [error, setError] = useState(null);
+  const [refresh, setRefresh] = useState(false);
 
-export default function Version({ submissionId, versionUnderFocus }) {
-  const {version, isPending, error} = useFetch(`/api/versions?submissionId=${submissionId}&versionNumber=${versionUnderFocus}`);
-    /*
-    const [file, setFile] = useState(null);
-  
-    const handleFileChange = (event) => {
-      setFile(event.target.files[0]);
-    };
-  
-    const handleSubmit = (event) => {
-      event.preventDefault();
-      //onSubmit(file);
-    };
-  
-    const onDrop = useCallback((acceptedFiles) => {
-      // Set the dropped file as the current file
-      setFile(acceptedFiles[0]);
-    }, []);
-  
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
-  
-    */
+  const refreshVersion = () => {
+    setRefresh(true);
+  };
 
-    /*
-    if (internship.number) {
-      // Render the existing submission
-      return (
-        <div>
-          <p>You have already submitted a file:</p>
-          <p>{submission.fileName}</p>
-          <form onSubmit={handleSubmit}>
-            <input type="file" onChange={handleFileChange} />
-            <button type="submit">Update Submission</button>
-          </form>
-        </div>
-      );
-    } else {
-      // Render the file upload form with drag and drop
-      return (
-        <div {...getRootProps()}>
-          <input {...getInputProps()} />
-          {isDragActive ? (
-            <p>Drop the file here ...</p>
-          ) : (
-            <p>Drag 'n' drop a file here, or click to select a file</p>
-          )}
-          {file && <p>Selected file: {file.name}</p>}
-          <form onSubmit={handleSubmit}>
-            <button type="submit" disabled={!file}>Submit File</button>
-          </form>
-        </div>
-      );
-    }
-    */
-    return(
-        <Container>
-            <Typography>
-                Version {versionUnderFocus}
-            </Typography>
-            {error && <div>{error}</div>}
-            {isPending && <div>loading...</div>}
-            {version &&
+  useEffect(() => {
+    setIsPending(true);
+
+    axios
+      .get(
+        `/api/versions?submissionId=${submission.id}&versionNumber=${versionUnderFocus}`
+      )
+      .then((response) => {
+        setVersion(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        setError(error);
+      })
+      .finally(() => {
+        setRefresh(false);
+        setIsPending(false);
+      });
+  }, [refresh, submission, versionUnderFocus]);
+
+  return (
+    <>
+      {error && <div>{error.message}</div>}
+      {isPending && <div>Loading...</div>}
+      {version && (
+        <>
+          <Typography>
+            Version id in database: {version.id} totalNumOfVersions ={" "}
+            {submission.numOfVersions}
+          </Typography>
+          <DownloadReport versionId={version.id} />
+          {(version.status === "OLD_VERSION" ||
+            version.status === "REVISION_REQUIRED") &&
+            version.isFeedbackFileProvided && (
+              <DownloadFeedback versionId={version.id} />
+            )}
+          {(version.status === "REVISION_REQUIRED" ||
+            version.status === "OLD_VERSION") &&
+            version.areCommentsProvided && (
+              <CommentSection versionId={version.id} />
+            )}
+          {version.status === "REVISION_REQUIRED" &&
+            user.role === "student" && (
+              <Button
+                onClick={() => {
+                  setAddNewVersionButtonPressed(true);
+                }}
+              >
+                add new version
+              </Button>
+            )}
+          {version.status === "NOT_EVALUATED" && user.role === "instructor" && (
             <>
-              
-            </>}
-        </Container>
-    );
-  } 
+              <RequestRevisionButton
+                versionId={version.id}
+                refreshVersion={refreshVersion}
+              />
+              <FinalizeButton />
+            </>
+          )}
+        </>
+      )}
+    </>
+  );
+}
