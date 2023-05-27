@@ -3,7 +3,6 @@ package com.bosgii.internshipmanagement.controllers;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -14,12 +13,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.core.io.Resource;
 
 import com.bosgii.internshipmanagement.entities.Version;
 import com.bosgii.internshipmanagement.requests.AddVersionRequest;
 import com.bosgii.internshipmanagement.requests.AskForRevisionRequest;
 import com.bosgii.internshipmanagement.requests.ChangeVersionRequest;
 import com.bosgii.internshipmanagement.services.VersionService;
+
 
 @RestController
 @RequestMapping("/api")
@@ -35,9 +36,14 @@ public class VersionController {
 		return versionService.getOneVersion(submissionId, internshipId, versionNumber);
 	}
 
-	@GetMapping("/versions/{versionId}")
-	public ResponseEntity<MultiValueMap<String, Object>> getVersionByID(@PathVariable Long versionId){
-		return versionService.getVersionByID(versionId);
+	@GetMapping("/versions/{versionId}/report")
+	public ResponseEntity<Resource> downloadReportOfVersion(@PathVariable Long versionId){
+		return versionService.downloadReportOfVersion(versionId);
+	}
+
+	@GetMapping("/versions/{versionId}/feedback")
+	public ResponseEntity<Resource> downloadFeedbackOfVersion(@PathVariable Long versionId){
+		return versionService.downloadFeedbackOfVersion(versionId);
 	}
 
 	@PostMapping("/versions")

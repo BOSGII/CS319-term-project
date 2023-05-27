@@ -1,17 +1,17 @@
-import { Button, Typography } from "@mui/material";
+import { Button, Container, Grid, Typography } from "@mui/material";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../contexts/UserContext";
 import CommentSection from "../CommentSection/CommentSection";
 import RequestRevisionButton from "../RequestRevisionButton/RequestRevisionButton";
 import FinalizeButton from "../FinalizeButton/FinalizeButton";
-import DownloadReport from "../DownloadReport/DownloadReport";
-import DownloadFeedback from "../DownloadFeedback/DownloadFeedback";
+import DownloadFile from "../DownloadFile/DownloadFile";
 
 export default function Version({
   submission,
   versionUnderFocus,
   setAddNewVersionButtonPressed,
+  handleSidebarOpen,
 }) {
   const { user } = useContext(UserContext);
   const [version, setVersion] = useState(null);
@@ -48,21 +48,46 @@ export default function Version({
       {error && <div>{error.message}</div>}
       {isPending && <div>Loading...</div>}
       {version && (
-        <>
-          <Typography>
-            Version id in database: {version.id} totalNumOfVersions ={" "}
-            {submission.numOfVersions}
-          </Typography>
-          <DownloadReport versionId={version.id} />
-          {(version.status === "OLD_VERSION" ||
-            version.status === "REVISION_REQUIRED") &&
-            version.isFeedbackFileProvided && (
-              <DownloadFeedback versionId={version.id} />
-            )}
+        <Container sx={{ mt: 5 }}>
+          <button
+            onClick={handleSidebarOpen}
+            style={{ position: "absolute", left: "1rem", top: "5rem" }}
+          >
+            See All Versions
+          </button>
+          <Grid container spacing={2} sx={{ mt: 10 }}>
+            <Grid item xs={6}>
+              <Typography variant="h6" sx={{ mb: 1 }}>
+                Download Report:
+              </Typography>
+              <DownloadFile
+                fileName={version.reportFileName}
+                url={`/api/versions/${version.id}/report`}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Typography variant="h6" sx={{ mb: 1 }}>
+                Download Feedback:
+              </Typography>
+              {(version.status === "OLD_VERSION" ||
+                version.status === "REVISION_REQUIRED") &&
+              version.isFeedbackFileProvided ? (
+                <DownloadFile
+                  fileName={version.feedbackFileName}
+                  url={`/api/versions/${version.id}/feedback`}
+                />
+              ) : (
+                <Typography>Feedback file is not provided.</Typography>
+              )}
+            </Grid>
+          </Grid>
           {(version.status === "REVISION_REQUIRED" ||
             version.status === "OLD_VERSION") &&
             version.areCommentsProvided && (
-              <CommentSection versionId={version.id} />
+              <CommentSection
+                versionStatus={version.status}
+                versionId={version.id}
+              />
             )}
           {version.status === "REVISION_REQUIRED" &&
             user.role === "student" && (
@@ -74,6 +99,11 @@ export default function Version({
                 add new version
               </Button>
             )}
+          {version.status === "NOT_EVALUATED" && user.role === "student" && (
+            <Typography variant="h6" sx={{ mt: 10 }}>
+              Instructor is evaluating the report...
+            </Typography>
+          )}
           {version.status === "NOT_EVALUATED" && user.role === "instructor" && (
             <>
               <RequestRevisionButton
@@ -83,7 +113,7 @@ export default function Version({
               <FinalizeButton />
             </>
           )}
-        </>
+        </Container>
       )}
     </>
   );

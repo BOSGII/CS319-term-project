@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import CommentList from "../../components/CommentList/CommentList";
 
-export default function CommentSection({ versionId }) {
+export default function CommentSection({ versionStatus, versionId }) {
   const [comments, setComments] = useState([]);
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState(null);
@@ -24,7 +24,9 @@ export default function CommentSection({ versionId }) {
     <>
       {error && <div>{error.message}</div>}
       {isPending && <div>Loading...</div>}
-      {comments && <CommentList comments={comments} />}
+      {comments && (
+        <CommentList versionStatus={versionStatus} comments={comments} />
+      )}
     </>
   );
 }

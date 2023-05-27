@@ -24,6 +24,9 @@ public class Version {
 
 	int versionNumber;
 
+	String reportFileName;
+	String feedbackFileName;
+
 	boolean isFeedbackFileProvided;
 	boolean areCommentsProvided;
 	
@@ -75,4 +78,23 @@ public class Version {
 		this.areCommentsProvided = areCommentsProvided;
 	}
 
+	public void setFeedbackFileName(String feedbackFileName) {
+		this.feedbackFileName = feedbackFileName;
+	}
+
+	public void setFeedbackFileProvided(boolean isFeedbackFileProvided) {
+		this.isFeedbackFileProvided = isFeedbackFileProvided;
+	}
+	
+	public String getReportFileName() {
+		return reportFileName;
+	}
+
+	public void setReportFileName(String reportFileName) {
+		this.reportFileName = reportFileName;
+	}
+
+	public String getFeedbackFileName() {
+		return feedbackFileName;
+	}
 }
