@@ -3,9 +3,12 @@ import java.util.Optional;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-
-
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 import com.bosgii.internshipmanagement.entities.Version;
@@ -33,8 +36,18 @@ public class VersionService {
 	}
 
 	// TODO
-	public ResponseEntity<Resource> getVersionByID(Long id){
-		return documentService.getDocumentByFolderNameAndRequestID("versions",id);
+	public ResponseEntity<MultiValueMap<String, Object>> getVersionByID(Long versionId){
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.MULTIPART_FORM_DATA); // Content type for the file
+
+		Resource report = documentService.getDocumentByFolderNameAndRequestID("versions",versionId);
+		Version version = versionRepository.findById(versionId).get();
+
+		MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+		body.add("report", report);
+		body.add("others", version);
+
+		return new ResponseEntity<>(body, headers, HttpStatus.OK);
 	}
 
 	public Version getVersionEntityById(Long id){

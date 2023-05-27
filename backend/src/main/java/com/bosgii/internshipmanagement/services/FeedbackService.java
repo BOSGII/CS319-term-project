@@ -4,7 +4,6 @@ import com.bosgii.internshipmanagement.documents.Feedback;
 import com.bosgii.internshipmanagement.entities.Version;
 import com.bosgii.internshipmanagement.repos.FeedbackRepository;
 import org.springframework.core.io.Resource;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,12 +20,11 @@ public class FeedbackService {
         this.versionService = versionService;
     }
 
-    public ResponseEntity<Resource> getFeedbackById(Long id){
-
+    public Resource getFeedbackById(Long id){
         return documentService.getDocumentByFolderNameAndRequestID("feedbacks",id);
     }
 
-    public ResponseEntity<Resource> getFeedbackByVersionId(Long id){
+    public Resource getFeedbackByVersionId(Long id){
         Feedback f = feedbackRepository.findByVersionId(id);
         return documentService.getDocumentByFolderNameAndRequestID("feedbacks",f.getId());
     }
