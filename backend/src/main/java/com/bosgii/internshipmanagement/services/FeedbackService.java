@@ -12,16 +12,9 @@ public class FeedbackService {
     FeedbackRepository feedbackRepository;
     DocumentService documentService;
 
-    VersionService versionService;
-
-    public FeedbackService(FeedbackRepository feedbackRepository, DocumentService documentService, VersionService versionService){
+    public FeedbackService(FeedbackRepository feedbackRepository, DocumentService documentService){
         this.feedbackRepository = feedbackRepository;
         this.documentService = documentService;
-        this.versionService = versionService;
-    }
-
-    public Resource getFeedbackById(Long id){
-        return documentService.getDocumentByFolderNameAndRequestID("feedbacks",id);
     }
 
     public Resource getFeedbackByVersionId(Long id){
@@ -29,12 +22,11 @@ public class FeedbackService {
         return documentService.getDocumentByFolderNameAndRequestID("feedbacks",f.getId());
     }
 
-    public Feedback addFeedbackToVersion(MultipartFile file,Long versionId){
-        Version v = versionService.getVersionEntityById(versionId);
-        Feedback feedbackToSave = new Feedback();
-        feedbackToSave.setVersion(v);
-        Feedback savedFeedback = feedbackRepository.saveAndFlush(feedbackToSave);
+    public Feedback addFeedbackToVersion(MultipartFile file, Version version){
+        Feedback feedback = new Feedback();
+        feedback.setVersion(version);
+        Feedback savedFeedback = feedbackRepository.saveAndFlush(feedback);
         documentService.saveDocument(file,"feedbacks", savedFeedback.getId());
-        return feedbackRepository.save(feedbackToSave);
+        return savedFeedback;
     }
 }
