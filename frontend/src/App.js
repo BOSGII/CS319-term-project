@@ -45,7 +45,12 @@ function App() {
           <Route
             path="/admin"
             element={
-              user.role ? (<InternshipIDProvider><AdminPage /></InternshipIDProvider>) : (<Navigate to="/login" replace={true}/>)
+              user.role ? ( 
+              <InternshipIDProvider> 
+                <AdminPage /> 
+              </InternshipIDProvider> ) 
+              : 
+              ( <Navigate to="/login" replace={true}/> )
             }
           />
           <Route

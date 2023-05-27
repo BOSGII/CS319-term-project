@@ -4,7 +4,7 @@ import Internship from "../Internship/Internship";
 export default function InternshipList({ internships, refreshInternships }) {
   return (
     <Container>
-      <Typography>InternshipList Component</Typography>
+      <Typography>Internship List Component</Typography>
       <List>
         {internships?.map((internship) => (
           <Internship

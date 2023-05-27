@@ -43,7 +43,7 @@ export default function CustomNavbar() {
           <Typography
             variant="h6"
             component="div"
-            sx={{ cursor: "pointer", flexGrow: 1 }}
+            sx={{ cursor: "pointer", flexGrow: 1, marginRight: 30 }}
             onClick={() => {
               navigate("/home");
             }}

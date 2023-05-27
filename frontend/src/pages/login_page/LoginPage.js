@@ -6,6 +6,8 @@ import {
   FormControl,
   InputLabel,
   Box,
+  Container, 
+  Typography
 } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
@@ -38,6 +40,7 @@ export default function LoginPage() {
   const { setUser } = useContext(UserContext);
 
   return (
+
     <Box
       sx={{
         maxWidth: 400,
@@ -48,6 +51,10 @@ export default function LoginPage() {
         borderRadius: 2,
       }}
     >
+      <Container>
+        <Typography variant="h4"> Welcome to BIM </Typography>
+        <Typography variant="h5"> Login </Typography>
+      </Container>
       <form onSubmit={handleSubmit}>
         <TextField
           label="ID"

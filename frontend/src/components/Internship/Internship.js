@@ -1,4 +1,4 @@
-import { ListItem, ListItemText } from "@mui/material";
+import { ListItem, ListItemText, Container, Typography, Stack } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import ChangeInternshipDetailsButton from "../ChangeInternshipDetailsButton/ChangeInternshipDetailsButton";
 import UploadCompanyEvaluationFormButton from "../UploadCompanyEvaluationFormButton/UploadCompanyEvaluationFormButton";
@@ -25,12 +25,12 @@ export default function Internship({ internship, refreshInternships }) {
   }, [internship]);
 
   return (
+  
     <ListItem sx={{ border: 1 }}>
-      <ListItemText>
-        {internshipType} Student Id:{studentId} Instructor Id:
-        {instructorId === -1 ? "Not assigned" : instructorId} Internship Status:{" "}
-        {internshipStatus}
+      <ListItemText sx={{ whiteSpace: 'pre-line'}}>
+       Internship: {`${internshipType}\n Student Id: ${studentId} \nInstructor Id: ${instructorId === -1 ? "N/A" : instructorId} \nInternship Status:${" "} ${internshipStatus}\n`}
       </ListItemText>
+      <Stack spacing={4} direction='row' marginLeft={15} marginRight={5}>
       {user.role === "secretary" && (
         <>
           <ChangeInternshipDetailsButton />
@@ -54,6 +54,7 @@ export default function Internship({ internship, refreshInternships }) {
           refreshInternships={refreshInternships}
         />
       )}
+      </Stack>
     </ListItem>
   );
 }

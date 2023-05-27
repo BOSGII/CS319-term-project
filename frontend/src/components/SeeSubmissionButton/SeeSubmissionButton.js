@@ -43,5 +43,5 @@ export default function SeeSubmissionButton({
     }
   };
 
-  return <Button onClick={redirectToSubmissionPage}>Submission</Button>;
+  return <Button variant= "outlined" onClick={redirectToSubmissionPage}>Submission</Button>;
 }

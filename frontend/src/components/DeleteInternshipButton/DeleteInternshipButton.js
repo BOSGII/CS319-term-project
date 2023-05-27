@@ -16,5 +16,5 @@ export default function DeleteInternshipButton({
       });
   };
 
-  return <Button onClick={handleDeleteInternship}>Delete</Button>;
+  return <Button variant ="contained" onClick={handleDeleteInternship}>Delete</Button>;
 }
