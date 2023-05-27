@@ -1,4 +1,6 @@
-package com.bosgii.internshipmanagement.entities;
+package com.bosgii.internshipmanagement.documents;
+
+import com.bosgii.internshipmanagement.entities.Version;
 
 import jakarta.persistence.*;
 

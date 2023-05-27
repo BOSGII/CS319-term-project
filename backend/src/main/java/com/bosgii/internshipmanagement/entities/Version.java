@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+
 @Entity
 @Table(name="Version")
 public class Version {
@@ -18,7 +19,6 @@ public class Version {
 	
 	@ManyToOne
 	Submission submission;
-
 
 	VersionStatus status;
 

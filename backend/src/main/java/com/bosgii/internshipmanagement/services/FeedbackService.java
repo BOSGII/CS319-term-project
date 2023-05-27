@@ -1,9 +1,8 @@
 package com.bosgii.internshipmanagement.services;
 
-import com.bosgii.internshipmanagement.entities.Feedback;
+import com.bosgii.internshipmanagement.documents.Feedback;
 import com.bosgii.internshipmanagement.entities.Version;
 import com.bosgii.internshipmanagement.repos.FeedbackRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,7 @@ public class FeedbackService {
     DocumentService documentService;
 
     VersionService versionService;
-    @Autowired
+
     public FeedbackService(FeedbackRepository feedbackRepository, DocumentService documentService, VersionService versionService){
         this.feedbackRepository = feedbackRepository;
         this.documentService = documentService;

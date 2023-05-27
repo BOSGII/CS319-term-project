@@ -1,6 +1,5 @@
 package com.bosgii.internshipmanagement.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -17,7 +16,6 @@ import java.nio.file.Path;
 @Service
 public class DocumentService {
 
-    @Autowired
     public DocumentService() {}
 
     public String saveDocument(MultipartFile multipartFile,String folder, Long requestID) {
