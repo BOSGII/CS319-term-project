@@ -1,19 +1,28 @@
 package com.bosgii.internshipmanagement.entities;
 
-import javax.persistence.*;
+import java.util.regex.Pattern;
 
-/* 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.bosgii.internshipmanagement.exceptions.InvalidMailAddressException;
+import com.bosgii.internshipmanagement.exceptions.UserIdExistsException;
+import com.bosgii.internshipmanagement.repos.UserRepository;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
-*/
+
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "AbstractUser")
 public abstract class User {
+	private static final Pattern EMAIL_PATTERN = Pattern.compile(
+			"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+					+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"
+	);
+	
 	@Id
 	Long id;
 
@@ -41,9 +50,11 @@ public abstract class User {
 	public String getMail() {
 		return mail;
 	}
-
-	public void setMail(String mail) {
-		this.mail = mail;
+	public void setMail(String mail) throws InvalidMailAddressException {
+		if (EMAIL_PATTERN.matcher(mail).matches())
+			this.mail = mail;
+		else
+			throw new InvalidMailAddressException(mail + " address is not a valid email address");
 	}
 
 	public String getRole() {

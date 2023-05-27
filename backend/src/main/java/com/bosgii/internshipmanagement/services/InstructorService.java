@@ -6,7 +6,10 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.bosgii.internshipmanagement.entities.Instructor;
+import com.bosgii.internshipmanagement.exceptions.InvalidMailAddressException;
+import com.bosgii.internshipmanagement.exceptions.UserIdExistsException;
 import com.bosgii.internshipmanagement.repos.InstructorRepository;
+import com.bosgii.internshipmanagement.repos.UserRepository;
 import com.bosgii.internshipmanagement.requests.AddInstructorRequest;
 import com.bosgii.internshipmanagement.requests.ChangeInstructorRequest;
 
@@ -14,9 +17,11 @@ import com.bosgii.internshipmanagement.requests.ChangeInstructorRequest;
 public class InstructorService {
 
 	private InstructorRepository instructorRepository;
+	private final UserRepository userRepository;
 
-	public InstructorService(InstructorRepository instructorRepository) {
+	public InstructorService(InstructorRepository instructorRepository, UserRepository userRepository) {
 		this.instructorRepository = instructorRepository;
+		this.userRepository = userRepository;
 	}
 
 	public List<Instructor> getAllInstructors(Optional<Boolean> available) {
@@ -27,12 +32,13 @@ public class InstructorService {
 	}
 
 	public Instructor createInstructor(AddInstructorRequest req) {
-		Instructor newInstructor = new Instructor();
-		newInstructor.setId(req.getId());
-		newInstructor.setFullName(req.getFullName());
-		newInstructor.setMail(req.getMail());
-		newInstructor.setDepartment(req.getDepartment());
-		newInstructor.setMaxNumOfInternships(req.getMaxNumOfInternships());
+		try {
+			Instructor newInstructor = new Instructor();
+			newInstructor.setId(req.getId());
+			newInstructor.setFullName(req.getFullName());
+			newInstructor.setMail(req.getMail());
+			newInstructor.setDepartment(req.getDepartment());
+			newInstructor.setMaxNumOfInternships(req.getMaxNumOfInternships());
 
 		newInstructor.setNumOfAssignedInternships(0);
 		newInstructor.setRole("instructor");
