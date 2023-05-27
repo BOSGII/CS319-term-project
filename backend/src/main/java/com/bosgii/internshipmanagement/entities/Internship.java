@@ -35,6 +35,8 @@ public class Internship {
 	@ManyToOne
 	Supervisor supervisor;
 
+	int numOfVersions;
+
 	InternshipStatus status;
 	
 	Date startDate;
@@ -103,4 +105,11 @@ public class Internship {
 	public void settA(TA tA) {
 		this.tA = tA;
 	}
+	public int getNumOfVersions() {
+		return numOfVersions;
+	}
+	public void setNumOfVersions(int numOfVersions) {
+		this.numOfVersions = numOfVersions;
+	}
+	
 }

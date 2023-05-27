@@ -1,50 +1,70 @@
 import { Container, Typography } from "@mui/material";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../contexts/UserContext";
-import { useParams } from "react-router-dom";
-import { useFetch } from "../../hooks/useFetch";
-import Version from "../../components/Version/Version";
-import SubmissionSidebar from "../../components/SubmissionSidebar/SubmissionSidebar";
+import axios from "axios";
+import UploadReport from "../../components/UploadReport/UploadReport";
+import Versions from "../../components/Versions/Versions";
+import { InternshipIDContext } from "../../contexts/InternshipIDContext";
 
 export default function SubmissionPage() {
   const { user } = useContext(UserContext);
-  const { internshipId } = useParams();
-  const { internshipType } = useParams();
-  let fetchUrl;
+  const { internshipId } = useContext(InternshipIDContext);
 
-  switch (user.role) {
-    case "student":
-      const studentId = user.id;
-      fetchUrl = `/api/submissions?studentId=${studentId}&internshipType=${internshipType}`;
-      break;
+  const [internship, setInternship] = useState(null);
+  const [isPending, setIsPending] = useState(false);
+  const [error, setError] = useState(null);
+  const [refresh, setRefresh] = useState(false);
 
-    case "instructor":
-      fetchUrl = `/api/submissions?internshipId=${internshipId}`;
-      break;
+  const [addNewVersionButtonPressed, setAddNewVersionButtonPressed] =
+    useState(false);
 
-    default:
-  }
+  const refreshInternship = () => {
+    setRefresh(true);
+    setAddNewVersionButtonPressed(false);
+  };
 
-  const { data, isPending, error } = useFetch(fetchUrl);
+  useEffect(() => {
+    const getInternshipFromServer = () => {
+      setIsPending(true);
 
-  const [versionUnderFocus, setVersionUnderFocus] = useState(0);
+      axios
+        .get(`/api/internships/${internshipId}`)
+        .then((response) => {
+          setInternship(response.data);
+        })
+        .catch((error) => {
+          console.log("internship fetch problem");
+          setError(error);
+        })
+        .finally(() => {
+          setIsPending(false);
+          setRefresh(false);
+        });
+    };
+
+    getInternshipFromServer();
+  }, [user, internshipId, refresh, addNewVersionButtonPressed]);
 
   return (
     <Container>
       <Typography>Submission Page</Typography>
-      {error && <div>{error}</div>}
+      {error && <div>{error.message}</div>}
       {isPending && <div>loading...</div>}
-      {data && (
+      {internship && (
         <>
-          <SubmissionSidebar
-            numberOfVersions={data.numOfVersions}
-            versionUnderFocus={versionUnderFocus}
-            setVersionUnderFocus={setVersionUnderFocus}
-          />
-          <Version
-            submissionId={data.id}
-            versionUnderFocus={versionUnderFocus}
-          />
+          {internship.status === "NOT_SUBMITTED" ||
+          internship.numOfVersions === 0 ||
+          addNewVersionButtonPressed ? (
+            <UploadReport // component that is rendered only on student side
+              internship={internship}
+              refreshInternship={refreshInternship}
+            />
+          ) : (
+            <Versions
+              internship={internship}
+              setAddNewVersionButtonPressed={setAddNewVersionButtonPressed}
+            />
+          )}
         </>
       )}
     </Container>

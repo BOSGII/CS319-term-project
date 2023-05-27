@@ -37,7 +37,7 @@ public class InstructorController {
 		return instructorService.createInstructor(req);
 	}
 
-	@PutMapping("/instructors/{instructorId}")
+	@PutMapping("instructors/{instructorId}")
 	public Instructor changeInstructorDetails(@PathVariable Long instructorId,
 			@RequestBody ChangeInstructorRequest req) {
 		return instructorService.changeInstructorDetails(instructorId, req);

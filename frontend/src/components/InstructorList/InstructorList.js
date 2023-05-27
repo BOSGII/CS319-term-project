@@ -6,7 +6,7 @@ export default function InstructorList({ instructors, refreshInstructors }) {
     <Container>
       <Typography>InstructorList Component</Typography>
       <List>
-        {instructors.map((instructor) => (
+        {instructors?.map((instructor) => (
           <Instructor
             key={instructor.id}
             instructor={instructor}

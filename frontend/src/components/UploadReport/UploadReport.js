@@ -1,95 +1,102 @@
-import React, { useState } from 'react';
-import { Box, Button, Typography } from '@mui/material';
-import {styled} from '@mui/material/styles'
+import React, { useEffect, useState } from "react";
+import { Container, Typography } from "@mui/material";
+import Upload from "../Upload/Upload";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import ReplyCommentsSection from "../ReplyCommentsSection/ReplyCommentsSection";
 
-const UploadBox = styled(Box)(({ theme }) => ({
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    gap: theme.spacing(2),
-}));
-  
-const DropZone = styled(Box)(({ theme, selectedFile }) => ({
-    width: '100%',
-    height: 200,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    border: `2px dashed ${theme.palette.primary.main}`,
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: selectedFile ? theme.palette.grey[100] : theme.palette.background.paper,
-    cursor: 'pointer',
-}));
+export default function UploadReport({ internship, refreshInternship }) {
+  const navigate = useNavigate();
 
-const SelectedFileBox = styled(Box)(({ theme }) => ({
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    gap: theme.spacing(1),
-}));
+  const [oldVersion, setOldVersion] = useState(null);
+  const [isPending, setIsPending] = useState(false);
+  const [error, setError] = useState(null);
 
-export default function UploadReport() {
-    const [selectedFile, setSelectedFile] = useState(null);
-    const [isSubmitting, setIsSubmitting] = useState(false);
-  
-    const handleDrop = (event) => {
-      event.preventDefault();
-      const file = event.dataTransfer.files[0];
-      setSelectedFile(file);
-    };
-  
-    const handleDelete = () => {
-      setSelectedFile(null);
-    };
-  
-    const handleSubmit = () => {
-      setIsSubmitting(true);
-      // TODO: Implement file submission logic
-    };
-  
-    const handleCancel = () => {
-      setSelectedFile(null);
-      setIsSubmitting(false);
-    };
-  
-    const handleDragOver = (event) => {
-      event.preventDefault();
-    };
-  
-    const renderDropZone = () => (
-      <DropZone selectedFile={selectedFile} onDrop={handleDrop} onDragOver={handleDragOver}>
-        {selectedFile ? (
-          <SelectedFileBox>
-            <Typography>{selectedFile.name}</Typography>
-            <Button onClick={handleDelete}>
-              Delete
-            </Button>
-          </SelectedFileBox>
-        ) : (
-          <Typography>Drag and drop a file here or click to select</Typography>
-        )}
-      </DropZone>
-    );
-  
-    const renderButtons = () => (
-      <Box sx={{ display: 'flex', gap: 2 }}>
-        {selectedFile && (
-          <>
-            <Button onClick={handleSubmit} disabled={isSubmitting}>
-              Submit
-            </Button>
-            <Button onClick={handleCancel}>
-              Change
-            </Button>
-          </>
-        )}
-      </Box>
-    );
-  
-    return (
-      <UploadBox>
-        {renderDropZone()}
-        {renderButtons()}
-      </UploadBox>
-    );
-};
+  const [replies, setReplies] = useState([]);
+
+  useEffect(() => {
+    // fetch oldest version if exists (if not initial submission)
+    if (internship.status === "UNDER_EVALUATION") {
+      setIsPending(true);
+      axios
+        .get(
+          `/api/versions?internshipId=${internship.id}&versionNumber=${internship.numOfVersions}`
+        )
+        .then((response) => {
+          setOldVersion(response.data);
+        })
+        .catch((error) => {
+          setError(error);
+        })
+        .finally(() => {
+          setIsPending(false);
+        });
+    }
+  }, [internship]);
+
+  const handleSubmit = (file) => {
+    let areAllRepliesProvided = true;
+
+    if (oldVersion) {
+      // means student uploads for revision
+      // check if all input fields are filled
+      replies.forEach((reply) => {
+        if (reply.trim() === "") {
+          areAllRepliesProvided = false;
+        }
+      });
+    }
+
+    if (file && areAllRepliesProvided) {
+      let formData = new FormData();
+      formData.append("report", file);
+
+      if (oldVersion) {
+        formData.append("replies", replies);
+      }
+
+      axios
+        .post(`/api/versions?internshipId=${internship.id}`, formData)
+        .then((response) => {
+          refreshInternship();
+        })
+        .catch((error) => {
+          console.log("versions post error", error);
+        })
+        .finally(() => {
+          navigate(`/my_internships/${internship.type}`, { replace: true });
+        });
+    } else {
+      // do nothing
+    }
+  };
+
+  const handleCancel = () => {
+    navigate(-1);
+  };
+
+  return (
+    <Container>
+      <Typography variant="h1">
+        {internship.status === "UNDER_EVALUATION"
+          ? `You are making submission for ${
+              internship.numOfVersions + 1
+            }. version`
+          : "You are making initial submission"}
+      </Typography>
+      {oldVersion && oldVersion.areCommentsProvided && (
+        <ReplyCommentsSection
+          versionId={oldVersion.id}
+          replies={replies}
+          setReplies={setReplies}
+        />
+      )}
+
+      <Upload
+        acceptedFileTypes={["PDF"]}
+        handleSubmit={handleSubmit}
+        handleCancel={handleCancel}
+      />
+    </Container>
+  );
+}

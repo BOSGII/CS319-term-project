@@ -6,7 +6,7 @@ export default function InternshipList({ internships, refreshInternships }) {
     <Container>
       <Typography>InternshipList Component</Typography>
       <List>
-        {internships.map((internship) => (
+        {internships?.map((internship) => (
           <Internship
             key={internship.id}
             internship={internship}
