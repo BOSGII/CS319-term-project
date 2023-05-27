@@ -93,4 +93,7 @@ public class SubmissionService {
 		internshipService.handleNewVersion(s.getInternship());
 	}
 
+	public Submission getOneSubmissionByInternshipId(Long internshipId) {
+		return submissionRepository.findSubmissionByInternshipId(internshipId).get();
+	}
 }

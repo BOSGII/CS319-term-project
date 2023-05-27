@@ -2,6 +2,8 @@ package com.bosgii.internshipmanagement.controllers;
 
 import java.util.Optional;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,15 +24,20 @@ import com.bosgii.internshipmanagement.services.VersionService;
 @RestController
 @RequestMapping("/api")
 public class VersionController {
-	private final VersionService versionService;
+	VersionService versionService;
 
 	public VersionController(VersionService versionService) {
 		this.versionService = versionService;
 	}
-	
+
 	@GetMapping("/versions")
 	public Optional<Version> getOneVersion(@RequestParam Optional<Long> submissionId, @RequestParam Optional<Long> internshipId, @RequestParam int versionNumber){
 		return versionService.getOneVersion(submissionId, internshipId, versionNumber);
+	}
+
+	@GetMapping("/versions/{versionId}")
+	public ResponseEntity<MultiValueMap<String, Object>> getVersionByID(@PathVariable Long versionId){
+		return versionService.getVersionByID(versionId);
 	}
 
 	@PostMapping("/versions")
@@ -42,7 +49,7 @@ public class VersionController {
 	public Version requestRevisionForVersion(@PathVariable Long versionId, @ModelAttribute AskForRevisionRequest req){
 		return versionService.requestRevisionForVersion(versionId, req);
 	}
-	
+
 	@PutMapping("/versions/{versionId}")
 	public Version changeVersion(@PathVariable Long versionId, @RequestBody ChangeVersionRequest req) {
 		return null;

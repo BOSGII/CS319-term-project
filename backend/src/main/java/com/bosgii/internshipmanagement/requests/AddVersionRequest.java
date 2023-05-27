@@ -1,7 +1,6 @@
 package com.bosgii.internshipmanagement.requests;
 
 import java.util.ArrayList;
-
 import org.springframework.web.multipart.MultipartFile;
 
 public class AddVersionRequest {

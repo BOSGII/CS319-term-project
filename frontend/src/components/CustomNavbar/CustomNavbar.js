@@ -36,7 +36,6 @@ export default function CustomNavbar () {
             >
               <MenuIcon />
             </IconButton>
-            <img src="bilkentLogo.png" alt="Logo" style={{  width: "50px", height: "50px", marginLeft: 8 }} />
             <Typography variant="h6" component="div" sx={{ cursor: "pointer", flexGrow: 1 }} onClick={() => {
               navigate('/home');
             }}>
