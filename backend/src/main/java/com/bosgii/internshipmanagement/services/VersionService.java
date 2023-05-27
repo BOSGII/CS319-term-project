@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 
 import com.bosgii.internshipmanagement.entities.Version;
 import com.bosgii.internshipmanagement.enums.VersionStatus;
+import com.bosgii.internshipmanagement.documents.Report;
 import com.bosgii.internshipmanagement.entities.Comment;
 import com.bosgii.internshipmanagement.entities.Submission;
 import com.bosgii.internshipmanagement.repos.CommentRepository;
@@ -26,34 +27,17 @@ public class VersionService {
 	private final VersionRepository versionRepository;
 	private final SubmissionService submissionService;
 	private final CommentRepository commentRepository;
-	private final DocumentService documentService;
+	private final FeedbackService feedbackService;
+	private final ReportService reportService;
 	
-	public VersionService(VersionRepository versionRepository, SubmissionService submissionService, CommentRepository commentRepository, DocumentService documentService) {
+	public VersionService(VersionRepository versionRepository, SubmissionService submissionService, CommentRepository commentRepository, FeedbackService feedbackService, ReportService reportService) {
 		this.versionRepository = versionRepository;
 		this.submissionService = submissionService;
 		this.commentRepository = commentRepository;
-		this.documentService = documentService;
+		this.feedbackService = feedbackService;
+		this.reportService = reportService;
 	}
 
-	// TODO
-	public ResponseEntity<MultiValueMap<String, Object>> getVersionByID(Long versionId){
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.MULTIPART_FORM_DATA); // Content type for the file
-
-		Resource report = documentService.getDocumentByFolderNameAndRequestID("versions",versionId);
-		Version version = versionRepository.findById(versionId).get();
-
-		MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-		body.add("report", report);
-		body.add("others", version);
-
-		return new ResponseEntity<>(body, headers, HttpStatus.OK);
-	}
-
-	public Version getVersionEntityById(Long id){
-		return versionRepository.findById(id).get();
-	}
-	
 	public Optional<Version> getOneVersion(Optional<Long> submissionId, Optional<Long> internshipId, int versionNumber) {
 		Optional<Version> version;
 		if(submissionId.isPresent()){
@@ -66,6 +50,24 @@ public class VersionService {
 		}
 
 		return version;
+	}
+
+	public ResponseEntity<Resource> downloadReportOfVersion(Long versionId){
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_PDF); // Content type for the file
+
+		Resource report = reportService.getReportByVersionId(versionId);
+
+		return new ResponseEntity<Resource>(report, headers, HttpStatus.OK);
+	}
+
+	public ResponseEntity<Resource> downloadFeedbackOfVersion(Long versionId){
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_PDF); // Content type for the file
+
+		Resource feedback = feedbackService.getFeedbackByVersionId(versionId);
+
+		return new ResponseEntity<Resource>(feedback, headers, HttpStatus.OK);
 	}
 
 	public Version addVersionOnASubmission(Long internshipId, AddVersionRequest req) {
@@ -96,14 +98,17 @@ public class VersionService {
 
 		// add version to submission
 		Version version = new Version();
+		// save version to get auto generated id
+		version = versionRepository.saveAndFlush(version);
 
 		version.setVersionNumber(newSubmission.getNumOfVersions());
 		version.setStatus(VersionStatus.NOT_EVALUATED);
 		version.setSubmission(newSubmission);
 
-		// TODO: handle uploaded report
-		System.out.println(req.getReport().getOriginalFilename());
-		// documentService.saveDocument(file,"versions",savedVersion.getId());
+		// handle uploaded report
+		reportService.addReportToVersion(req.getReport(), version);
+		version.setReportFileName(req.getReport().getOriginalFilename());
+
 		return versionRepository.save(version);
 	}
 
@@ -136,12 +141,13 @@ public class VersionService {
 
 		if(req.getFeedback() != null){
 			version.setIsFeedbackFileProvided(true);
+			feedbackService.addFeedbackToVersion(req.getFeedback(), version);
+			version.setFeedbackFileName(req.getFeedback().getOriginalFilename());
 		} else {
 			version.setIsFeedbackFileProvided(false);
 		}
 		
-
-        return null;
+        return versionRepository.save(version);
     }
 
 }
