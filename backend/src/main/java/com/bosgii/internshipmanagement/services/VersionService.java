@@ -3,6 +3,13 @@ import java.util.Optional;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 
 import com.bosgii.internshipmanagement.entities.Version;
 import com.bosgii.internshipmanagement.enums.VersionStatus;
@@ -16,14 +23,35 @@ import com.bosgii.internshipmanagement.requests.AskForRevisionRequest;
 @Service
 public class VersionService {
 
-	private VersionRepository versionRepository;
-	private SubmissionService submissionService;
-	private CommentRepository commentRepository;
+	private final VersionRepository versionRepository;
+	private final SubmissionService submissionService;
+	private final CommentRepository commentRepository;
+	private final DocumentService documentService;
 	
-	public VersionService(VersionRepository versionRepository, SubmissionService submissionService, CommentRepository commentRepository) {
+	public VersionService(VersionRepository versionRepository, SubmissionService submissionService, CommentRepository commentRepository, DocumentService documentService) {
 		this.versionRepository = versionRepository;
 		this.submissionService = submissionService;
 		this.commentRepository = commentRepository;
+		this.documentService = documentService;
+	}
+
+	// TODO
+	public ResponseEntity<MultiValueMap<String, Object>> getVersionByID(Long versionId){
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.MULTIPART_FORM_DATA); // Content type for the file
+
+		Resource report = documentService.getDocumentByFolderNameAndRequestID("versions",versionId);
+		Version version = versionRepository.findById(versionId).get();
+
+		MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+		body.add("report", report);
+		body.add("others", version);
+
+		return new ResponseEntity<>(body, headers, HttpStatus.OK);
+	}
+
+	public Version getVersionEntityById(Long id){
+		return versionRepository.findById(id).get();
 	}
 	
 	public Optional<Version> getOneVersion(Optional<Long> submissionId, Optional<Long> internshipId, int versionNumber) {
@@ -73,10 +101,10 @@ public class VersionService {
 		version.setStatus(VersionStatus.NOT_EVALUATED);
 		version.setSubmission(newSubmission);
 
-		// handle uploaded report
+		// TODO: handle uploaded report
 		System.out.println(req.getReport().getOriginalFilename());
+		// documentService.saveDocument(file,"versions",savedVersion.getId());
 		return versionRepository.save(version);
-
 	}
 
 	public Version deleteVersion(Long versionId) {
