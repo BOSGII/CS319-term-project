@@ -12,6 +12,7 @@ import SubmissionPage from "./pages/submission/SubmissionPage";
 
 import { InternshipIDProvider } from "./contexts/InternshipIDContext";
 import CustomNavbar from "./components/CustomNavbar/CustomNavbar";
+import AdminPage from "./pages/admin/AdminPage";
 
 function App() {
   const { user } = useContext(UserContext);
@@ -39,6 +40,17 @@ function App() {
               ) : (
                 <Navigate to="/login" replace={true} />
               )
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              user.role ? ( 
+              <InternshipIDProvider> 
+                <AdminPage /> 
+              </InternshipIDProvider> ) 
+              : 
+              ( <Navigate to="/login" replace={true}/> )
             }
           />
           <Route

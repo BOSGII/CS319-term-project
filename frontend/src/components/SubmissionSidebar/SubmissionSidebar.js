@@ -5,12 +5,17 @@ import {
   Divider,
   Toolbar,
   Typography,
+  IconButton,
 } from "@mui/material";
+
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 
 export default function SubmissionSidebar({
   numberOfVersions,
   versionUnderFocus,
   changeVersionUnderFocus,
+  handleSidebarClose,
+  sidebarOpen,
 }) {
   return (
     <Drawer
@@ -22,10 +27,15 @@ export default function SubmissionSidebar({
           boxSizing: "border-box",
         },
       }}
-      variant="permanent"
+      variant="persistent"
       anchor="left"
+      open={sidebarOpen}
     >
-      <Toolbar />
+      <Toolbar>
+        <IconButton onClick={handleSidebarClose}>
+          <ChevronLeftIcon />
+        </IconButton>
+      </Toolbar>
       <Divider />
       {numberOfVersions === 0 ? (
         <Typography>No versions</Typography>
@@ -35,11 +45,10 @@ export default function SubmissionSidebar({
             (el) => (
               <ListItem
                 key={el}
-                sx={
-                  el === versionUnderFocus
-                    ? { fontWeight: "bold" }
-                    : { fontWeight: "light" }
-                }
+                sx={{
+                  fontWeight: el === versionUnderFocus ? "bold" : "light",
+                  cursor: "pointer",
+                }}
                 onClick={() => {
                   changeVersionUnderFocus(el);
                 }}

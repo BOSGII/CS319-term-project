@@ -82,7 +82,8 @@ export default function AssignToAnInstructorButton({
   return (
     <div>
       <Button variant="outlined" onClick={handleClickOpen}>
-        Assign/Reassign
+        Assign/
+        Reassign
       </Button>
       {error && <div>{error.message}</div>}
       {availableInstructors && (

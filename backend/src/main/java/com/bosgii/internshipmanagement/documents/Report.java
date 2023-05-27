@@ -2,11 +2,16 @@ package com.bosgii.internshipmanagement.documents;
 
 import com.bosgii.internshipmanagement.entities.Version;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 
 @Entity
-@Table(name="Feedback")
-public class Feedback {
+@Table(name="Report")
+public class Report {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
@@ -29,6 +34,5 @@ public class Feedback {
     public void setVersion(Version version) {
         this.version = version;
     }
+    
 }
-
-

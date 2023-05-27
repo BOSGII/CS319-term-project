@@ -13,6 +13,15 @@ export default function Versions({
   const [error, setError] = useState(null);
 
   const [versionUnderFocus, setVersionUnderFocus] = useState(0);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  const handleSidebarClose = () => {
+    setSidebarOpen(false);
+  };
+
+  const handleSidebarOpen = () => {
+    setSidebarOpen(true);
+  };
 
   const changeVersionUnderFocus = useCallback((versionToBeFocused) => {
     setVersionUnderFocus(versionToBeFocused);
@@ -40,8 +49,7 @@ export default function Versions({
   }, [internship]);
 
   return (
-    <Container>
-      <Typography>Versions component</Typography>
+    <>
       {error && <div>{error.message}</div>}
       {isPending && <div>loading...</div>}
       {submission && (
@@ -50,14 +58,17 @@ export default function Versions({
             numberOfVersions={submission.numOfVersions}
             versionUnderFocus={versionUnderFocus}
             changeVersionUnderFocus={changeVersionUnderFocus}
+            handleSidebarClose={handleSidebarClose}
+            sidebarOpen={sidebarOpen}
           />
           <Version
             submission={submission}
             versionUnderFocus={versionUnderFocus}
             setAddNewVersionButtonPressed={setAddNewVersionButtonPressed}
+            handleSidebarOpen={handleSidebarOpen}
           />
         </>
       )}
-    </Container>
+    </>
   );
 }
