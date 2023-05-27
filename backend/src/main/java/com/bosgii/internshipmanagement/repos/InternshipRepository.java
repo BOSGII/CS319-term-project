@@ -11,4 +11,6 @@ public interface InternshipRepository extends JpaRepository<Internship, Long>{
 	List<Internship> getAllByStudentId(Long studentId);
 	List<Internship> getAllByInstructorId(Long instructorId);
 	Optional<Internship> findByStudentIdAndType(Long studentId, InternshipType type);
+
+
 }
