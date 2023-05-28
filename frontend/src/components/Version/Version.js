@@ -110,7 +110,7 @@ export default function Version({
                 versionId={version.id}
                 refreshVersion={refreshVersion}
               />
-              <FinalizeButton />
+              <FinalizeButton submissionId={submission.id} />
             </>
           )}
         </Container>

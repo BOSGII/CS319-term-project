@@ -3,10 +3,6 @@ package com.bosgii.internshipmanagement.controllers;
 import java.util.List;
 import java.util.Optional;
 
-import com.bosgii.internshipmanagement.requests.GenerateFinalPDFRequest;
-import com.bosgii.internshipmanagement.services.FinalPDFRequestService;
-import org.springframework.core.io.Resource;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -29,16 +25,9 @@ import com.bosgii.internshipmanagement.services.InternshipService;
 @RequestMapping("/api")
 public class InternshipController {
 	private final InternshipService internshipService;
-	private final FinalPDFRequestService finalPDFRequestService;
 
-	public InternshipController(InternshipService internshipService, FinalPDFRequestService finalPDFRequestService) {
+	public InternshipController(InternshipService internshipService) {
 		this.internshipService = internshipService;
-		this.finalPDFRequestService = finalPDFRequestService;
-	}
-
-	@PostMapping("/internships/{internshipId}/generateFinal")
-	public ResponseEntity<Resource> generateFinalPDF(@PathVariable Long internshipId, @RequestBody GenerateFinalPDFRequest req){
-		return finalPDFRequestService.GenerateFinalPdf(internshipId,req);
 	}
 
 	@PostMapping("/internships/{internshipId}/companyForm")
