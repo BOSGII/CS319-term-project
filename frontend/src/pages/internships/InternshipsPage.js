@@ -1,4 +1,4 @@
-import { Container, Typography, Stack } from "@mui/material";
+import { Container, Stack, Typography } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
@@ -65,23 +65,23 @@ export default function InternshipsPage() {
 
   return (
     <Container sx={{mt: 10}}>
-      <Stack spacing={2} direction='column'>
-        <Typography>Internships Page</Typography>
-        {user.role === "secretary" && location.pathname === "/internships" && (
-          <Stack spacing={3} direction='row' justifyContent='center'>
-            <ImportInternshipsButton refreshInternships={refreshInternships} />
-            <AddInternshipButton refreshInternships={refreshInternships} />
-            <MatchInternshipsButton refreshInternships={refreshInternships} />
-          </Stack>
-        )}
-        {error && <div>{error.message}</div>}
-        {isPending && <div>loading...</div>}
-        {internships && (
-          <InternshipList
-            internships={internships}
-            refreshInternships={refreshInternships} // used for deleting an internship
-          />
-        )}
+      <Stack alignItems='center' spacing = {5}>
+      <Typography>internships page</Typography>
+      {user.role === "secretary" && location.pathname === "/internships" && (
+        <Stack direction = "row" spacing = {2}>
+          <ImportInternshipsButton refreshInternships={refreshInternships} />
+          <AddInternshipButton refreshInternships={refreshInternships} />
+          <MatchInternshipsButton refreshInternships={refreshInternships} />
+        </Stack>
+      )}
+      {error && <div>{error.message}</div>}
+      {isPending && <div>loading...</div>}
+      {internships && (
+        <InternshipList
+          internships={internships}
+          refreshInternships={refreshInternships} // used for deleting an internship
+        />
+      )}
       </Stack>
     </Container>
   );

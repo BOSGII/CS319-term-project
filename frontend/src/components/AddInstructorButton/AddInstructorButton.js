@@ -58,15 +58,26 @@ export default function AddInstructorButton({ refreshInstructors }) {
         open={open}
         onClose={() => setOpen(false)}
       >
-        <form style={{ backgroundColor: "white" }} onSubmit={handleSubmit}>
+        <form
+          style={{
+            backgroundColor: "white",
+            padding: "2rem",
+            borderRadius: "4px",
+            maxWidth: "400px",
+            width: "100%",
+          }}
+          onSubmit={handleSubmit}
+        >
           <TextField
             margin="normal"
             label="ID"
             name="id"
             value={instructor.id}
             onChange={handleInputChange}
+            fullWidth
           />
           <TextField
+            margin="normal"
             label="Full Name"
             name="fullName"
             value={instructor.fullName}
@@ -74,6 +85,7 @@ export default function AddInstructorButton({ refreshInstructors }) {
             fullWidth
           />
           <TextField
+            margin="normal"
             label="Email"
             name="mail"
             value={instructor.mail}
@@ -81,6 +93,7 @@ export default function AddInstructorButton({ refreshInstructors }) {
             fullWidth
           />
           <TextField
+            margin="normal"
             label="Department"
             name="department"
             value={instructor.department}
@@ -88,6 +101,7 @@ export default function AddInstructorButton({ refreshInstructors }) {
             fullWidth
           />
           <TextField
+            margin="normal"
             label="Max Number of Internships"
             name="maxNumOfInternships"
             value={instructor.maxNumOfInternships}
@@ -95,7 +109,11 @@ export default function AddInstructorButton({ refreshInstructors }) {
             fullWidth
             type="number"
           />
-          <Button type="submit" variant="contained">
+          <Button
+            type="submit"
+            variant="contained"
+            style={{ marginTop: "1rem" }}
+          >
             Add Instructor
           </Button>
         </form>

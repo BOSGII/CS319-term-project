@@ -1,5 +1,6 @@
-import { Button } from "@mui/material";
+import { IconButton } from "@mui/material";
+import EditIcon from '@mui/icons-material/Edit';
 
 export default function ChangeInternshipDetailsButton() {
-  return <Button variant="outlined">Change Details</Button>;
+  return <IconButton><EditIcon></EditIcon></IconButton>;
 }

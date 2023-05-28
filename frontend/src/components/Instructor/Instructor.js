@@ -1,8 +1,10 @@
-import { Button, ListItem, ListItemText } from "@mui/material";
+import { IconButton, Card, ListItem, ListItemText, Stack } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ChangeInstructorDetailsButton from "../ChangeInstructorDetailsButton/ChangeInstructorDetailsButton";
 import DeleteInstructorButton from "../DeleteInstructorButton/DeleteInstructorButton";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+
 
 export default function Instructor({ instructor, refreshInstructors }) {
   const navigate = useNavigate();
@@ -24,23 +26,34 @@ export default function Instructor({ instructor, refreshInstructors }) {
   }, [instructor]);
 
   return (
-    <ListItem sx={{ border: 1 }}>
-      <ListItemText>
-        {fullName}---{department}---
-        {numOfAssignedInternships}/{maxNumOfInternships}
-      </ListItemText>
-      <ChangeInstructorDetailsButton />
-      <Button
-        onClick={() => {
-          navigate(`/instructors/${instructor.id}`);
-        }}
-      >
-        See Assigned Internships
-      </Button>
-      <DeleteInstructorButton
-        instructorId={instructor.id}
-        refreshInstructors={refreshInstructors}
-      />
+    <Card elevation={10} style={{ borderRadius: 15 }} 
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            height: "100%",
+          }}>
+    <ListItem style={{justifyContent: "space-between"}}>
+      <Stack direction={"column"} marginRight={40}>
+        <ListItemText> Full Name: {fullName} </ListItemText>
+        <ListItemText> Department: {department}</ListItemText>
+        <ListItemText> Number of Assigned Internships: {numOfAssignedInternships}/{maxNumOfInternships}</ListItemText>
+      </Stack>
+      <Stack direction={"row"} spacing={5}>
+        <ChangeInstructorDetailsButton />
+        <IconButton
+          onClick={() => {
+            navigate(`/instructors/${instructor.id}`);
+          }}
+        >
+          <VisibilityIcon></VisibilityIcon>
+        </IconButton>
+        <DeleteInstructorButton
+          instructorId={instructor.id}
+          refreshInstructors={refreshInstructors}
+        />
+      </Stack>
     </ListItem>
+    </Card>
   );
 }

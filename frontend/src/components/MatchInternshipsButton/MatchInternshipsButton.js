@@ -35,7 +35,7 @@ export default function MatchInternshipsButton({ refreshInternships }) {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Button variant="contained" onClick={handleClickOpen}>
         Match Internships
       </Button>
       <Dialog
