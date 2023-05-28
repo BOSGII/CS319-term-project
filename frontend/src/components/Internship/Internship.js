@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import { ListItem, ListItemText, Container, Typography, Stack } from "@mui/material";
-=======
 import { ListItem, ListItemText, Card, Stack } from "@mui/material";
->>>>>>> 072d63e (Styling improvements in Instructors and Internships)
 import { useContext, useEffect, useState } from "react";
 import ChangeInternshipDetailsButton from "../ChangeInternshipDetailsButton/ChangeInternshipDetailsButton";
 import UploadCompanyEvaluationFormButton from "../UploadCompanyEvaluationFormButton/UploadCompanyEvaluationFormButton";
@@ -29,39 +25,6 @@ export default function Internship({ internship, refreshInternships }) {
   }, [internship]);
 
   return (
-<<<<<<< HEAD
-  
-    <ListItem sx={{ border: 1 }}>
-      <ListItemText sx={{ whiteSpace: 'pre-line'}}>
-       Internship: {`${internshipType}\n Student Id: ${studentId} \nInstructor Id: ${instructorId === -1 ? "N/A" : instructorId} \nInternship Status:${" "} ${internshipStatus}\n`}
-      </ListItemText>
-      <Stack spacing={4} direction='row' marginLeft={15} marginRight={5}>
-      {user.role === "secretary" && (
-        <>
-          <ChangeInternshipDetailsButton />
-          <UploadCompanyEvaluationFormButton />
-          <AssignToAnInstructorButton
-            internshipId={internship.id}
-            instructorId={instructorId}
-            setInstructorId={setInstructorId}
-            refreshInternships={refreshInternships}
-          />
-        </>
-      )}
-      <SeeSubmissionButton
-        internshipId={internship.id}
-        internshipStatus={internship.status}
-        internshipType={internship.type}
-      />
-      {user.role === "secretary" && (
-        <DeleteInternshipButton
-          internshipId={internship.id}
-          refreshInternships={refreshInternships}
-        />
-      )}
-      </Stack>
-    </ListItem>
-=======
     <Card elevation={10} style={{ borderRadius: 15 }}>
       <ListItem >
         <Stack direction={"row"} alignItems={"center"}> 
@@ -99,6 +62,5 @@ export default function Internship({ internship, refreshInternships }) {
           </Stack>
       </ListItem>
     </Card>
->>>>>>> 072d63e (Styling improvements in Instructors and Internships)
   );
 }

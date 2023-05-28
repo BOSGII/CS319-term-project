@@ -45,9 +45,5 @@ export default function SeeSubmissionButton({
     }
   };
 
-<<<<<<< HEAD
-  return <Button variant= "outlined" onClick={redirectToSubmissionPage}>Submission</Button>;
-=======
   return <IconButton onClick={redirectToSubmissionPage}><VisibilityIcon></VisibilityIcon></IconButton>;
->>>>>>> 072d63e (Styling improvements in Instructors and Internships)
 }

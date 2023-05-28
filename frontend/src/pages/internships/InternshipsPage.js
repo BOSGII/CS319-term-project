@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import { Container, Typography, Stack } from "@mui/material";
-=======
 import { Container, Stack, Typography } from "@mui/material";
->>>>>>> 072d63e (Styling improvements in Instructors and Internships)
 import { useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
@@ -69,25 +65,6 @@ export default function InternshipsPage() {
 
   return (
     <Container sx={{mt: 10}}>
-<<<<<<< HEAD
-      <Stack spacing={2} direction='column'>
-        <Typography>Internships Page</Typography>
-        {user.role === "secretary" && location.pathname === "/internships" && (
-          <Stack spacing={3} direction='row' justifyContent='center'>
-            <ImportInternshipsButton refreshInternships={refreshInternships} />
-            <AddInternshipButton refreshInternships={refreshInternships} />
-            <MatchInternshipsButton refreshInternships={refreshInternships} />
-          </Stack>
-        )}
-        {error && <div>{error.message}</div>}
-        {isPending && <div>loading...</div>}
-        {internships && (
-          <InternshipList
-            internships={internships}
-            refreshInternships={refreshInternships} // used for deleting an internship
-          />
-        )}
-=======
       <Stack alignItems='center' spacing = {5}>
       <Typography>internships page</Typography>
       {user.role === "secretary" && location.pathname === "/internships" && (
@@ -105,7 +82,6 @@ export default function InternshipsPage() {
           refreshInternships={refreshInternships} // used for deleting an internship
         />
       )}
->>>>>>> 072d63e (Styling improvements in Instructors and Internships)
       </Stack>
     </Container>
   );

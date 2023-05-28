@@ -83,16 +83,9 @@ export default function AssignToAnInstructorButton({
 
   return (
     <div>
-<<<<<<< HEAD
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Assign/
-        Reassign
-      </Button>
-=======
       <IconButton onClick={handleClickOpen}>
         <ChangeCircleIcon></ChangeCircleIcon>
       </IconButton>
->>>>>>> 072d63e (Styling improvements in Instructors and Internships)
       {error && <div>{error.message}</div>}
       {availableInstructors && (
         <Dialog
