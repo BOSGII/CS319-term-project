@@ -1,4 +1,5 @@
-import { Button, Dialog, Typography } from "@mui/material";
+import { IconButton, Dialog, Typography } from "@mui/material";
+import UploadIcon from "@mui/icons-material/Upload";
 import { useState } from "react";
 import axios from "axios";
 import Upload from "../Upload/Upload";
