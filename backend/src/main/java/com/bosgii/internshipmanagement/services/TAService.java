@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.bosgii.internshipmanagement.entities.Internship;
 import com.bosgii.internshipmanagement.entities.TA;
+import com.bosgii.internshipmanagement.repos.InternshipRepository;
 import com.bosgii.internshipmanagement.repos.TARepository;
 import com.bosgii.internshipmanagement.requests.AddTARequest;
 import com.bosgii.internshipmanagement.requests.ChangeTARequest;
@@ -15,10 +16,12 @@ import com.bosgii.internshipmanagement.requests.ChangeTARequest;
 public class TAService {
     private final TARepository taRepository;
     private final InternshipService internshipService;
+    private final InternshipRepository internshipRepository;
 
-    public TAService(TARepository taRepository, InternshipService internshipService) {
+    public TAService(TARepository taRepository, InternshipService internshipService, InternshipRepository internshipRepository) {
         this.taRepository = taRepository;
         this.internshipService = internshipService;
+        this.internshipRepository = internshipRepository;
     }
 
     public List<TA> getAllTAs() {
@@ -63,15 +66,18 @@ public class TAService {
     }
 
     public void matchTAs() {
-        List<Internship> internships = internshipService.getAllInternships(null, null);
+        final List<Internship> internships = internshipService.getAllInternships(Optional.empty(), Optional.empty());
         List<TA> tas = taRepository.findAll();
         int taSize = tas.size();
         int i = 0;
 
         for (Internship internship: internships) {
             internship.settA(tas.get(i));
+            tas.get(i).setNumOfAssignedInternships(tas.get(i).getNumOfAssignedInternships() + 1);
             i = (i + 1) % taSize;
         }
+        internshipRepository.saveAll(internships);
+        taRepository.saveAll(tas);
     }
     
 }

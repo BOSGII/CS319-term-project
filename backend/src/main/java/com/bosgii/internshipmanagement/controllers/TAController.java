@@ -41,7 +41,7 @@ public class TAController {
 		return taService.changeTADetails(taId, req);
 	}
 
-	@DeleteMapping("/instructors/{instructorId}")
+	@DeleteMapping("/tas/{taId}")
 	public void deleteTA(@PathVariable Long taId) {
 		taService.deleteTA(taId);
 	}
