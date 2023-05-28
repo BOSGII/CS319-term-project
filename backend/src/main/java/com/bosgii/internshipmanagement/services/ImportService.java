@@ -148,6 +148,7 @@ public class ImportService {
                 catch(Exception e){
 
                     throw new IllegalArgumentException("Problematic line detected on line " +(1 + row.getRowNum() )+ "!" );
+                    
                 }
 
             }
