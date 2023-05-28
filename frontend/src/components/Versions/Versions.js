@@ -34,9 +34,11 @@ export default function Versions({
   useEffect(() => {
     const getSubmissionFromServer = () => {
       setIsPending(true);
-
+      const sessionId = localStorage.getItem('sessionId');
       axios
-        .get(`/api/submissions?internshipId=${internship.id}`)
+        .get(`http://localhost:8080/api/submissions?internshipId=${internship.id}`,           {headers: {
+            Authorization: `${sessionId}`}
+          })
         .then((response) => {
           setSubmission(response.data);
           setVersionUnderFocus(response.data.numOfVersions);

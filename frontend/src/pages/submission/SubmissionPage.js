@@ -26,9 +26,12 @@ export default function SubmissionPage() {
   useEffect(() => {
     const getInternshipFromServer = () => {
       setIsPending(true);
-
+      const sessionId = localStorage.getItem('sessionId');
       axios
-        .get(`/api/internships/${internshipId}`)
+        .get(`http://localhost:8080/api/internships/${internshipId}`,
+        {headers: {
+          Authorization: `${sessionId}`}
+        })
         .then((response) => {
           setInternship(response.data);
         })

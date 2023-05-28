@@ -18,6 +18,7 @@ export default function Internship({ internship, refreshInternships }) {
   );
 
   useEffect(() => {
+    
     setStudentId(internship.student.id);
     setInternshipType(internship.type);
     setInternshipStatus(internship.status);

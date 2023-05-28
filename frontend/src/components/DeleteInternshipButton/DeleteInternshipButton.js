@@ -8,8 +8,13 @@ export default function DeleteInternshipButton({
   refreshInternships,
 }) {
   const handleDeleteInternship = () => {
+    const sessionId = localStorage.getItem('sessionId');
     axios
-      .delete(`/api/internships/${internshipId}`)
+      .delete(`http://localhost:8080/api/internships/${internshipId}` , {
+        headers: {
+          Authorization: `${sessionId}`
+        }
+      })
       .then(() => {
         refreshInternships();
       })

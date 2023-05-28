@@ -41,8 +41,13 @@ export default function AddInternshipButton({ refreshInternships }) {
   // Define a function to handle the form submit
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const sessionId = localStorage.getItem('sessionId');
     axios
-      .post("/api/internships", internship)
+      .post("http://localhost:8080/api/internships", internship, {
+        headers: {
+          Authorization: `${sessionId}`
+        }
+      })
       .then((response) => {
         refreshInternships();
         setOpen(false);

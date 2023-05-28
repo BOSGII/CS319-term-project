@@ -8,8 +8,13 @@ export default function DeleteInstructorButton({
   refreshInstructors,
 }) {
   const handleDeleteInstructor = () => {
+    const sessionId = localStorage.getItem('sessionId');
     axios
-      .delete(`/api/instructors/${instructorId}`)
+      .delete(`http://localhost:8080/api/instructors/${instructorId}`, {
+        headers: {
+          Authorization: `${sessionId}`
+        }
+      })
       .then(() => {
         refreshInstructors();
       })

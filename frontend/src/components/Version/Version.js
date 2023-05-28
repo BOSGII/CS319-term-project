@@ -25,10 +25,14 @@ export default function Version({
 
   useEffect(() => {
     setIsPending(true);
-
+    const sessionId = localStorage.getItem('sessionId');
     axios
       .get(
-        `/api/versions?submissionId=${submission.id}&versionNumber=${versionUnderFocus}`
+        `http://localhost:8080/api/versions?submissionId=${submission.id}&versionNumber=${versionUnderFocus}`, {
+          headers: {
+            Authorization: `${sessionId}`
+          }
+        }
       )
       .then((response) => {
         setVersion(response.data);

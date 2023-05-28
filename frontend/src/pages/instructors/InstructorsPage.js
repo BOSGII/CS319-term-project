@@ -15,12 +15,18 @@ export default function InstructorsPage() {
     setRefresh(true);
   };
 
+
   useEffect(() => {
     const getInstructorsFromServer = () => {
       setIsPending(true);
+      const sessionId = localStorage.getItem('sessionId');
 
       axios
-        .get("/api/instructors")
+        .get("http://localhost:8080/api/instructors", {
+          headers: {
+            Authorization: `${sessionId}`
+          }
+        })
         .then((response) => {
           setInstructors(response.data);
         })
@@ -34,7 +40,6 @@ export default function InstructorsPage() {
     };
     getInstructorsFromServer();
   }, [refresh]);
-
   return (
     <Container sx={{mt: 10}}>
       <Typography>Secretary page showing all instructors</Typography>

@@ -25,8 +25,13 @@ export default function AddInstructorButton({ refreshInstructors }) {
   // Define a function to handle the form submit
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const sessionId = localStorage.getItem('sessionId');
     axios
-      .post("/api/instructors", instructor)
+      .post("http://localhost:8080/api/instructors", instructor, {
+        headers: {
+          Authorization: `${sessionId}`
+        }
+      })
       .then((response) => {
         refreshInstructors();
         setOpen(false);

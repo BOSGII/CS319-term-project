@@ -19,10 +19,15 @@ export default function MatchInternshipsButton({ refreshInternships }) {
   const handleClose = () => {
     setOpen(false);
   };
-
+  const sessionId = localStorage.getItem('sessionId');
   const matchInternships = (matchType) => {
+    
     axios
-      .post(`/api/match?matchType=${matchType}`)
+      .post(`http://localhost:8080/api/match?matchType=${matchType}`, {
+        headers: {
+          Authorization: `${sessionId}`
+        }
+      })
       .then((response) => {
         refreshInternships();
         handleClose();

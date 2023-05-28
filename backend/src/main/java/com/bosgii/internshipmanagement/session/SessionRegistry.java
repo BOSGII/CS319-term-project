@@ -1,0 +1,47 @@
+package com.bosgii.internshipmanagement.session;
+
+import org.springframework.stereotype.Component;
+
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.UUID;
+
+@Component
+public class SessionRegistry {
+    private static final HashMap<String, String> SESSIONS = new HashMap<>();
+
+    public String registerSession(final String username) {
+        if (username == null) {
+            throw new RuntimeException("Username needs to be provided");
+        }
+
+        final String sessionId = generateSessionId();
+
+        try {
+            SESSIONS.put(sessionId, username);
+            System.out.println(sessionId);
+            System.out.println(username);
+        } catch (final Exception e) {
+            SESSIONS.put(sessionId, username);
+        }
+
+        return sessionId;
+    }
+
+    public String getUsernameForSession(final String sessionId) {
+        try {
+            // return redisSessionStorage.get(sessionId);
+            return SESSIONS.get(sessionId);
+        } catch (final Exception e) {
+            // e.printStackTrace();
+            return SESSIONS.get(sessionId);
+        }
+    }
+
+    private String generateSessionId() {
+        return new String(
+                Base64.getEncoder().encode(
+                        UUID.randomUUID().toString().getBytes(StandardCharsets.UTF_8)));
+    }
+}

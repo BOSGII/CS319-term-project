@@ -22,37 +22,51 @@ export default function InternshipsPage() {
   };
 
   useEffect(() => {
+    const sessionId = localStorage.getItem('sessionId');
     const getInternshipsFromServer = () => {
       let fetchUrl;
+
       switch (user.role) {
         case "student":
-          fetchUrl = `/api/internships?studentId=${user.id}`;
+          fetchUrl = `http://localhost:8080/api/internships?studentId=${user.id}`;
+
+        
           break;
         case "instructor":
-          fetchUrl = `/api/internships?instructorId=${user.id}`;
+          fetchUrl = `http://localhost:8080/api/internships?instructorId=${user.id}`;
           break;
 
         case "secretary":
           if (location.pathname === "/internships") {
-            fetchUrl = `/api/internships`;
+            fetchUrl = `http://localhost:8080/api/internships`;
           } else {
             // /instructors/{instructorId}
             const instructorId = location.pathname.split("/").at(-1);
-            fetchUrl = `/api/internships?instructorId=${instructorId}`;
+            fetchUrl = `http://localhost:8080/api/internships?instructorId=${instructorId}`;
           }
           break;
         default:
+          fetchUrl = `http://localhost:8080/api/internships?studentId=${user.id}`;
+    
+          break;
       }
 
       setIsPending(true);
 
       axios
-        .get(fetchUrl)
+        .get(fetchUrl,{
+          headers: {
+            Authorization: `${sessionId}`
+          }
+        })
         .then((response) => {
           setInternships(response.data);
+          console.log(response);
         })
         .catch((error) => {
           setError(error);
+          console.log(error);
+
         })
         .finally(() => {
           setIsPending(false);

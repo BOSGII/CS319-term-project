@@ -45,6 +45,7 @@ export default function RequestRevisionButton({ versionId, refreshVersion }) {
   };
 
   const handleSubmit = (file) => {
+    
     if (!file && comments.length === 0) {
       return;
     }
@@ -56,9 +57,13 @@ export default function RequestRevisionButton({ versionId, refreshVersion }) {
     if (comments) {
       formData.append("comments", comments);
     }
-
+    const sessionId = localStorage.getItem('sessionId');
     axios
-      .post(`/api/versions/${versionId}`, formData)
+      .post(`http://localhost:8080/api/versions/${versionId}`, formData, {
+        headers: {
+          Authorization: `${sessionId}`
+        }
+      })
       .then((response) => {
         refreshVersion();
       })

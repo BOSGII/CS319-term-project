@@ -9,8 +9,13 @@ export default function CommentSection({ versionStatus, versionId }) {
 
   useEffect(() => {
     setIsPending(true);
+    const sessionId = localStorage.getItem('sessionId');
     axios
-      .get(`/api/comments?versionId=${versionId}`)
+      .get(`http://localhost:8080/api/comments?versionId=${versionId}`, {
+        headers: {
+          Authorization: `${sessionId}`
+        }
+      })
       .then((response) => {
         setComments(response.data);
         setIsPending(false);

@@ -13,12 +13,20 @@ export default function UploadReport({ internship, refreshInternship }) {
   const [replies, setReplies] = useState([]);
 
   useEffect(() => {
+    const sessionId = localStorage.getItem('sessionId');
+
+ 
+
+     
     // fetch oldest version if exists (if not initial submission)
     if (internship.status === "UNDER_EVALUATION") {
       axios
         .get(
-          `/api/versions?internshipId=${internship.id}&versionNumber=${internship.numOfVersions}`
-        )
+          `localhost:8080/api/versions?internshipId=${internship.id}&versionNumber=${internship.numOfVersions}`,
+          {headers: {
+            Authorization: `${sessionId}`
+          }
+      })
         .then((response) => {
           setOldVersion(response.data);
         })
@@ -50,7 +58,7 @@ export default function UploadReport({ internship, refreshInternship }) {
       }
 
       axios
-        .post(`/api/versions?internshipId=${internship.id}`, formData)
+        .post(`http://localhost:8080/api/versions?internshipId=${internship.id}`, formData)
         .then((response) => {
           refreshInternship();
         })

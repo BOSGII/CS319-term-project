@@ -31,8 +31,13 @@ export default function AssignToAnInstructorButton({
   const [currentInstructorId, setCurrentInstructorId] = useState("");
 
   useEffect(() => {
+    const sessionId = localStorage.getItem('sessionId');
     axios
-      .get("/api/instructors?available=true")
+      .get("http://localhost:8080/api/instructors?available=true", {
+        headers: {
+          Authorization: `${sessionId}`
+        }
+      })
       .then((response) => {
         setAvailableInstructors(response.data);
       })

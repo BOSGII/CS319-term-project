@@ -10,11 +10,12 @@ export default function ImportInternshipsButton({ refreshInternships }) {
     if (file) {
       let formData = new FormData();
       formData.append("file", file);
-
+      const sessionId = localStorage.getItem('sessionId');
       axios
-        .post(`/api/import`, formData, {
+        .post(`http://localhost:8080/api/import`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
+             Authorization: `${sessionId}`
           },
         })
         .then((response) => {
