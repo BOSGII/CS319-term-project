@@ -1,4 +1,3 @@
-import { Container, Typography } from "@mui/material";
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import SubmissionSideBar from "../SubmissionSidebar/SubmissionSidebar";
@@ -11,9 +10,14 @@ export default function Versions({
   const [submission, setSubmission] = useState(null);
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState(null);
+  const [refresh, setRefresh] = useState(false);
 
   const [versionUnderFocus, setVersionUnderFocus] = useState(0);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  const refreshSubmission = () => {
+    setRefresh(true);
+  };
 
   const handleSidebarClose = () => {
     setSidebarOpen(false);
@@ -41,12 +45,13 @@ export default function Versions({
           setError(error);
         })
         .finally(() => {
+          setRefresh(false);
           setIsPending(false);
         });
     };
 
     getSubmissionFromServer();
-  }, [internship]);
+  }, [refresh, internship]);
 
   return (
     <>
@@ -66,6 +71,7 @@ export default function Versions({
             versionUnderFocus={versionUnderFocus}
             setAddNewVersionButtonPressed={setAddNewVersionButtonPressed}
             handleSidebarOpen={handleSidebarOpen}
+            refreshSubmission={refreshSubmission}
           />
         </>
       )}

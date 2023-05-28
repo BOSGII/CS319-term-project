@@ -1,5 +1,7 @@
 package com.bosgii.internshipmanagement.services;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +17,7 @@ import com.bosgii.internshipmanagement.entities.Supervisor;
 import com.bosgii.internshipmanagement.enums.InternshipStatus;
 import com.bosgii.internshipmanagement.enums.InternshipType;
 import com.bosgii.internshipmanagement.repos.CompanyEvaluationRepository;
+import com.bosgii.internshipmanagement.services.FinalPDFRequestService;
 import com.bosgii.internshipmanagement.repos.CompanyRepository;
 import com.bosgii.internshipmanagement.repos.InstructorRepository;
 import com.bosgii.internshipmanagement.repos.SupervisorRepository;
@@ -24,6 +27,8 @@ import com.bosgii.internshipmanagement.requests.AddCompanyEvaluationRequest;
 import com.bosgii.internshipmanagement.requests.AddInternshipRequest;
 import com.bosgii.internshipmanagement.requests.AssignRequest;
 import com.bosgii.internshipmanagement.requests.ChangeInternshipRequest;
+import com.bosgii.internshipmanagement.requests.FinalizeSubmissionRequest;
+import com.bosgii.internshipmanagement.requests.GenerateFinalPDFRequest;
 
 @Service
 public class InternshipService {
@@ -34,10 +39,11 @@ public class InternshipService {
 	private final InstructorRepository instructorRepository;
 	private final CompanyEvaluationRepository companyEvaluationRepository;
 	private final CompanyEvaluationFormService companyEvaluationFormService;
+	private final FinalPDFRequestService finalPDFRequestService;
 	
 	public InternshipService(InternshipRepository internshipRepository, StudentRepository studentRepository,
 			CompanyRepository companyRepository, SupervisorRepository supervisorRepository, InstructorRepository instructorRepository, CompanyEvaluationRepository companyEvaluationRepository,
-			CompanyEvaluationFormService companyEvaluationFormService) {
+			CompanyEvaluationFormService companyEvaluationFormService, FinalPDFRequestService finalPDFRequestService) {
 		this.internshipRepository = internshipRepository;
 		this.studentRepository = studentRepository;
 		this.companyRepository = companyRepository;
@@ -45,6 +51,7 @@ public class InternshipService {
 		this.instructorRepository = instructorRepository;
 		this.companyEvaluationRepository = companyEvaluationRepository;
 		this.companyEvaluationFormService = companyEvaluationFormService;
+		this.finalPDFRequestService = finalPDFRequestService;
 	}
 
 	public List<Internship> getAllInternships(Optional<Long> studentId, Optional<Long> instructorId) {
@@ -240,9 +247,69 @@ public class InternshipService {
 			newCe.setSupervisorGrade(req.getSupervisorGrade());
 			companyEvaluationRepository.saveAndFlush(newCe);
 			companyEvaluationFormService.addCompanyEvaluationFormToCompanyEvaluation(req.getFile(), newCe);
-			i.setStatus(InternshipStatus.UNDER_EVALUATION);
+			i.setStatus(InternshipStatus.NOT_SUBMITTED);
 		}
 
 		return internshipRepository.saveAndFlush(i);
+	}
+
+    public void handleFinalizeInternship(Long internshipId, FinalizeSubmissionRequest req) {
+		Internship i = internshipRepository.findById(internshipId).get();
+		// map FinalizeSubmissionRequest to GenerateFinalPDFRequest
+		GenerateFinalPDFRequest pdfReq = new GenerateFinalPDFRequest();
+		CompanyEvaluation ce = companyEvaluationRepository.findByInternshipId(internshipId).get();
+		pdfReq.setPointOfEmployer(ce.getSupervisorGrade());
+		pdfReq.setIsWorkComp(req.getWorkDoneRelated().equals("YES") ? true : false);
+		pdfReq.setIsSupervisorComp(req.getSupervisorRelated().equals("YES") ? true : false);
+		if(req.getCompanyEvaluation().equals("Strongly Recommend")){
+			pdfReq.setEvaluationOfCompanyByInstructor(1);
+		} else if (req.getCompanyEvaluation().equals("Satisfied")){
+			pdfReq.setEvaluationOfCompanyByInstructor(2);
+		} else if ( req.getCompanyEvaluation().equals("Not Recommending")){
+			pdfReq.setEvaluationOfCompanyByInstructor(3);
+		}
+
+		ArrayList<Integer> scores = new ArrayList<Integer>();
+		scores.add(req.getGrade1());
+		scores.add(req.getGrade2());
+		scores.add(req.getGrade3());
+		scores.add(req.getGrade4());
+		scores.add(req.getGrade5());
+		scores.add(req.getGrade6());
+		scores.add(req.getGrade7());
+
+		pdfReq.setScores(scores);
+
+		ArrayList<ArrayList<Integer>> pages = new ArrayList<ArrayList<Integer>>();
+		pages.add(csvToList(req.getPages1()));
+		pages.add(csvToList(req.getPages2()));
+		pages.add(csvToList(req.getPages3()));
+		pages.add(csvToList(req.getPages4()));
+		pages.add(csvToList(req.getPages5()));
+		pages.add(csvToList(req.getPages6()));
+		pages.add(csvToList(req.getPages7()));
+
+		pdfReq.setPages(pages);
+
+		finalPDFRequestService.GenerateFinalPdf(i, pdfReq);
+    }
+
+	private ArrayList<Integer> csvToList(String csv){
+		ArrayList<Integer> pages = new ArrayList<Integer>();
+
+		if(csv.isEmpty()) return pages;
+
+		// Remove spaces between values
+        csv = csv.replaceAll("\\s+", "");
+        
+        // Split the CSV string by comma
+        List<String> values = Arrays.asList(csv.split(","));
+        
+        // Convert each value to an integer and add to the result list
+        for (String value : values) {
+            pages.add(Integer.parseInt(value));
+        }
+        
+        return pages;
 	}
 }
