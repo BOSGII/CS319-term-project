@@ -21,7 +21,7 @@ feature-f19: finalize report component
 feature-f20: add signature for instructor component
 feature-f21: secretary set initial deadline button
 feature-f22: revision set deadline option
-feature-f23: upload company evaluation form button for secretary
+MERGED feature-f23: upload company evaluation form button for secretary
 MERGED feature-f24: secretary sidebar
 MERGED feature-f25: navbar
 feature-f26: styling for secretary pages/general styling
@@ -48,6 +48,7 @@ feature-b13: handle uploaded company evaluation form
 feature-b14: statistics generator
 feature-b15: revise response objects (nested objects are mostly unused in frontend and causes overhead)
 feature-b16: TAController, TAService
+feature-b17: adjustments for final evaluation form generation (take some inputs from company evaluation form, some from instructor, etc.)
 
 
 
