@@ -8,7 +8,6 @@ import jakarta.persistence.Table;
 public abstract class Evaluator extends User {
 	String department;
 	int numOfAssignedInternships;
-	int maxNumOfInternships;
 	int completed;
 	
 	public String getDepartment() {
@@ -22,12 +21,6 @@ public abstract class Evaluator extends User {
 	}
 	public void setCompleted(int completed) {
 		this.completed = completed;
-	}
-	public int getMaxNumOfInternships() {
-		return maxNumOfInternships;
-	}
-	public void setMaxNumOfInternships(int maxNumOfInternships) {
-		this.maxNumOfInternships = maxNumOfInternships;
 	}
 	public int getNumOfAssignedInternships() {
 		return numOfAssignedInternships;
