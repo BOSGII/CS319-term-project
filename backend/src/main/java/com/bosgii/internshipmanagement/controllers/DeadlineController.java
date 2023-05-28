@@ -23,9 +23,4 @@ public class DeadlineController {
     public void setInitialDeadline(@RequestBody Date deadline) {
         deadlineService.setInitialDeadline(deadline);
     }
-
-    @PostMapping("/deadline/{internshipId}")
-    public void extendDeadline(@PathVariable Long internshipId, @RequestBody Date deadline) {
-        deadlineService.extendDeadline(internshipId, deadline);
-    }
 }
