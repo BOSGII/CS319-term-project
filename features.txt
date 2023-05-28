@@ -49,6 +49,7 @@ feature-b14: statistics generator
 feature-b15: revise response objects (nested objects are mostly unused in frontend and causes overhead)
 feature-b16: TAController, TAService
 feature-b17: adjustments for final evaluation form generation (take some inputs from company evaluation form, some from instructor, etc.)
+MERGED feature-b18: CompanyEvaluation && CompanyEvaluationForm
 
 
 
