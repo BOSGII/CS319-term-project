@@ -42,6 +42,8 @@ public class Internship {
 	Date startDate;
 	Date endDate;
 	InternshipType type;
+
+	Date deadline;
 	
 	// TODO: company evaluation form
 	
@@ -110,6 +112,12 @@ public class Internship {
 	}
 	public void setNumOfVersions(int numOfVersions) {
 		this.numOfVersions = numOfVersions;
+	}
+	public Date getDeadline() {
+		return deadline;
+	}
+	public void setDeadline(Date deadline) {
+		this.deadline = deadline;
 	}
 	
 }
