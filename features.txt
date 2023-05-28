@@ -24,11 +24,11 @@ feature-f22: revision set deadline option
 MERGED feature-f23: upload company evaluation form button for secretary
 MERGED feature-f24: secretary sidebar
 MERGED feature-f25: navbar
-feature-f26: styling for secretary pages/general styling
-feature-f27: download component
-feature-f28: download report/feedback functionality
+MERGED feature-f26: styling for secretary pages
+MERGED feature-f27: download component
+MERGED feature-f28: download report/feedback functionality
 feature-f29: admin page/pages
-
+feature-f30: error message when imported excel does not obey format
 
 
 Backend features:
@@ -50,6 +50,7 @@ feature-b15: revise response objects (nested objects are mostly unused in fronte
 feature-b16: TAController, TAService
 feature-b17: adjustments for final evaluation form generation (take some inputs from company evaluation form, some from instructor, etc.)
 MERGED feature-b18: CompanyEvaluation && CompanyEvaluationForm
+MERGED feature-b19: import internships service should return the line causing error to the frontend 
 
 
 
