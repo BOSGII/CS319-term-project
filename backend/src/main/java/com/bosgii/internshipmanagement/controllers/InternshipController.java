@@ -9,6 +9,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bosgii.internshipmanagement.entities.Internship;
+import com.bosgii.internshipmanagement.requests.AddCompanyEvaluationRequest;
 import com.bosgii.internshipmanagement.requests.AddInternshipRequest;
 import com.bosgii.internshipmanagement.requests.AssignRequest;
 import com.bosgii.internshipmanagement.requests.ChangeInternshipRequest;
@@ -38,6 +40,12 @@ public class InternshipController {
 	public ResponseEntity<Resource> generateFinalPDF(@PathVariable Long internshipId, @RequestBody GenerateFinalPDFRequest req){
 		return finalPDFRequestService.GenerateFinalPdf(internshipId,req);
 	}
+
+	@PostMapping("/internships/{internshipId}/companyForm")
+	public Internship uploadCompanyEvaluation(@PathVariable Long internshipId, @ModelAttribute AddCompanyEvaluationRequest supervisorGrade){
+		return internshipService.uploadCompanyEvaluation(internshipId, supervisorGrade);
+	}
+
 	@GetMapping("/internships")
 	public List<Internship> getAllInternships(@RequestParam Optional<Long> studentId, @RequestParam Optional<Long> instructorId){
 		return internshipService.getAllInternships(studentId, instructorId);

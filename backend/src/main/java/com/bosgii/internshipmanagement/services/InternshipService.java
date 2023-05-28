@@ -7,17 +7,20 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.bosgii.internshipmanagement.entities.Company;
+import com.bosgii.internshipmanagement.entities.CompanyEvaluation;
 import com.bosgii.internshipmanagement.entities.Instructor;
 import com.bosgii.internshipmanagement.entities.Internship;
 import com.bosgii.internshipmanagement.entities.Student;
 import com.bosgii.internshipmanagement.entities.Supervisor;
 import com.bosgii.internshipmanagement.enums.InternshipStatus;
 import com.bosgii.internshipmanagement.enums.InternshipType;
+import com.bosgii.internshipmanagement.repos.CompanyEvaluationRepository;
 import com.bosgii.internshipmanagement.repos.CompanyRepository;
 import com.bosgii.internshipmanagement.repos.InstructorRepository;
 import com.bosgii.internshipmanagement.repos.SupervisorRepository;
 import com.bosgii.internshipmanagement.repos.InternshipRepository;
 import com.bosgii.internshipmanagement.repos.StudentRepository;
+import com.bosgii.internshipmanagement.requests.AddCompanyEvaluationRequest;
 import com.bosgii.internshipmanagement.requests.AddInternshipRequest;
 import com.bosgii.internshipmanagement.requests.AssignRequest;
 import com.bosgii.internshipmanagement.requests.ChangeInternshipRequest;
@@ -29,14 +32,19 @@ public class InternshipService {
 	private final CompanyRepository companyRepository;
 	private final SupervisorRepository supervisorRepository;
 	private final InstructorRepository instructorRepository;
+	private final CompanyEvaluationRepository companyEvaluationRepository;
+	private final CompanyEvaluationFormService companyEvaluationFormService;
 	
 	public InternshipService(InternshipRepository internshipRepository, StudentRepository studentRepository,
-			CompanyRepository companyRepository, SupervisorRepository supervisorRepository, InstructorRepository instructorRepository) {
+			CompanyRepository companyRepository, SupervisorRepository supervisorRepository, InstructorRepository instructorRepository, CompanyEvaluationRepository companyEvaluationRepository,
+			CompanyEvaluationFormService companyEvaluationFormService) {
 		this.internshipRepository = internshipRepository;
 		this.studentRepository = studentRepository;
 		this.companyRepository = companyRepository;
 		this.supervisorRepository = supervisorRepository;
 		this.instructorRepository = instructorRepository;
+		this.companyEvaluationRepository = companyEvaluationRepository;
+		this.companyEvaluationFormService = companyEvaluationFormService;
 	}
 
 	public List<Internship> getAllInternships(Optional<Long> studentId, Optional<Long> instructorId) {
@@ -212,5 +220,29 @@ public class InternshipService {
 	public void handleNewVersion(Internship i) {
 		i.setNumOfVersions(i.getNumOfVersions() + 1);
 		internshipRepository.save(i);
+	}
+
+	public Internship uploadCompanyEvaluation(Long internshipId, AddCompanyEvaluationRequest req) {
+		Internship i = internshipRepository.findById(internshipId).get();
+		Optional<CompanyEvaluation> ce = companyEvaluationRepository.findByInternshipId(internshipId);
+
+		if(ce.isPresent()){
+			ce.get().setSupervisorGrade(req.getSupervisorGrade());
+			companyEvaluationRepository.save(ce.get());
+
+			// TODO: handle change file
+			if(req.getFile() != null){
+
+			}
+		}else {
+			CompanyEvaluation newCe = new CompanyEvaluation();
+			newCe.setInternship(i);
+			newCe.setSupervisorGrade(req.getSupervisorGrade());
+			companyEvaluationRepository.saveAndFlush(newCe);
+			companyEvaluationFormService.addCompanyEvaluationFormToCompanyEvaluation(req.getFile(), newCe);
+			i.setStatus(InternshipStatus.UNDER_EVALUATION);
+		}
+
+		return internshipRepository.saveAndFlush(i);
 	}
 }
