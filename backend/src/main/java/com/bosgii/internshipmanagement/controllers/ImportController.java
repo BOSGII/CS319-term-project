@@ -2,6 +2,8 @@ package com.bosgii.internshipmanagement.controllers;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +23,15 @@ public class ImportController {
     }
 
     @PostMapping("/import")
-    public List<Internship> importInternshipsFromExcelFile(@RequestBody MultipartFile file){
-        return importService.importInternshipsFromExcelFile(file);
+    public ResponseEntity<String> importInternshipsFromExcelFile(@RequestBody MultipartFile file){
+        
+        try{   
+            importService.importInternshipsFromExcelFile(file);
+            return ResponseEntity.ok("File imported succesfully.");
+        }
+        catch(Exception e){
+            
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 }
