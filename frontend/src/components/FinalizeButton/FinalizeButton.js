@@ -93,7 +93,7 @@ export default function FinalizeButton({ submissionId, refreshSubmission }) {
           isCSVValid(result.pages7)
         ) {
           axios
-            .post(`/api/submissions/${submissionId}/finalize`, result)
+            .post(`http://localhost:8080/api/submissions/${submissionId}/finalize`, result)
             .then((response) => {
               refreshSubmission();
             })

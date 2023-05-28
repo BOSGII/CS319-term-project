@@ -2,7 +2,7 @@ package com.bosgii.internshipmanagement.documents;
 
 import com.bosgii.internshipmanagement.entities.Version;
 import javax.persistence.*;
-//import jakarta.persistence.*;
+//import javax.persistence.*;
 
 @Entity
 @Table(name = "Feedback")

@@ -1,20 +1,20 @@
 package com.bosgii.internshipmanagement.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
-@Table(name="CompanyEvaluation")
+@Table(name = "CompanyEvaluation")
 public class CompanyEvaluation {
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	Long id;
-	
-	int supervisorGrade;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+
+    int supervisorGrade;
 
     @ManyToOne
     Internship internship;
