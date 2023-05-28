@@ -33,7 +33,7 @@ export default function Instructor({ instructor, refreshInstructors }) {
             justifyContent: "space-between",
             height: "100%",
           }}>
-    <ListItem >
+    <ListItem style={{justifyContent: "space-between"}}>
       <Stack direction={"column"} marginRight={40}>
         <ListItemText> Full Name: {fullName} </ListItemText>
         <ListItemText> Department: {department}</ListItemText>

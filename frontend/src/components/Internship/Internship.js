@@ -26,15 +26,14 @@ export default function Internship({ internship, refreshInternships }) {
 
   return (
     <Card elevation={10} style={{ borderRadius: 15 }}>
-      <ListItem >
-        <Stack direction={"row"} alignItems={"center"}> 
+      <ListItem style={{justifyContent: "space-between"}}>
           <Stack direction={"column"} spacing={1} alignItems={"left"} marginRight={40}>
             <ListItemText>{internshipType} </ListItemText>
             <ListItemText>Student Id:{studentId} </ListItemText>
             <ListItemText>Instructor Id: {instructorId === -1 ? "Not assigned" : instructorId}</ListItemText>
             <ListItemText>Status:{" "} {internshipStatus}</ListItemText>
           </Stack>
-          <Stack direction={"row"} spacing={5}>
+          <Stack direction={"row"} spacing={5} alignItems={"right"}>
             {user.role === "secretary" && (
               <Stack direction={"row"} spacing={5}>
                 <ChangeInternshipDetailsButton />
@@ -59,7 +58,6 @@ export default function Internship({ internship, refreshInternships }) {
               />
             )}
             </Stack>
-          </Stack>
       </ListItem>
     </Card>
   );
