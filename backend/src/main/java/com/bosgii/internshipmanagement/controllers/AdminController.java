@@ -7,7 +7,6 @@ import com.bosgii.internshipmanagement.services.SecretaryService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,7 +34,6 @@ public class AdminController {
     }
 
     @PostMapping("/secretaries")
-
     public ResponseEntity<String> createSecretary(@RequestBody AddSecretaryRequest req) {
         try {
             adminService.createSecretary(req);
