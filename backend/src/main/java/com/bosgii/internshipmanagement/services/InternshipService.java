@@ -224,6 +224,13 @@ public class InternshipService {
 	public Internship deleteInternship(Long internshipId) {
 		Optional<Internship> opt = internshipRepository.findById(internshipId);
 		internshipRepository.deleteById(internshipId);
+		if (opt.isPresent()) {
+			Instructor i = opt.get().getInstructor();
+			if (i != null) {
+				i.setNumOfAssignedInternships(i.getNumOfAssignedInternships() - 1);
+				instructorRepository.save(i);
+			}
+		}
 
 		return opt.get();
 	}

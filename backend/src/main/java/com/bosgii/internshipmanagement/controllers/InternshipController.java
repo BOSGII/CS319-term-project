@@ -73,8 +73,14 @@ public class InternshipController {
 	}
 
 	@DeleteMapping("/internships/{internshipId}")
-	public Internship deleteInternship(@PathVariable Long internshipId) {
-		return internshipService.deleteInternship(internshipId);
+	public ResponseEntity<String> deleteInternship(@PathVariable Long internshipId) {
+		try {
+			internshipService.deleteInternship(internshipId);
+			return ResponseEntity.ok("Internship created successfully.");
+		}
+		catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
 	}
 
 }
