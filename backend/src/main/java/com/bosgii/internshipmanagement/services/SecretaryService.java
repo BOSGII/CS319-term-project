@@ -1,7 +1,9 @@
 package com.bosgii.internshipmanagement.services;
 
 import com.bosgii.internshipmanagement.entities.Secretary;
+
 import com.bosgii.internshipmanagement.exceptions.InvalidMailAddressException;
+
 import com.bosgii.internshipmanagement.repos.SecretaryRepository;
 import com.bosgii.internshipmanagement.requests.AddSecretaryRequest;
 import org.springframework.stereotype.Service;
@@ -20,7 +22,9 @@ public class SecretaryService {
         return secretaryRepository.findAll();
     }
 
+
     public Secretary createSecretary(AddSecretaryRequest req) throws InvalidMailAddressException{
+
         Secretary newSec = new Secretary();
         newSec.setId(req.getId());
         newSec.setFullName(req.getFullName());

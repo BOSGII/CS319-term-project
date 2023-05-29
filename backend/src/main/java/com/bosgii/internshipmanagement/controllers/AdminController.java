@@ -7,19 +7,24 @@ import com.bosgii.internshipmanagement.services.SecretaryService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @CrossOrigin("http://localhost:3000")
 @RestController
+
 @RequestMapping("/api")
 public class AdminController {
 
     private AdminService adminService;
     private SecretaryService secretaryService;
 
+
     public AdminController(SecretaryService secretaryService, AdminService adminService) {
+
         this.secretaryService = secretaryService;
         this.adminService = adminService;
     }
@@ -30,6 +35,7 @@ public class AdminController {
     }
 
     @PostMapping("/secretaries")
+
     public ResponseEntity<String> createSecretary(@RequestBody AddSecretaryRequest req) {
         try {
             adminService.createSecretary(req);
@@ -37,6 +43,7 @@ public class AdminController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
+
     }
 
     @DeleteMapping("/secretaries/{secId}")
