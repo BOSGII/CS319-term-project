@@ -4,10 +4,15 @@ import axios from "axios";
 import fileDownload from "js-file-download";
 
 export default function DownloadFile({ fileName, url }) {
+  const sessionId = localStorage.getItem("sessionId");
+
   const downloadFileFromServer = (url) => {
     axios
       .get(url, {
         responseType: "blob",
+        headers: {
+          Authorization: `${sessionId}`,
+        },
       })
       .then((response) => {
         console.log(response);

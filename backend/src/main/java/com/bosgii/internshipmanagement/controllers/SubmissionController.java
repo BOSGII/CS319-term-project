@@ -2,6 +2,7 @@ package com.bosgii.internshipmanagement.controllers;
 
 import java.util.Optional;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import com.bosgii.internshipmanagement.requests.FinalizeSubmissionRequest;
 import com.bosgii.internshipmanagement.services.SubmissionService;
 
 @RestController
+@CrossOrigin("http://localhost:3000/")
 @RequestMapping("/api")
 public class SubmissionController {
 	private final SubmissionService submissionService;
@@ -26,9 +28,10 @@ public class SubmissionController {
 	public SubmissionController(SubmissionService submissionService) {
 		this.submissionService = submissionService;
 	}
-	
+
 	@GetMapping("/submissions")
-	public Optional<Submission> getSubmissionOfAnInternship(@RequestParam Optional<Long> internshipId, @RequestParam Optional<Long> studentId, @RequestParam Optional<InternshipType> internshipType) {
+	public Optional<Submission> getSubmissionOfAnInternship(@RequestParam Optional<Long> internshipId,
+			@RequestParam Optional<Long> studentId, @RequestParam Optional<InternshipType> internshipType) {
 		return submissionService.findSubmission(internshipId, studentId, internshipType);
 	}
 

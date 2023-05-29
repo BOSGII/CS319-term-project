@@ -3,6 +3,8 @@ import axios from "axios";
 import CommentList from "../../components/CommentList/CommentList";
 
 export default function CommentSection({ versionStatus, versionId }) {
+  const sessionId = localStorage.getItem("sessionId");
+
   const [comments, setComments] = useState([]);
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState(null);
@@ -10,7 +12,11 @@ export default function CommentSection({ versionStatus, versionId }) {
   useEffect(() => {
     setIsPending(true);
     axios
-      .get(`/api/comments?versionId=${versionId}`)
+      .get(`http://localhost:8080/api/comments?versionId=${versionId}`, {
+        headers: {
+          Authorization: `${sessionId}`,
+        },
+      })
       .then((response) => {
         setComments(response.data);
         setIsPending(false);

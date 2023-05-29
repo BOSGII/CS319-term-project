@@ -1,8 +1,12 @@
 package com.bosgii.internshipmanagement.repos;
 
-import com.bosgii.internshipmanagement.entities.Secretary;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface SecretaryRepository extends JpaRepository<Secretary, Long> {
+import com.bosgii.internshipmanagement.entities.Secretary;
 
+public interface SecretaryRepository extends JpaRepository<Secretary, Long> {
+    Optional<Secretary> findById(Long id);
 }
+

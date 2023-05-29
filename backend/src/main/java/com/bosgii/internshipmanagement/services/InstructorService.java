@@ -20,7 +20,7 @@ public class InstructorService {
 	}
 
 	public List<Instructor> getAllInstructors(Optional<Boolean> available) {
-		if(available.isPresent()){
+		if (available.isPresent()) {
 			return instructorRepository.findAllAvailable();
 		}
 		return instructorRepository.findAll();
@@ -37,14 +37,14 @@ public class InstructorService {
 		newInstructor.setNumOfAssignedInternships(0);
 		newInstructor.setRole("instructor");
 		newInstructor.setCompleted(0);
-		
+
 		return instructorRepository.save(newInstructor);
 	}
 
 	public Instructor changeInstructorDetails(Long instructorId, ChangeInstructorRequest req) {
 		Instructor toBeUpdated;
 		Optional<Instructor> opt = instructorRepository.findById(instructorId);
-		
+
 		if (opt.isPresent()) {
 			toBeUpdated = opt.get();
 		} else {

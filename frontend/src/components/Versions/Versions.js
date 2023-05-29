@@ -7,6 +7,7 @@ export default function Versions({
   internship,
   setAddNewVersionButtonPressed,
 }) {
+  const sessionId = localStorage.getItem("sessionId");
   const [submission, setSubmission] = useState(null);
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState(null);
@@ -34,9 +35,15 @@ export default function Versions({
   useEffect(() => {
     const getSubmissionFromServer = () => {
       setIsPending(true);
-
       axios
-        .get(`/api/submissions?internshipId=${internship.id}`)
+        .get(
+          `http://localhost:8080/api/submissions?internshipId=${internship.id}`,
+          {
+            headers: {
+              Authorization: `${sessionId}`,
+            },
+          }
+        )
         .then((response) => {
           setSubmission(response.data);
           setVersionUnderFocus(response.data.numOfVersions);

@@ -8,6 +8,7 @@ export default function UploadCompanyEvaluationFormButton({
   internshipId,
   setInternshipStatus,
 }) {
+  const sessionId = localStorage.getItem("sessionId");
   const [open, setOpen] = useState(false);
   const [supervisorGrade, setSupervisorGrade] = useState(null);
 
@@ -18,7 +19,11 @@ export default function UploadCompanyEvaluationFormButton({
       formData.append("supervisorGrade", supervisorGrade);
 
       axios
-        .post(`/api/internships/${internshipId}/companyForm`, formData)
+        .post(
+          `http://localhost:8080/api/internships/${internshipId}/companyForm`,
+          formData,
+          { headers: { Authorization: `${sessionId}` } }
+        )
         .then((response) => {
           setInternshipStatus(response.data.status);
           setOpen(false);

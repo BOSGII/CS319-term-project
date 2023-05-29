@@ -2,21 +2,23 @@ package com.bosgii.internshipmanagement.entities;
 
 import com.bosgii.internshipmanagement.enums.VersionStatus;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-
+import javax.persistence.*;
+/* 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+*/
 
 @Entity
-@Table(name="Version")
+@Table(name = "Version")
 public class Version {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
-	
+
 	@ManyToOne
 	Submission submission;
 
@@ -29,7 +31,7 @@ public class Version {
 
 	boolean isFeedbackFileProvided;
 	boolean areCommentsProvided;
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -85,7 +87,7 @@ public class Version {
 	public void setFeedbackFileProvided(boolean isFeedbackFileProvided) {
 		this.isFeedbackFileProvided = isFeedbackFileProvided;
 	}
-	
+
 	public String getReportFileName() {
 		return reportFileName;
 	}
