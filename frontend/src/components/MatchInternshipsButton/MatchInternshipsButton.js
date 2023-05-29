@@ -25,7 +25,7 @@ export default function MatchInternshipsButton({ refreshInternships }) {
       .get(`http://localhost:8080/api/match?matchType=${matchType}`,  {
         headers: {
           Authorization: `${sessionId}`,
-        },
+        }
       })
       .then((response) => {
         refreshInternships();
