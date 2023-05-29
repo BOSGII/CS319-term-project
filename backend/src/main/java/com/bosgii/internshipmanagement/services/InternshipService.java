@@ -2,6 +2,7 @@ package com.bosgii.internshipmanagement.services;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,14 +65,28 @@ public class InternshipService {
 	}
 
 	public List<Internship> getAllInternships(Optional<Long> studentId, Optional<Long> instructorId) {
+		List<Internship> internships;
+
 		// studentId and instructorId cannot be present at the same time
 		if (studentId.isPresent()) {
-			return internshipRepository.getAllByStudentId(studentId.get());
+			internships = internshipRepository.getAllByStudentId(studentId.get());
 		} else if (instructorId.isPresent()) {
-			return internshipRepository.getAllByInstructorId(instructorId.get());
+			internships = internshipRepository.getAllByInstructorId(instructorId.get());
+		} else {
+			internships = internshipRepository.findAll();
 		}
+		
+		// check deadline status
+		Date date = new Date();
 
-		return internshipRepository.findAll();
+		for (Internship i: internships) {
+			if (i.getDeadline() != null && i.getDeadline().compareTo(date) < 0) {
+				i.setStatus(InternshipStatus.FAIL_NO_SUBMISSION);
+			}
+		}
+		internshipRepository.saveAll(internships);
+
+		return internships;
 	}
 
 	public Optional<Internship> getOneInternshipById(Long internshipId) {
