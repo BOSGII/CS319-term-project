@@ -15,10 +15,13 @@ import com.bosgii.internshipmanagement.entities.Student;
 import com.bosgii.internshipmanagement.entities.Supervisor;
 import com.bosgii.internshipmanagement.enums.InternshipStatus;
 import com.bosgii.internshipmanagement.enums.InternshipType;
+import com.bosgii.internshipmanagement.exceptions.InvalidMailAddressException;
+import com.bosgii.internshipmanagement.exceptions.UserIdExistsException;
 import com.bosgii.internshipmanagement.repos.CompanyEvaluationRepository;
 import com.bosgii.internshipmanagement.repos.CompanyRepository;
 import com.bosgii.internshipmanagement.repos.InstructorRepository;
 import com.bosgii.internshipmanagement.repos.SupervisorRepository;
+import com.bosgii.internshipmanagement.repos.UserRepository;
 import com.bosgii.internshipmanagement.repos.InternshipRepository;
 import com.bosgii.internshipmanagement.repos.StudentRepository;
 import com.bosgii.internshipmanagement.requests.AddCompanyEvaluationRequest;
@@ -38,11 +41,13 @@ public class InternshipService {
 	private final CompanyEvaluationRepository companyEvaluationRepository;
 	private final CompanyEvaluationFormService companyEvaluationFormService;
 	private final FinalPDFRequestService finalPDFRequestService;
+	private final UserRepository userRepository;
 
 	public InternshipService(InternshipRepository internshipRepository, StudentRepository studentRepository,
 			CompanyRepository companyRepository, SupervisorRepository supervisorRepository,
 			InstructorRepository instructorRepository, CompanyEvaluationRepository companyEvaluationRepository,
-			CompanyEvaluationFormService companyEvaluationFormService, FinalPDFRequestService finalPDFRequestService) {
+			CompanyEvaluationFormService companyEvaluationFormService, FinalPDFRequestService finalPDFRequestService,
+			UserRepository userRepository) {
 		this.internshipRepository = internshipRepository;
 		this.studentRepository = studentRepository;
 		this.companyRepository = companyRepository;
@@ -51,6 +56,7 @@ public class InternshipService {
 		this.companyEvaluationRepository = companyEvaluationRepository;
 		this.companyEvaluationFormService = companyEvaluationFormService;
 		this.finalPDFRequestService = finalPDFRequestService;
+		this.userRepository = userRepository;
 	}
 
 	public List<Internship> getAllInternships(Optional<Long> studentId, Optional<Long> instructorId) {
@@ -72,7 +78,7 @@ public class InternshipService {
 		return internshipRepository.findByStudentIdAndType(studentId, type);
 	}
 
-	public Internship addInternship(AddInternshipRequest req) {
+	public Internship addInternship(AddInternshipRequest req) throws InvalidMailAddressException, UserIdExistsException {
 		// check if the internship already exists
 		Long studentId = req.getStudentId();
 		InternshipType type = req.getType();
@@ -88,6 +94,9 @@ public class InternshipService {
 			st = student.get();
 		} else {
 			st = new Student();
+			if (userRepository.existsById(req.getStudentId())) {
+				throw new UserIdExistsException(req.getStudentId());
+			}
 			st.setId(req.getStudentId());
 			st.setFullName(req.getStudentFullName());
 			st.setMail(req.getStudentMail());

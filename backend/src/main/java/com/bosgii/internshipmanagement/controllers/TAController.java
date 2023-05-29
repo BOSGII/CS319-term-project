@@ -2,6 +2,8 @@ package com.bosgii.internshipmanagement.controllers;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,14 +35,26 @@ public class TAController {
     }
 
     @PostMapping("/tas")
-    public TA createTA(@RequestBody AddTARequest req) {
-        return taService.createTA(req);
+    public ResponseEntity<String> createTA(@RequestBody AddTARequest req) {
+        try {
+            taService.createTA(req);
+			return ResponseEntity.ok("TA created successfully.");
+		}
+		catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
     }
 
     @PutMapping("tas/{taId}")
-    public TA changeTADetails(@PathVariable Long taId,
+    public ResponseEntity<String> changeTADetails(@PathVariable Long taId,
             @RequestBody ChangeTARequest req) {
-        return taService.changeTADetails(taId, req);
+        try {
+            taService.changeTADetails(taId, req);
+            return ResponseEntity.ok("TA changed successfully.");
+        }
+        catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/tas/{taId}")
