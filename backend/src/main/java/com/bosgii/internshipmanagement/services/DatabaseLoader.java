@@ -24,7 +24,6 @@ public class DatabaseLoader {
     private final InstructorRepository instructorRepository;
     private final TARepository taRepository;
 
-
     public DatabaseLoader(StudentRepository studentRepository, PasswordEncoder passwordEncoder,
             SecretaryRepository secretaryRepository, InstructorRepository instructorRepository,
             TARepository taRepository) {
@@ -73,7 +72,7 @@ public class DatabaseLoader {
         ta.setFullName("asistan");
         ta.setMail("serkan@se.com");
         ta.setPassword(passwordEncoder.encode("111"));
-        ta.setRole("TA");
+        ta.setRole("ta");
 
         taRepository.save(ta);
     }

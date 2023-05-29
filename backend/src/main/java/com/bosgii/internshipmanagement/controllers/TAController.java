@@ -38,11 +38,10 @@ public class TAController {
     public ResponseEntity<String> createTA(@RequestBody AddTARequest req) {
         try {
             taService.createTA(req);
-			return ResponseEntity.ok("TA created successfully.");
-		}
-		catch(Exception e) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-		}
+            return ResponseEntity.ok("TA created successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @PutMapping("tas/{taId}")
@@ -51,8 +50,7 @@ public class TAController {
         try {
             taService.changeTADetails(taId, req);
             return ResponseEntity.ok("TA changed successfully.");
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
