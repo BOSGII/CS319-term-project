@@ -8,6 +8,7 @@ import { useContext, useState } from "react";
 import SecretarySideBar from "../SecretarySidebar/SecretarySidebar";
 import { UserContext } from "../../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
+import LogoutIcon from '@mui/icons-material/Logout';
 
 export default function CustomNavbar() {
   const [open, setOpen] = useState(false);
@@ -69,7 +70,7 @@ export default function CustomNavbar() {
               navigate("/login");
             }}
           >
-            Logout
+            Logout <LogoutIcon></LogoutIcon>
           </Button>
         </Toolbar>
       </AppBar>

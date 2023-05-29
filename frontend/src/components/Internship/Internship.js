@@ -27,6 +27,7 @@ export default function Internship({ internship, refreshInternships }) {
 
   return (
     <Card elevation={10} style={{ borderRadius: 15 }}>
+
       <ListItem style={{ justifyContent: "space-between" }}>
         <Stack
           direction={"column"}

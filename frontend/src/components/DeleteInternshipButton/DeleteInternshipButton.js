@@ -1,5 +1,7 @@
+
 import { IconButton, Tooltip } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+
 
 import axios from "axios";
 
@@ -24,6 +26,7 @@ export default function DeleteInternshipButton({
       });
   };
 
+
   return (
     <Tooltip title="Delete Internship">
     <IconButton onClick={handleDeleteInternship}>
@@ -31,4 +34,5 @@ export default function DeleteInternshipButton({
     </IconButton>
     </Tooltip>
   );
+
 }
