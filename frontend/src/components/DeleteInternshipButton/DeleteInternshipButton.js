@@ -21,8 +21,8 @@ export default function DeleteInternshipButton({
       .then(() => {
         refreshInternships();
       })
-      .catch(() => {
-        console.log("delete internship error");
+      .catch((error) => {
+        alert("You cannot delete an internship once the company evaluation form is uploaded!");
       });
   };
 

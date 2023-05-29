@@ -21,8 +21,8 @@ export default function DeleteInstructorButton({
       .then(() => {
         refreshInstructors();
       })
-      .catch(() => {
-        console.log("delete instructor error");
+      .catch((error) => {
+        alert("You cannot delete an instructor if they are assigned to at least one internship!")
       });
   };
 

@@ -5,7 +5,7 @@ import axios from 'axios';
 export default function SetDeadlineButton({refreshInternships}) {
     const sessionId = localStorage.getItem("sessionId");
 
-    const [date, setDate] = useState('');
+    const [date, setDate] = useState(Date.now().toString());
     const [open, setOpen] = useState(false);
 
     const handleDateChange = (event) => {
@@ -54,7 +54,8 @@ export default function SetDeadlineButton({refreshInternships}) {
                 type="date" 
                 label="Deadline"
                 value={date} 
-                onChange={handleDateChange} />
+                onChange={handleDateChange} 
+                defaultValue={date}/>
         </form>
         <Button 
             variant="contained" 
