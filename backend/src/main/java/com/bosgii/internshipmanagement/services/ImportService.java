@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -133,13 +134,6 @@ public class ImportService {
                         supervisor.setGraduationYear(supervisorGraduationYear);
                         supervisor.setUniversity(supervisorUniversity);
                         
-                        /*for(Internship internship: list){
-                            if(internship.getSupervisor().getName().equals(supervisorName) 
-                            && internship.getSupervisor().getUniversity().equals(supervisorUniversity)){
-                                supervisor.setId(internship.getSupervisor().getId());
-                                break;
-                            }
-                        }*/
                         //supervisorRepository.save(supervisor);
                     }
                     Student student = new Student();
@@ -178,7 +172,6 @@ public class ImportService {
                 if(!optStudent.isPresent()) {
                     //sendEmail(student.getMail());
                     receivers.add(student);
-
                     //new password
                     student.setPassword(passwordEncoder.encode(student.getId().toString()));
                 }
