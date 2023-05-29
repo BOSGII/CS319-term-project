@@ -6,8 +6,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.scheduling.annotation.Async;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -118,7 +116,6 @@ public class ImportService {
                         company.setCompanyEmail(companyEmail);
                         company.setName(companyName);
                         //companyRepository.save(company);
-
                     }
                     //System.out.println("C id: "+company.getId());
                     Supervisor supervisor;
