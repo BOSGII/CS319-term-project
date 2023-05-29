@@ -46,4 +46,26 @@ public class SecretaryService {
     public void deleteSecretary(Long id) {
         secretaryRepository.deleteById(id);
     }
+
+    public Secretary changeSecretary(Long secretaryId, ChangeSecretaryRequest req) throws InvalidMailAddressException {
+		Secretary toBeUpdated;
+		Optional<Secretary> opt = secretaryRepository.findById(secretaryId);
+
+		if (opt.isPresent()) {
+			toBeUpdated = opt.get();
+		} else {
+			//toBeUpdated = new Secretary();
+			//toBeUpdated.setRole("secretary");
+            throw new IllegalArgumentException("Secretary already exist");
+		}
+
+		toBeUpdated.setFullName(req.getFullName());
+		toBeUpdated.setMail(req.getMail());
+
+
+		return secretaryRepository.save(toBeUpdated);
+
+    }
+
+    
 }
