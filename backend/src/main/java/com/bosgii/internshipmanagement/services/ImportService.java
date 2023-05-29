@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -44,15 +45,20 @@ public class ImportService {
     private final InternshipRepository internshipRepository;
     private final CompanyRepository companyRepository;
     private final SupervisorRepository supervisorRepository;
-
+    private final PasswordEncoder passwordEncoder;
     
+
+
     public ImportService(StudentRepository studentRepository, InternshipRepository internshipRepository,
-            CompanyRepository companyRepository, SupervisorRepository supervisorRepository) {
+            CompanyRepository companyRepository, SupervisorRepository supervisorRepository,
+            PasswordEncoder passwordEncoder) {
         this.studentRepository = studentRepository;
         this.internshipRepository = internshipRepository;
         this.companyRepository = companyRepository;
         this.supervisorRepository = supervisorRepository;
+        this.passwordEncoder = passwordEncoder;
     }
+
 
     public List<Internship> importInternshipsFromExcelFile(MultipartFile file) throws IllegalArgumentException{
 
@@ -67,6 +73,7 @@ public class ImportService {
                 }
                 
                 try{
+                    
                     String typeString = rowInfo.get(0).getStringCellValue();
                     
                     InternshipType type;
@@ -85,7 +92,7 @@ public class ImportService {
                     String studentFullName = rowInfo.get(4).getStringCellValue();
                     String studentMail = rowInfo.get(5).getStringCellValue();
                     String studentDepartment = rowInfo.get(6).getStringCellValue();
-                    
+                   
                     String companyName = rowInfo.get(7).getStringCellValue();
                     String companyEmail = rowInfo.get(8).getStringCellValue();
                     
@@ -96,23 +103,32 @@ public class ImportService {
                     String supervisorUniversity = rowInfo.get(13).getStringCellValue();
 
                    
-                   
-                   
                     Company company;
-                    Optional<Company> optCompany = companyRepository.findByNameAndEmail(companyName, companyEmail);
+                    
+                    Optional<Company> optCompany = companyRepository.findByEmail(companyEmail);
+                   
                     if(optCompany.isPresent()) {
                         company = optCompany.get();
                     }
                     else {
+                        
                         company = new Company();
                         //company id: auto
                         company.setCompanyEmail(companyEmail);
                         company.setName(companyName);
                         //companyRepository.save(company);
+                        /*for(Internship internship: list){
+                            if(internship.getCompany().getCompanyEmail().equals(companyEmail) 
+                            && internship.getCompany().getName().equals(companyName)){
+                                company.setId(internship.getCompany().getId());
+                                break;
+                            }
+                        }*/
                     }
-
+                    //System.out.println("C id: "+company.getId());
                     Supervisor supervisor;
-                    Optional<Supervisor> optSupervisor = supervisorRepository.findByNameAndUniversity(supervisorName, supervisorUniversity);
+                    Optional<Supervisor> optSupervisor = supervisorRepository.findByEmail(supervisorMail);
+                    
                     if(optSupervisor.isPresent()) {
                         supervisor = optSupervisor.get();
                     }
@@ -125,16 +141,21 @@ public class ImportService {
                         supervisor.setGraduationYear(supervisorGraduationYear);
                         supervisor.setUniversity(supervisorUniversity);
                         
+                        /*for(Internship internship: list){
+                            if(internship.getSupervisor().getName().equals(supervisorName) 
+                            && internship.getSupervisor().getUniversity().equals(supervisorUniversity)){
+                                supervisor.setId(internship.getSupervisor().getId());
+                                break;
+                            }
+                        }*/
                         //supervisorRepository.save(supervisor);
                     }
-
                     Student student = new Student();
                     student.setDepartment(studentDepartment);
                     student.setMail(studentMail);
                     student.setRole("Student"); 
                     student.setFullName(studentFullName);
                     student.setId(studentId);
-                    
                     Internship internship = new Internship();
                     internship.setType(type);
                     internship.setStartDate(startDate);
@@ -148,9 +169,7 @@ public class ImportService {
 
                 }
                 catch(Exception e){
-                    
                     throw new IllegalArgumentException("Problematic line detected on line " +(1 + row.getRowNum() )+ "!" );
-                    
                 }
 
             }
@@ -163,19 +182,27 @@ public class ImportService {
 
                 Optional<Student> optStudent = studentRepository.findById(student.getId());
                 if(!optStudent.isPresent()) {
-                    sendEmail(student.getMail());
+                    //sendEmail(student.getMail());
+                    
+                    //new password
+                    student.setPassword(passwordEncoder.encode(student.getId().toString()));
                 }
-                
+                else{
+                    student.setPassword(optStudent.get().getPassword());
+                }
                 studentRepository.saveAndFlush(student);
                     
+                Optional<Company> optCompany = companyRepository.findByEmail(company.getCompanyEmail());
+                if(optCompany.isPresent()) {
+                    company.setId(optCompany.get().getId());
+                }
                 
-                
-     
                 companyRepository.saveAndFlush(company);
                 
-
-        
-  
+                Optional<Supervisor> optSupervisor = supervisorRepository.findByEmail( supervisor.getEmail());
+                if(optSupervisor.isPresent()) {
+                    supervisor.setId(optSupervisor.get().getId());
+                }
                 supervisorRepository.saveAndFlush(supervisor);
                 
 

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.bosgii.internshipmanagement.entities.Company;
@@ -42,12 +43,14 @@ public class InternshipService {
 	private final CompanyEvaluationFormService companyEvaluationFormService;
 	private final FinalPDFRequestService finalPDFRequestService;
 	private final UserRepository userRepository;
+	private final PasswordEncoder passwordEncoder;
+
 
 	public InternshipService(InternshipRepository internshipRepository, StudentRepository studentRepository,
 			CompanyRepository companyRepository, SupervisorRepository supervisorRepository,
 			InstructorRepository instructorRepository, CompanyEvaluationRepository companyEvaluationRepository,
 			CompanyEvaluationFormService companyEvaluationFormService, FinalPDFRequestService finalPDFRequestService,
-			UserRepository userRepository) {
+			UserRepository userRepository, PasswordEncoder passwordEncoder) {
 		this.internshipRepository = internshipRepository;
 		this.studentRepository = studentRepository;
 		this.companyRepository = companyRepository;
@@ -57,6 +60,7 @@ public class InternshipService {
 		this.companyEvaluationFormService = companyEvaluationFormService;
 		this.finalPDFRequestService = finalPDFRequestService;
 		this.userRepository = userRepository;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	public List<Internship> getAllInternships(Optional<Long> studentId, Optional<Long> instructorId) {
@@ -102,6 +106,7 @@ public class InternshipService {
 			st.setMail(req.getStudentMail());
 			st.setRole("student");
 			st.setDepartment(req.getStudentDepartment());
+			st.setPassword(passwordEncoder.encode(st.getId().toString()));
 			studentRepository.save(st);
 		}
 
