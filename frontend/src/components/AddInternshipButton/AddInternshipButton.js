@@ -43,6 +43,33 @@ export default function AddInternshipButton({ refreshInternships }) {
   // Define a function to handle the form submit
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    // check if input fields are filled
+    if (
+      !internship.type.trim() ||
+      !internship.startDate ||
+      !internship.endDate ||
+      !internship.studentId.trim()  ||
+      !internship.studentFullName.trim()  ||
+      !internship.studentMail.trim()  ||
+      !internship.studentDepartment.trim()  ||
+      !internship.companyName.trim()  ||
+      !internship.companyEmail.trim()  ||
+      !internship.supervisorName.trim()  ||
+      !internship.supervisorMail.trim()  ||
+      !internship.supervisorGraduationYear  ||
+      !internship.supervisorGraduationDepartment ||
+      !internship.supervisorUniversity.trim() 
+    ) {
+      alert("All input fields must be filled");
+      return;
+    }
+
+    if (isNaN(internship.studentId)) {
+      alert("Student id must be a number");
+      return;
+    }
+
     axios
       .post("http://localhost:8080/api/internships", internship, {
         headers: {
@@ -70,6 +97,9 @@ export default function AddInternshipButton({ refreshInternships }) {
         });
       })
       .catch((error) => {
+        if (error.response.status === 400) {
+          alert(error.response.data);
+        }
         console.log("/internships post error");
       });
   };

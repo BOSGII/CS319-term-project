@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
-import { IconButton } from "@mui/material";
+import { IconButton, Tooltip } from "@mui/material";
 import { InternshipIDContext } from "../../contexts/InternshipIDContext";
 
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -45,5 +45,5 @@ export default function SeeSubmissionButton({
     }
   };
 
-  return <IconButton onClick={redirectToSubmissionPage}><VisibilityIcon></VisibilityIcon></IconButton>;
+    return <Tooltip title="See Submission"><IconButton onClick={redirectToSubmissionPage}><VisibilityIcon></VisibilityIcon></IconButton></Tooltip>;
 }

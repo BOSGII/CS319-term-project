@@ -10,6 +10,7 @@ import com.bosgii.internshipmanagement.entities.Instructor;
 import com.bosgii.internshipmanagement.entities.Secretary;
 import com.bosgii.internshipmanagement.entities.Student;
 import com.bosgii.internshipmanagement.entities.TA;
+import com.bosgii.internshipmanagement.exceptions.InvalidMailAddressException;
 import com.bosgii.internshipmanagement.repos.InstructorRepository;
 import com.bosgii.internshipmanagement.repos.SecretaryRepository;
 import com.bosgii.internshipmanagement.repos.StudentRepository;
@@ -27,7 +28,6 @@ public class DatabaseLoader {
     private final TARepository taRepository;
     private final AdminRepository adminRepository;
 
-
     public DatabaseLoader(StudentRepository studentRepository, PasswordEncoder passwordEncoder,
             SecretaryRepository secretaryRepository, InstructorRepository instructorRepository,
             TARepository taRepository, AdminRepository adminRepository) {
@@ -40,7 +40,7 @@ public class DatabaseLoader {
     }
 
     @PostConstruct
-    private void initDatabase() {
+    private void initDatabase() throws InvalidMailAddressException {
         Student student = new Student();
         student.setId(55555L);
         student.setFullName("Oguz");
@@ -71,20 +71,22 @@ public class DatabaseLoader {
         adminRepository.save(admin);
 
         Instructor instructor = new Instructor();
-        instructor.setId(123L);
+        instructor.setId(12359L);
         instructor.setFullName("David");
         instructor.setMail("david@dav.com");
         instructor.setPassword(passwordEncoder.encode("111"));
         instructor.setRole("instructor");
+        instructor.setDepartment("CS");
+        instructor.setMaxNumOfInternships(20);
 
         instructorRepository.save(instructor);
 
         TA ta = new TA();
-        ta.setId(124L);
+        ta.setId(1298L);
         ta.setFullName("asistan");
         ta.setMail("serkan@se.com");
         ta.setPassword(passwordEncoder.encode("111"));
-        ta.setRole("TA");
+        ta.setRole("ta");
 
         taRepository.save(ta);
     }

@@ -22,7 +22,7 @@ export default function MatchInternshipsButton({ refreshInternships }) {
   };
   const matchInternships = (matchType) => {
     axios
-      .post(`http://localhost:8080/api/match?matchType=${matchType}`, {
+      .get(`http://localhost:8080/api/match?matchType=${matchType}`,  {
         headers: {
           Authorization: `${sessionId}`,
         },
@@ -30,10 +30,11 @@ export default function MatchInternshipsButton({ refreshInternships }) {
       .then((response) => {
         refreshInternships();
         handleClose();
-        console.log(response.data);
       })
-      .catch(() => {
-        console.log("match post error");
+      .catch((error) => {
+        if (error.response.status === 400) {
+          alert(error.response.data);
+        }
       });
   };
 

@@ -17,7 +17,6 @@ import com.bosgii.internshipmanagement.dto.ResponseDTO;
 import com.bosgii.internshipmanagement.dto.UserDTO;
 import com.bosgii.internshipmanagement.session.SessionRegistry;
 
-import com.bosgii.internshipmanagement.session.SessionRegistry;
 import com.bosgii.internshipmanagement.entities.User;
 
 import com.bosgii.internshipmanagement.repos.UserRepository;

@@ -17,7 +17,7 @@ export default function UploadReport({ internship, refreshInternship }) {
     if (internship.status === "UNDER_EVALUATION") {
       axios
         .get(
-          `localhost:8080/api/versions?internshipId=${internship.id}&versionNumber=${internship.numOfVersions}`,
+          `http://localhost:8080/api/versions?internshipId=${internship.id}&versionNumber=${internship.numOfVersions}`,
           {
             headers: {
               Authorization: `${sessionId}`,
@@ -83,8 +83,8 @@ export default function UploadReport({ internship, refreshInternship }) {
   };
 
   return (
-    <Container>
-      <Typography variant="h1">
+    <Container style={{ marginTop: "100px", alignItems: "center" }}>
+      <Typography variant="h3" style={{ marginBottom: "60px" }}>
         {internship.status === "UNDER_EVALUATION"
           ? `You are making submission for ${
               internship.numOfVersions + 1
@@ -92,11 +92,13 @@ export default function UploadReport({ internship, refreshInternship }) {
           : "You are making initial submission"}
       </Typography>
       {oldVersion && oldVersion.areCommentsProvided && (
-        <ReplyCommentsSection
-          versionId={oldVersion.id}
-          replies={replies}
-          setReplies={setReplies}
-        />
+        <div style={{ marginBottom: "20px" }}>
+          <ReplyCommentsSection
+            versionId={oldVersion.id}
+            replies={replies}
+            setReplies={setReplies}
+          />
+        </div>
       )}
 
       <Upload

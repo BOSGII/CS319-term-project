@@ -2,9 +2,11 @@ package com.bosgii.internshipmanagement.services;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.bosgii.internshipmanagement.entities.Company;
@@ -15,10 +17,13 @@ import com.bosgii.internshipmanagement.entities.Student;
 import com.bosgii.internshipmanagement.entities.Supervisor;
 import com.bosgii.internshipmanagement.enums.InternshipStatus;
 import com.bosgii.internshipmanagement.enums.InternshipType;
+import com.bosgii.internshipmanagement.exceptions.InvalidMailAddressException;
+import com.bosgii.internshipmanagement.exceptions.UserIdExistsException;
 import com.bosgii.internshipmanagement.repos.CompanyEvaluationRepository;
 import com.bosgii.internshipmanagement.repos.CompanyRepository;
 import com.bosgii.internshipmanagement.repos.InstructorRepository;
 import com.bosgii.internshipmanagement.repos.SupervisorRepository;
+import com.bosgii.internshipmanagement.repos.UserRepository;
 import com.bosgii.internshipmanagement.repos.InternshipRepository;
 import com.bosgii.internshipmanagement.repos.StudentRepository;
 import com.bosgii.internshipmanagement.requests.AddCompanyEvaluationRequest;
@@ -38,11 +43,15 @@ public class InternshipService {
 	private final CompanyEvaluationRepository companyEvaluationRepository;
 	private final CompanyEvaluationFormService companyEvaluationFormService;
 	private final FinalPDFRequestService finalPDFRequestService;
+	private final UserRepository userRepository;
+	private final PasswordEncoder passwordEncoder;
+
 
 	public InternshipService(InternshipRepository internshipRepository, StudentRepository studentRepository,
 			CompanyRepository companyRepository, SupervisorRepository supervisorRepository,
 			InstructorRepository instructorRepository, CompanyEvaluationRepository companyEvaluationRepository,
-			CompanyEvaluationFormService companyEvaluationFormService, FinalPDFRequestService finalPDFRequestService) {
+			CompanyEvaluationFormService companyEvaluationFormService, FinalPDFRequestService finalPDFRequestService,
+			UserRepository userRepository, PasswordEncoder passwordEncoder) {
 		this.internshipRepository = internshipRepository;
 		this.studentRepository = studentRepository;
 		this.companyRepository = companyRepository;
@@ -51,17 +60,33 @@ public class InternshipService {
 		this.companyEvaluationRepository = companyEvaluationRepository;
 		this.companyEvaluationFormService = companyEvaluationFormService;
 		this.finalPDFRequestService = finalPDFRequestService;
+		this.userRepository = userRepository;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	public List<Internship> getAllInternships(Optional<Long> studentId, Optional<Long> instructorId) {
+		List<Internship> internships;
+
 		// studentId and instructorId cannot be present at the same time
 		if (studentId.isPresent()) {
-			return internshipRepository.getAllByStudentId(studentId.get());
+			internships = internshipRepository.getAllByStudentId(studentId.get());
 		} else if (instructorId.isPresent()) {
-			return internshipRepository.getAllByInstructorId(instructorId.get());
+			internships = internshipRepository.getAllByInstructorId(instructorId.get());
+		} else {
+			internships = internshipRepository.findAll();
 		}
+		
+		// check deadline status
+		Date date = new Date();
 
-		return internshipRepository.findAll();
+		for (Internship i: internships) {
+			if (i.getDeadline() != null && i.getDeadline().compareTo(date) < 0) {
+				i.setStatus(InternshipStatus.FAIL_NO_SUBMISSION);
+			}
+		}
+		internshipRepository.saveAll(internships);
+
+		return internships;
 	}
 
 	public Optional<Internship> getOneInternshipById(Long internshipId) {
@@ -72,7 +97,7 @@ public class InternshipService {
 		return internshipRepository.findByStudentIdAndType(studentId, type);
 	}
 
-	public Internship addInternship(AddInternshipRequest req) {
+	public Internship addInternship(AddInternshipRequest req) throws InvalidMailAddressException, UserIdExistsException {
 		// check if the internship already exists
 		Long studentId = req.getStudentId();
 		InternshipType type = req.getType();
@@ -88,18 +113,21 @@ public class InternshipService {
 			st = student.get();
 		} else {
 			st = new Student();
+			if (userRepository.existsById(req.getStudentId())) {
+				throw new UserIdExistsException(req.getStudentId());
+			}
 			st.setId(req.getStudentId());
 			st.setFullName(req.getStudentFullName());
 			st.setMail(req.getStudentMail());
 			st.setRole("student");
 			st.setDepartment(req.getStudentDepartment());
+			st.setPassword(passwordEncoder.encode(st.getId().toString()));
 			studentRepository.save(st);
 		}
 
 		// check if the company already exists
 		Company c;
-		Optional<Company> company = companyRepository.findByNameAndEmail(req.getCompanyName(),
-				req.getCompanyEmail());
+		Optional<Company> company = companyRepository.findByEmail(req.getCompanyEmail());
 		if (company.isPresent())
 			c = company.get();
 		else {
@@ -111,8 +139,7 @@ public class InternshipService {
 
 		// check if the supervisor already exists
 		Supervisor su;
-		Optional<Supervisor> supervisor = supervisorRepository.findByNameAndUniversity(
-				req.getSupervisorName(), req.getSupervisorUniversity());
+		Optional<Supervisor> supervisor = supervisorRepository.findByEmail(req.getSupervisorMail());
 		if (supervisor.isPresent())
 			su = supervisor.get();
 		else {
@@ -147,8 +174,7 @@ public class InternshipService {
 
 			// check if the company already exists
 			Company c;
-			Optional<Company> company = companyRepository.findByNameAndEmail(req.getCompanyName(),
-					req.getCompanyEmail());
+			Optional<Company> company = companyRepository.findByEmail(req.getCompanyEmail());
 			if (company.isPresent())
 				c = company.get();
 			else {
@@ -160,8 +186,7 @@ public class InternshipService {
 
 			// check if the supervisor already exists
 			Supervisor su;
-			Optional<Supervisor> supervisor = supervisorRepository.findByNameAndUniversity(
-					req.getSupervisorName(), req.getSupervisorUniversity());
+			Optional<Supervisor> supervisor = supervisorRepository.findByEmail(req.getSupervisorMail());
 			if (supervisor.isPresent())
 				su = supervisor.get();
 			else {
@@ -269,7 +294,7 @@ public class InternshipService {
 			pdfReq.setEvaluationOfCompanyByInstructor(3);
 		}
 
-		ArrayList<Integer> scores = new ArrayList<Integer>();
+		ArrayList<String> scores = new ArrayList<String>();
 		scores.add(req.getGrade1());
 		scores.add(req.getGrade2());
 		scores.add(req.getGrade3());
@@ -280,14 +305,14 @@ public class InternshipService {
 
 		pdfReq.setScores(scores);
 
-		ArrayList<ArrayList<Integer>> pages = new ArrayList<ArrayList<Integer>>();
-		pages.add(csvToList(req.getPages1()));
-		pages.add(csvToList(req.getPages2()));
-		pages.add(csvToList(req.getPages3()));
-		pages.add(csvToList(req.getPages4()));
-		pages.add(csvToList(req.getPages5()));
-		pages.add(csvToList(req.getPages6()));
-		pages.add(csvToList(req.getPages7()));
+		ArrayList<String> pages = new ArrayList<String>();
+		pages.add(req.getPages1());
+		pages.add(req.getPages2());
+		pages.add(req.getPages3());
+		pages.add(req.getPages4());
+		pages.add(req.getPages5());
+		pages.add(req.getPages6());
+		pages.add(req.getPages7());
 
 		pdfReq.setPages(pages);
 

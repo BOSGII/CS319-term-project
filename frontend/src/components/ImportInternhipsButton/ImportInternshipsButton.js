@@ -20,12 +20,12 @@ export default function ImportInternshipsButton({ refreshInternships }) {
         })
         .then((response) => {
           refreshInternships();
+          setOpen(false);
         })
         .catch((error) => {
-          console.log("import error");
-        })
-        .finally(() => {
-          setOpen(false);
+          if (error.response.status === 400) {
+            alert(error.response.data);
+          }
         });
     } else {
       // do nothing
