@@ -1,6 +1,6 @@
 import { Button, Dialog } from "@mui/material";
 import { useState } from "react";
-import Upload from "../Upload/Upload";
+import UploadFeedback from "../UploadFeedback/UploadFeedback";
 import axios from "axios";
 
 export default function ImportInternshipsButton({ refreshInternships }) {
@@ -52,7 +52,7 @@ export default function ImportInternshipsButton({ refreshInternships }) {
           setOpen(false);
         }}
       >
-        <Upload
+        <UploadFeedback
           acceptedFileTypes={["XLSX"]}
           handleSubmit={handleSubmit}
           handleCancel={handleCancel}
