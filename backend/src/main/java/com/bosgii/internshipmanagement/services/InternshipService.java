@@ -289,7 +289,7 @@ public class InternshipService {
 		return internshipRepository.saveAndFlush(i);
 	}
 
-	public void handleFinalizeInternship(Long internshipId, FinalizeSubmissionRequest req) {
+	public String handleFinalizeInternship(Long internshipId, FinalizeSubmissionRequest req) {
 		Internship i = internshipRepository.findById(internshipId).get();
 		// map FinalizeSubmissionRequest to GenerateFinalPDFRequest
 		GenerateFinalPDFRequest pdfReq = new GenerateFinalPDFRequest();
@@ -328,6 +328,9 @@ public class InternshipService {
 		pdfReq.setPages(pages);
 
 		finalPDFRequestService.GenerateFinalPdf(i, pdfReq);
+
+		// return file name
+		return i.getType().toString() + '_' + i.getStudent().getId() + ".pdf";
 	}
 
 	private ArrayList<Integer> csvToList(String csv) {

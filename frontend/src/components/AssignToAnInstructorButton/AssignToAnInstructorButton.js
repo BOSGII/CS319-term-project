@@ -66,7 +66,7 @@ export default function AssignToAnInstructorButton({
       .catch((error) => {
         setError(error);
       });
-  }, [internshipId, instructorId]);
+  }, [sessionId, internshipId, instructorId]);
 
   const handleClickOpen = () => {
     setOpen(true);

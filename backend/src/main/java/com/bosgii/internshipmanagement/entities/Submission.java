@@ -25,6 +25,8 @@ public class Submission {
 
 	int numOfVersions;
 
+	String finalReportName;
+
 	public Internship getInternship() {
 		return internship;
 	}
@@ -55,5 +57,13 @@ public class Submission {
 
 	public void setNumOfVersions(int numOfVersions) {
 		this.numOfVersions = numOfVersions;
+	}
+
+	public String getFinalReportName() {
+		return finalReportName;
+	}
+
+	public void setFinalReportName(String finalReportName) {
+		this.finalReportName = finalReportName;
 	}
 }

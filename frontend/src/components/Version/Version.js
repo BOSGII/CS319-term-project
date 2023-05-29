@@ -12,6 +12,7 @@ export default function Version({
   versionUnderFocus,
   setAddNewVersionButtonPressed,
   handleSidebarOpen,
+  refreshSubmission,
 }) {
   const sessionId = localStorage.getItem("sessionId");
   const { user } = useContext(UserContext);
@@ -115,9 +116,19 @@ export default function Version({
                 versionId={version.id}
                 refreshVersion={refreshVersion}
               />
-              <FinalizeButton submissionId={submission.id} />
+              <FinalizeButton
+                submissionId={submission.id}
+                refreshSubmission={refreshSubmission}
+              />
             </>
           )}
+          {submission.status === "CLOSED" &&
+            version.versionNumber === submission.numOfVersions && (
+              <DownloadFile
+                fileName={submission.finalReportName}
+                url={`http://localhost:8080/api/submissions/${submission.id}/finalReport`}
+              />
+            )}
         </Container>
       )}
     </>

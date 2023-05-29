@@ -1,13 +1,24 @@
 package com.bosgii.internshipmanagement.services;
 
 import java.util.Optional;
+
+import javax.print.attribute.standard.Media;
+
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.bosgii.internshipmanagement.entities.Internship;
 import com.bosgii.internshipmanagement.entities.Submission;
+import com.bosgii.internshipmanagement.entities.Version;
 import com.bosgii.internshipmanagement.enums.InternshipType;
 import com.bosgii.internshipmanagement.enums.SubmissionStatus;
+import com.bosgii.internshipmanagement.enums.VersionStatus;
 import com.bosgii.internshipmanagement.repos.SubmissionRepository;
+import com.bosgii.internshipmanagement.repos.VersionRepository;
 import com.bosgii.internshipmanagement.requests.ChangeSubmissionRequest;
 import com.bosgii.internshipmanagement.requests.FinalizeSubmissionRequest;
 
@@ -15,11 +26,15 @@ import com.bosgii.internshipmanagement.requests.FinalizeSubmissionRequest;
 public class SubmissionService {
 	
 	private SubmissionRepository submissionRepository;
+	private VersionRepository versionRepository;
 	private InternshipService internshipService;
+	private DocumentService documentService;
 	
-	public SubmissionService(SubmissionRepository submissionRepository, InternshipService internshipService) {
+	public SubmissionService(SubmissionRepository submissionRepository, VersionRepository versionRepository, InternshipService internshipService, DocumentService documentService) {
 		this.submissionRepository = submissionRepository;
+		this.versionRepository = versionRepository;
 		this.internshipService = internshipService;
+		this.documentService = documentService;
 	}
 	
 
@@ -100,9 +115,20 @@ public class SubmissionService {
 
     public Submission finalizeSubmission(Long submissionId, FinalizeSubmissionRequest req) {
 		Submission s = submissionRepository.findById(submissionId).get();
+		Version v = versionRepository.findOneBySubmissionIdAndVersionNumber(submissionId, s.getNumOfVersions()).get();
 		s.setStatus(SubmissionStatus.CLOSED);
+		v.setStatus(VersionStatus.OLD_VERSION);
 		Long internshipId = submissionRepository.getInternshipId(submissionId);
-		internshipService.handleFinalizeInternship(internshipId, req);
+		String fileName = internshipService.handleFinalizeInternship(internshipId, req);
+		s.setFinalReportName(fileName);
         return submissionRepository.save(s);
     }
+
+	public ResponseEntity<Resource> downloadFinalReport(Long submissionId) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_PDF);
+		Long internshipId = submissionRepository.getInternshipId(submissionId);
+		Resource report = documentService.getDocumentByFolderNameAndRequestID("final_pdf", internshipId);
+		return new ResponseEntity<Resource>(report, headers, HttpStatus.OK);
+	}
 }

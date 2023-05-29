@@ -148,7 +148,7 @@ public class ImportService {
                     Student student = new Student();
                     student.setDepartment(studentDepartment);
                     student.setMail(studentMail);
-                    student.setRole("Student"); 
+                    student.setRole("student"); 
                     student.setFullName(studentFullName);
                     student.setId(studentId);
                     Internship internship = new Internship();
