@@ -46,20 +46,20 @@ export default function AddInternshipButton({ refreshInternships }) {
 
     // check if input fields are filled
     if (
-      !internship.type ||
+      !internship.type.trim() ||
       !internship.startDate ||
       !internship.endDate ||
-      !internship.studentId ||
-      !internship.studentFullName ||
-      !internship.studentMail ||
-      !internship.studentDepartment ||
-      !internship.companyName ||
-      !internship.companyEmail ||
-      !internship.supervisorName ||
-      !internship.supervisorMail ||
-      !internship.supervisorGraduationYear ||
+      !internship.studentId.trim()  ||
+      !internship.studentFullName.trim()  ||
+      !internship.studentMail.trim()  ||
+      !internship.studentDepartment.trim()  ||
+      !internship.companyName.trim()  ||
+      !internship.companyEmail.trim()  ||
+      !internship.supervisorName.trim()  ||
+      !internship.supervisorMail.trim()  ||
+      !internship.supervisorGraduationYear  ||
       !internship.supervisorGraduationDepartment ||
-      !internship.supervisorUniversity
+      !internship.supervisorUniversity.trim() 
     ) {
       alert("All input fields must be filled");
       return;
@@ -97,6 +97,9 @@ export default function AddInternshipButton({ refreshInternships }) {
         });
       })
       .catch((error) => {
+        if (error.response.status === 400) {
+          alert(error.response.data);
+        }
         console.log("/internships post error");
       });
   };

@@ -51,6 +51,9 @@ export default function ChangeInstructorDetailsButton({
         setOpen(false);
       })
       .catch((error) => {
+        if (error.response.status === 400) {
+          alert(error.response.data);
+        }
         console.log("/api/instructors put error:", error.message);
       });
   };
