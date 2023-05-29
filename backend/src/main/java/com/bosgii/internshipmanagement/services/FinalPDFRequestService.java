@@ -55,22 +55,38 @@ public class FinalPDFRequestService {
         int pointOfEmployer = req.getPointOfEmployer();
         boolean isWorkComp = req.getIsWorkComp();
         boolean isSupervisor = req.getIsSupervisorComp();
-        ArrayList<ArrayList<Integer>> pages = req.getPages();
-        ArrayList<Integer> scores = req.getScores();
+        ArrayList<String> pages = req.getPages();
+        ArrayList<String> scores = req.getScores();
         int evaluationOfCompanyInstructor = req.getEvaluationOfCompanyByInstructor();
-        int partCP1 = scores.get(0);
+
+        int partCP1 = 0;
+        String partCP1Str = "";
+        try{
+            partCP1 = Integer.parseInt(scores.get(0));
+            partCP1Str = String.valueOf(partCP1);
+        }catch (Exception e){}
         int partCP2 = 0;
-        int partCP3 = scores.get(6);
-        for (int score : scores.subList(1,6))
-            partCP2 += score;
+        String partCP2Str = "";
+        int partCP3 = 0;
+        String partCP3Str = "";
+        try{
+            partCP3 = Integer.parseInt(scores.get(6));
+            partCP3Str = String.valueOf(partCP3);
+        }catch (Exception e){
+
+        }
+        try{
+            for (String score : scores.subList(1,6))
+                partCP2 += Integer.parseInt(score);
+            partCP2Str = String.valueOf(partCP2);
+        }catch (Exception e){
+
+        }
 
         boolean overallSatisfactory = (partCP1>=7) && (partCP2>=25) && (partCP3 >= 7);
         boolean isPartAPassed = (pointOfEmployer>=7) && isWorkComp && isSupervisor;
 
 
-        /*ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        PdfDocument pdf = new PdfDocument(new PdfWriter(baos));
-        Document document = new Document(pdf);*/
         String pathOfDir = new FileSystemResource("").getFile().getAbsolutePath();
         Path rootDir = Path.of(pathOfDir);
         rootDir = rootDir.resolve("backend/documents").resolve("final_pdf").resolve(internshipId+".pdf");
@@ -278,14 +294,14 @@ public class FinalPDFRequestService {
                     .add(new Paragraph("(this is the evaluation of all the work done in the summer training)").setFontSize(11).setFixedLeading(13F)
                             .setFont(PdfFontFactory.createFont(StandardFonts.HELVETICA_OBLIQUE))));
 
-            table4.addCell(new Cell().add(new Paragraph(createPagesStr(pages.get(0))).setWidth(120F)));
+            table4.addCell(new Cell().add(new Paragraph(pages.get(0)).setWidth(120F)));
             table4.addCell(new Cell().setVerticalAlignment(VerticalAlignment.MIDDLE)
                     .add(new Paragraph(String.valueOf(scores.get(0))).setMarginLeft(55F)
                             .setBold().setHorizontalAlignment(HorizontalAlignment.CENTER)));
 
             table4.addCell(new Cell().add(new Paragraph("(2) Solves complex engineering problems by applying principles of engineering, science, and mathematics.")
                     .setFontSize(11)));
-            table4.addCell(new Cell().add(new Paragraph(createPagesStr(pages.get(1))).setWidth(120F)));
+            table4.addCell(new Cell().add(new Paragraph(pages.get(1)).setWidth(120F)));
             table4.addCell(new Cell().setVerticalAlignment(VerticalAlignment.MIDDLE)
                     .add(new Paragraph(String.valueOf(scores.get(1))).setMarginLeft(55F)
                             .setBold().setHorizontalAlignment(HorizontalAlignment.CENTER)));
@@ -293,28 +309,28 @@ public class FinalPDFRequestService {
 
             table4.addCell(new Cell().add(new Paragraph("(3) Recognizes ethical and professional responsibilities in engineering situations.")
                     .setFontSize(11)));
-            table4.addCell(new Cell().add(new Paragraph(createPagesStr(pages.get(2))).setWidth(120F)));
+            table4.addCell(new Cell().add(new Paragraph(pages.get(2)).setWidth(120F)));
             table4.addCell(new Cell().setVerticalAlignment(VerticalAlignment.MIDDLE)
                     .add(new Paragraph(String.valueOf(scores.get(2))).setMarginLeft(55F)
                             .setBold().setHorizontalAlignment(HorizontalAlignment.CENTER)));
 
             table4.addCell(new Cell().add(new Paragraph("(4) Able to make informed judgments that consider the impact of engineering solutions in global, economic, environmental, and societal contexts.")
                     .setFontSize(11)));
-            table4.addCell(new Cell().add(new Paragraph(createPagesStr(pages.get(3))).setWidth(120F)));
+            table4.addCell(new Cell().add(new Paragraph(pages.get(3)).setWidth(120F)));
             table4.addCell(new Cell().setVerticalAlignment(VerticalAlignment.MIDDLE)
                     .add(new Paragraph(String.valueOf(scores.get(3))).setMarginLeft(55F)
                             .setBold().setHorizontalAlignment(HorizontalAlignment.CENTER)));
 
             table4.addCell(new Cell().add(new Paragraph("(5) Able to acquire new knowledge using appropriate learning strategy or strategies.")
                     .setFontSize(11)));
-            table4.addCell(new Cell().add(new Paragraph(createPagesStr(pages.get(4))).setWidth(120F)));
+            table4.addCell(new Cell().add(new Paragraph(pages.get(4)).setWidth(120F)));
             table4.addCell(new Cell().setVerticalAlignment(VerticalAlignment.MIDDLE)
                     .add(new Paragraph(String.valueOf(scores.get(4))).setMarginLeft(55F)
                             .setBold().setHorizontalAlignment(HorizontalAlignment.CENTER)));
 
             table4.addCell(new Cell().add(new Paragraph("(6) Able to apply new knowledge as needed.")
                     .setFontSize(11)));
-            table4.addCell(new Cell().add(new Paragraph(createPagesStr(pages.get(5))).setWidth(120F)));
+            table4.addCell(new Cell().add(new Paragraph(pages.get(5)).setWidth(120F)));
             table4.addCell(new Cell().setVerticalAlignment(VerticalAlignment.MIDDLE)
                     .add(new Paragraph(String.valueOf(scores.get(5))).setMarginLeft(55F)
                             .setBold().setHorizontalAlignment(HorizontalAlignment.CENTER)));
@@ -344,7 +360,7 @@ public class FinalPDFRequestService {
 
             table5.addCell(new Cell().setVerticalAlignment(VerticalAlignment.MIDDLE).add(new Paragraph("Able to prepare reports with high standards in terms of content, organization, style and language (the Summer Training report itself is to be evaluated)")
                     .setFontSize(11)).setHeight(130F));
-            table5.addCell(new Cell().add(new Paragraph(createPagesStr(pages.get(6))).setWidth(120F)));
+            table5.addCell(new Cell().add(new Paragraph(pages.get(6)).setWidth(120F)));
             table5.addCell(new Cell().setVerticalAlignment(VerticalAlignment.MIDDLE)
                     .add(new Paragraph(String.valueOf(scores.get(6))).setMarginLeft(55F)
                             .setBold().setHorizontalAlignment(HorizontalAlignment.CENTER)));
@@ -437,7 +453,7 @@ public class FinalPDFRequestService {
             throw new RuntimeException(e);
         }
 
-        String pathSign = new FileSystemResource("").getFile().getAbsolutePath();
+        /*String pathSign = new FileSystemResource("").getFile().getAbsolutePath();
         Path rootSign = Path.of(pathSign);
         rootSign = rootSign.resolve("backend/documents").resolve("signuture.png");
 
@@ -450,9 +466,8 @@ public class FinalPDFRequestService {
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
+        */
 
-        //getStudent direkt null dönüyor burada neden anlamadım getCompanyde buluyor ama
-        //  büyük ihtimalle ben databasede doğru dürüst oluşturamadım student
         String name = internship.getStudent().getFullName();
         String companyDepartment = internship.getCompany().getName();
 
@@ -497,7 +512,7 @@ public class FinalPDFRequestService {
         }
         document.add(parOfYN2);
 
-        String point1 = String.valueOf(partCP1);
+        String point1 = partCP1Str;
         Paragraph parOfPoint1 = null;
         try {
             parOfPoint1 = new Paragraph(point1).setFixedPosition(462F,330F,52F)
@@ -508,7 +523,7 @@ public class FinalPDFRequestService {
         document.add(parOfPoint1);
 
 
-        String point26 = String.valueOf(partCP2);
+        String point26 = partCP2Str;
         Paragraph partOfPoint26 = null;
         try {
             partOfPoint26 = new Paragraph(point26).setFixedPosition(462F,300F,52F)
@@ -518,7 +533,7 @@ public class FinalPDFRequestService {
         }
         document.add(partOfPoint26);
 
-        String pointLast = String.valueOf(partCP3);
+        String pointLast = partCP3Str;
         Paragraph partOfPointLast = null;
         try {
             partOfPointLast = new Paragraph(pointLast).setFixedPosition(462F,270F,52F)

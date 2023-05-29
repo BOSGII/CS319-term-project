@@ -4,13 +4,13 @@ public class FinalizeSubmissionRequest {
     String workDoneRelated;
     String supervisorRelated;
     String companyEvaluation;
-    int grade1;
-    int grade2;
-    int grade3;
-    int grade4;
-    int grade5;
-    int grade6;
-    int grade7;
+    String grade1;
+    String grade2;
+    String grade3;
+    String grade4;
+    String grade5;
+    String grade6;
+    String grade7;
     String pages1;
     String pages2;
     String pages3;
@@ -37,48 +37,7 @@ public class FinalizeSubmissionRequest {
     public void setCompanyEvaluation(String companyEvaluation) {
         this.companyEvaluation = companyEvaluation;
     }
-    public int getGrade1() {
-        return grade1;
-    }
-    public void setGrade1(int grade1) {
-        this.grade1 = grade1;
-    }
-    public int getGrade2() {
-        return grade2;
-    }
-    public void setGrade2(int grade2) {
-        this.grade2 = grade2;
-    }
-    public int getGrade3() {
-        return grade3;
-    }
-    public void setGrade3(int grade3) {
-        this.grade3 = grade3;
-    }
-    public int getGrade4() {
-        return grade4;
-    }
-    public void setGrade4(int grade4) {
-        this.grade4 = grade4;
-    }
-    public int getGrade5() {
-        return grade5;
-    }
-    public void setGrade5(int grade5) {
-        this.grade5 = grade5;
-    }
-    public int getGrade6() {
-        return grade6;
-    }
-    public void setGrade6(int grade6) {
-        this.grade6 = grade6;
-    }
-    public int getGrade7() {
-        return grade7;
-    }
-    public void setGrade7(int grade7) {
-        this.grade7 = grade7;
-    }
+
     public String getPages1() {
         return pages1;
     }
@@ -120,6 +79,61 @@ public class FinalizeSubmissionRequest {
     }
     public void setPages7(String pages7) {
         this.pages7 = pages7;
+    }
+    public String getGrade1() {
+        return grade1;
+    }
+
+    public void setGrade1(String grade1) {
+        this.grade1 = grade1;
+    }
+
+    public String getGrade2() {
+        return grade2;
+    }
+
+    public void setGrade2(String grade2) {
+        this.grade2 = grade2;
+    }
+
+    public String getGrade3() {
+        return grade3;
+    }
+
+    public void setGrade3(String grade3) {
+        this.grade3 = grade3;
+    }
+
+    public String getGrade4() {
+        return grade4;
+    }
+
+    public void setGrade4(String grade4) {
+        this.grade4 = grade4;
+    }
+
+    public String getGrade5() {
+        return grade5;
+    }
+
+    public void setGrade5(String grade5) {
+        this.grade5 = grade5;
+    }
+
+    public String getGrade6() {
+        return grade6;
+    }
+
+    public void setGrade6(String grade6) {
+        this.grade6 = grade6;
+    }
+
+    public String getGrade7() {
+        return grade7;
+    }
+
+    public void setGrade7(String grade7) {
+        this.grade7 = grade7;
     }
     
 }
