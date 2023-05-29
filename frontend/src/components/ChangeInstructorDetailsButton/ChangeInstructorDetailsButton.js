@@ -7,6 +7,8 @@ export default function ChangeInstructorDetailsButton({
   instructor,
   refreshInstructors,
 }) {
+  const sessionId = localStorage.getItem("sessionId");
+
   const [open, setOpen] = useState(false);
   const [instructorFullName, setInstructorFullName] = useState(
     instructor.fullName
@@ -34,12 +36,16 @@ export default function ChangeInstructorDetailsButton({
     }
 
     axios
-      .put(`/api/instructors/${instructor.id}`, {
-        fullName: instructorFullName,
-        mail: instructorMail,
-        department: instructorDepartment,
-        maxNumOfInternships: instructorMaxNumOfInternships,
-      })
+      .put(
+        `http://localhost:8080/api/instructors/${instructor.id}`,
+        { headers: { Authorization: `${sessionId}` } },
+        {
+          fullName: instructorFullName,
+          mail: instructorMail,
+          department: instructorDepartment,
+          maxNumOfInternships: instructorMaxNumOfInternships,
+        }
+      )
       .then((response) => {
         refreshInstructors();
         setOpen(false);
