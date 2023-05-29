@@ -1,9 +1,10 @@
-import { IconButton, Dialog, Typography, Tooltip } from "@mui/material";
+
+import { IconButton, Dialog, Stack, Typography, Tooltip, TextField } from "@mui/material";
 import UploadIcon from "@mui/icons-material/Upload";
 import { useState } from "react";
 import axios from "axios";
 import Upload from "../Upload/Upload";
-
+import UploadFeedback from "../UploadFeedback/UploadFeedback"
 export default function UploadCompanyEvaluationFormButton({
   internshipId,
   setInternshipStatus,
@@ -31,6 +32,8 @@ export default function UploadCompanyEvaluationFormButton({
         .catch((error) => {
           console.log("upload company evaluation form error", error.message);
         });
+    } else {
+      alert("You need to upload the document AND enter the company evaluation grade!")
     }
   };
 
@@ -55,18 +58,23 @@ export default function UploadCompanyEvaluationFormButton({
           setOpen(false);
         }}
       >
-        <Typography>Enter supervisor grade:</Typography>
-        <input
+        <Stack direction={"column"} spacing={3} >
+        <Typography variant="h5" style={{ fontSize: "24px" }}>
+          Enter supervisor grade:
+        </Typography>
+        <TextField
           type="number"
           value={supervisorGrade}
           onChange={(el) => setSupervisorGrade(el.target.value)}
-        ></input>
-        <Upload
+        ></TextField>
+        <UploadFeedback
           acceptedFileTypes={["PDF"]}
           handleSubmit={handleSubmit}
           handleCancel={handleCancel}
         />
+        </Stack>
       </Dialog>
     </>
   );
+
 }

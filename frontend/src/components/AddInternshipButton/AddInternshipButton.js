@@ -130,6 +130,7 @@ export default function AddInternshipButton({ refreshInternships }) {
           }}
           onSubmit={handleSubmit}
         >
+
           <div style={{ padding: "1rem" }}>
             <InputLabel id="internship-type">Type</InputLabel>
             <Select
@@ -275,6 +276,7 @@ export default function AddInternshipButton({ refreshInternships }) {
           </div>
         </form>
       </Modal>
+
     </>
   );
 }

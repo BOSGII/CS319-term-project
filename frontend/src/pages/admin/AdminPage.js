@@ -46,6 +46,7 @@ export default function AdminPage(){
         <Container sx={{mt: 15}}>
 
             <Typography> Welcome to Admin Page. You can add secretaries from below button </Typography>
+
             <AddSecretaryButton refreshSecretaries={refreshSecretaries}/>
             <Typography> SECRETARIES </Typography>
 

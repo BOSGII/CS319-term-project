@@ -1,3 +1,4 @@
+
 import {IconButton,Tooltip, TextField, Button,Modal} from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import { useState } from "react";
@@ -83,5 +84,4 @@ export default function ChangeSecretaryDetailsButton({secretary, refreshSecretar
         </>
 
     );
-      
 }

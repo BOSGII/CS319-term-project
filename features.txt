@@ -48,7 +48,7 @@ MERGED feature-b5: File storage service
 MERGED feature-b6: Implement empty services, change internship/instructor details functionality
 feature-b7: Return empty json object instead of null from controllers
 MERGED feature-b8: read internships from excel
-feature-b9: Notifications using Observer pattern
+MERGED feature-b9: Notifications using Observer pattern
 MERGED feature-b10: Matching internships to instructors using Strategy && Factory patterns
 MERGED feature-b11: DeadlineController, DeadlineService
 MERGED feature-b12: report generation
@@ -59,7 +59,8 @@ MERGED feature-b16: TAController, TAService
 MERGED feature-b17: adjustments for final evaluation form generation (take some inputs from company evaluation form, some from instructor, etc.)
 MERGED feature-b18: CompanyEvaluation && CompanyEvaluationForm
 MERGED feature-b19: import internships service should return the line causing error to the frontend
-feature-b20: Admin controller/service
+MERGED feature-b20: Admin controller/service
+feature-b21: change secretary, set password, email 
 
 
 
@@ -70,11 +71,14 @@ bugfix-b3: Remove CS from InternshipType enum (CS299 -> 299 && CS399 -> 399)
 MERGED bugfix-b4: Assigning internship to an instructor causes all internship data to be deleted
 bugfix-b5: Handle delete internship, delete instructor buttons accordingly
 MERGED bugfix-b6: AddInstructor and AddTA checks
-bugfix-b7: adjust Final PDF generation 
+MERGED bugfix-b7: adjust Final PDF generation 
 MERGED bugfix-b8: saving passwords to database, async emails, excel  
 MERGED bugfix-b9: get internships deadline check & frontend styling bugfix
 MERGED bugfix-b10: Tooltips
 MERGED bugfix-b11: Cors issue
+MERGED bugfix-b12: matcher authorization issue
+MERGED bugfix-b13: email format 
+MERGED bugfix-b14: generated report can be downloaded
 
 
 

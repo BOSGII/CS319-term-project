@@ -7,6 +7,7 @@ export default function SecretaryList({secretaries, refreshSecretaries}){
 
     return(
         <Container>
+
             {secretaries && secretaries.length > 0 && (
             <Typography>
                 <Stack spacing={30} direction='row' marginLeft={1}>

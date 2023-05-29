@@ -1,5 +1,7 @@
+
 import { IconButton, Tooltip } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+
 
 import axios from "axios";
 
@@ -19,10 +21,11 @@ export default function DeleteInstructorButton({
       .then(() => {
         refreshInstructors();
       })
-      .catch(() => {
-        console.log("delete instructor error");
+      .catch((error) => {
+        alert("You cannot delete an instructor if they are assigned to at least one internship!")
       });
   };
+
 
   return (
     <Tooltip title="Delete Instructor">
@@ -31,4 +34,5 @@ export default function DeleteInstructorButton({
     </IconButton>
     </Tooltip>
   );
+
 }

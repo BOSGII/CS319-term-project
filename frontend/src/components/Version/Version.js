@@ -6,12 +6,14 @@ import CommentSection from "../CommentSection/CommentSection";
 import RequestRevisionButton from "../RequestRevisionButton/RequestRevisionButton";
 import FinalizeButton from "../FinalizeButton/FinalizeButton";
 import DownloadFile from "../DownloadFile/DownloadFile";
+import ChangeFileButton from "../ChangeFileButton/ChangeFileButton";
 
 export default function Version({
   submission,
   versionUnderFocus,
   setAddNewVersionButtonPressed,
   handleSidebarOpen,
+  refreshSubmission,
 }) {
   const sessionId = localStorage.getItem("sessionId");
   const { user } = useContext(UserContext);
@@ -54,12 +56,13 @@ export default function Version({
       {isPending && <div>Loading...</div>}
       {version && (
         <Container sx={{ mt: 5 }}>
-          <button
+          <Button
+            variant="text"
             onClick={handleSidebarOpen}
             style={{ position: "absolute", left: "1rem", top: "5rem" }}
           >
             See All Versions
-          </button>
+          </Button>
           <Grid container spacing={2} sx={{ mt: 10 }}>
             <Grid item xs={6}>
               <Typography variant="h6" sx={{ mb: 1 }}>
@@ -69,6 +72,10 @@ export default function Version({
                 fileName={version.reportFileName}
                 url={`http://localhost:8080/api/versions/${version.id}/report`}
               />
+              <ChangeFileButton
+                putUrl={`http://localhost:8080/api/versions/${version.id}/report`}
+                refreshVersion={refreshVersion}
+              />
             </Grid>
             <Grid item xs={6}>
               <Typography variant="h6" sx={{ mb: 1 }}>
@@ -77,10 +84,16 @@ export default function Version({
               {(version.status === "OLD_VERSION" ||
                 version.status === "REVISION_REQUIRED") &&
               version.isFeedbackFileProvided ? (
-                <DownloadFile
-                  fileName={version.feedbackFileName}
-                  url={`http://localhost:8080/api/versions/${version.id}/feedback`}
-                />
+                <>
+                  <DownloadFile
+                    fileName={version.feedbackFileName}
+                    url={`http://localhost:8080/api/versions/${version.id}/feedback`}
+                  />
+                  <ChangeFileButton
+                    putUrl={`http://localhost:8080/api/versions/${version.id}/feedback`}
+                    refreshVersion={refreshVersion}
+                  />
+                </>
               ) : (
                 <Typography>Feedback file is not provided.</Typography>
               )}
@@ -115,9 +128,20 @@ export default function Version({
                 versionId={version.id}
                 refreshVersion={refreshVersion}
               />
-              <FinalizeButton submissionId={submission.id} />
+              <FinalizeButton
+                submissionId={submission.id}
+                refreshSubmission={refreshSubmission}
+              />
             </>
           )}
+          {submission.status === "CLOSED" &&
+            version.versionNumber === submission.numOfVersions &&
+            user.role === "instructor" && (
+              <DownloadFile
+                fileName={submission.finalReportName}
+                url={`http://localhost:8080/api/submissions/${submission.id}/finalReport`}
+              />
+            )}
         </Container>
       )}
     </>

@@ -1,9 +1,13 @@
+
 import { IconButton, Card, ListItem, ListItemText, Tooltip, Stack } from "@mui/material";
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ChangeInstructorDetailsButton from "../ChangeInstructorDetailsButton/ChangeInstructorDetailsButton";
 import DeleteInstructorButton from "../DeleteInstructorButton/DeleteInstructorButton";
+
 import VisibilityIcon from "@mui/icons-material/Visibility";
+
 
 export default function Instructor({ instructor, refreshInstructors }) {
   const navigate = useNavigate();
@@ -25,6 +29,7 @@ export default function Instructor({ instructor, refreshInstructors }) {
   }, [instructor]);
 
   return (
+
     <Card
       elevation={10}
       style={{ borderRadius: 15 }}

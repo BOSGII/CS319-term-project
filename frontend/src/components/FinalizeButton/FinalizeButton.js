@@ -8,12 +8,10 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function FinalizeButton({ submissionId, refreshSubmission }) {
   const sessionId = localStorage.getItem("sessionId");
-  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [result, setResult] = useState({
     workDoneRelated: "",
@@ -69,54 +67,95 @@ export default function FinalizeButton({ submissionId, refreshSubmission }) {
       result.companyEvaluation
     ) {
       if (
-        parseInt(result.grade1) >= 0 &&
-        parseInt(result.grade1) <= 10 &&
-        parseInt(result.grade2) >= 0 &&
-        parseInt(result.grade2) <= 10 &&
-        parseInt(result.grade3) >= 0 &&
-        parseInt(result.grade3) <= 10 &&
-        parseInt(result.grade4) >= 0 &&
-        parseInt(result.grade4) <= 10 &&
-        parseInt(result.grade5) >= 0 &&
-        parseInt(result.grade5) <= 10 &&
-        parseInt(result.grade6) >= 0 &&
-        parseInt(result.grade6) <= 10 &&
-        parseInt(result.grade7) >= 0 &&
-        parseInt(result.grade7) <= 10
+        result.workDoneRelated === "NO" ||
+        result.supervisorRelated === "NO"
       ) {
-        if (
-          isCSVValid(result.pages1) &&
-          isCSVValid(result.pages2) &&
-          isCSVValid(result.pages3) &&
-          isCSVValid(result.pages4) &&
-          isCSVValid(result.pages5) &&
-          isCSVValid(result.pages6) &&
-          isCSVValid(result.pages7)
-        ) {
-          axios
-            .post(
-              `http://localhost:8080/api/submissions/${submissionId}/finalize`,
-              result,
-              {
-                headers: {
-                  Authorization: `${sessionId}`,
-                },
-              }
-            )
-            .then((response) => {
-              refreshSubmission();
-            })
-            .catch((error) => {
-              console.log("finalize post error", error.message);
-            })
-            .finally(() => {
-              setOpen(false);
-            });
-        } else {
-          alert("Pages should obey csv format");
-        }
+        axios
+          .post(
+            `http://localhost:8080/api/submissions/${submissionId}/finalize`,
+            {
+              workDoneRelated: result.workDoneRelated,
+              supervisorRelated: result.supervisorRelated,
+              companyEvaluation: result.companyEvaluation,
+              grade1: "",
+              grade2: "",
+              grade3: "",
+              grade4: "",
+              grade5: "",
+              grade6: "",
+              grade7: "",
+              pages1: "",
+              pages2: "",
+              pages3: "",
+              pages4: "",
+              pages5: "",
+              pages6: "",
+              pages7: "",
+            },
+            {
+              headers: {
+                Authorization: `${sessionId}`,
+              },
+            }
+          )
+          .then((response) => {
+            refreshSubmission();
+            setOpen(false);
+          })
+          .catch((error) => {
+            console.log("finalize post error", error.message);
+          });
       } else {
-        alert("Grades should be between 0 and 10");
+        if (
+          parseInt(result.grade1) >= 0 &&
+          parseInt(result.grade1) <= 10 &&
+          parseInt(result.grade2) >= 0 &&
+          parseInt(result.grade2) <= 10 &&
+          parseInt(result.grade3) >= 0 &&
+          parseInt(result.grade3) <= 10 &&
+          parseInt(result.grade4) >= 0 &&
+          parseInt(result.grade4) <= 10 &&
+          parseInt(result.grade5) >= 0 &&
+          parseInt(result.grade5) <= 10 &&
+          parseInt(result.grade6) >= 0 &&
+          parseInt(result.grade6) <= 10 &&
+          parseInt(result.grade7) >= 0 &&
+          parseInt(result.grade7) <= 10
+        ) {
+          if (
+            isCSVValid(result.pages1) &&
+            isCSVValid(result.pages2) &&
+            isCSVValid(result.pages3) &&
+            isCSVValid(result.pages4) &&
+            isCSVValid(result.pages5) &&
+            isCSVValid(result.pages6) &&
+            isCSVValid(result.pages7)
+          ) {
+            axios
+              .post(
+                `http://localhost:8080/api/submissions/${submissionId}/finalize`,
+                result,
+                {
+                  headers: {
+                    Authorization: `${sessionId}`,
+                  },
+                }
+              )
+              .then((response) => {
+                refreshSubmission();
+              })
+              .catch((error) => {
+                console.log("finalize post error", error.message);
+              })
+              .finally(() => {
+                setOpen(false);
+              });
+          } else {
+            alert("Pages should obey csv format");
+          }
+        } else {
+          alert("Grades should be between 0 and 10");
+        }
       }
     } else {
       alert("You must select all of the options");

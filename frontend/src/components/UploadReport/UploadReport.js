@@ -31,7 +31,7 @@ export default function UploadReport({ internship, refreshInternship }) {
           console.log("/api/versions get error: ", error.message);
         });
     }
-  }, [internship]);
+  }, [sessionId, internship]);
 
   const handleSubmit = (file) => {
     let areAllRepliesProvided = true;

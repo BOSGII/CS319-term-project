@@ -1,5 +1,7 @@
+
 import { IconButton, Tooltip } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+
 
 import axios from "axios";
 
@@ -19,10 +21,11 @@ export default function DeleteInternshipButton({
       .then(() => {
         refreshInternships();
       })
-      .catch(() => {
-        console.log("delete internship error");
+      .catch((error) => {
+        alert("You cannot delete an internship once the company evaluation form is uploaded!");
       });
   };
+
 
   return (
     <Tooltip title="Delete Internship">
@@ -31,4 +34,5 @@ export default function DeleteInternshipButton({
     </IconButton>
     </Tooltip>
   );
+
 }

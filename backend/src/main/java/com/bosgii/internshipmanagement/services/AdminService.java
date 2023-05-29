@@ -22,7 +22,6 @@ public class AdminService {
     }
 
     public Secretary createSecretary(AddSecretaryRequest req) throws InvalidMailAddressException{
-
         return secretaryService.createSecretary(req);
     }
 

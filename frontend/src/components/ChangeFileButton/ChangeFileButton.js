@@ -1,9 +1,9 @@
-import { Button, Dialog } from "@mui/material";
 import { useState } from "react";
-import UploadFeedback from "../UploadFeedback/UploadFeedback";
+import Upload from "../UploadFeedback/UploadFeedback";
 import axios from "axios";
+import { Button, Dialog } from "@mui/material";
 
-export default function ImportInternshipsButton({ refreshInternships }) {
+export default function ChangeFileButton({ putUrl, refreshVersion }) {
   const sessionId = localStorage.getItem("sessionId");
   const [open, setOpen] = useState(false);
 
@@ -12,23 +12,19 @@ export default function ImportInternshipsButton({ refreshInternships }) {
       let formData = new FormData();
       formData.append("file", file);
       axios
-        .post(`http://localhost:8080/api/import`, formData, {
+        .put(putUrl, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
             Authorization: `${sessionId}`,
           },
         })
         .then((response) => {
-          refreshInternships();
+          refreshVersion();
           setOpen(false);
         })
         .catch((error) => {
-          if (error.response.status === 400) {
-            alert(error.response.data);
-          }
+          console.log(error.message);
         });
-    } else {
-      // do nothing
     }
   };
 
@@ -43,8 +39,9 @@ export default function ImportInternshipsButton({ refreshInternships }) {
         onClick={() => {
           setOpen(true);
         }}
+        sx={{ mt: 5 }}
       >
-        Import Internships
+        Change
       </Button>
       <Dialog
         open={open}
@@ -52,8 +49,8 @@ export default function ImportInternshipsButton({ refreshInternships }) {
           setOpen(false);
         }}
       >
-        <UploadFeedback
-          acceptedFileTypes={["XLSX"]}
+        <Upload
+          acceptedFileTypes={["PDF"]}
           handleSubmit={handleSubmit}
           handleCancel={handleCancel}
         />

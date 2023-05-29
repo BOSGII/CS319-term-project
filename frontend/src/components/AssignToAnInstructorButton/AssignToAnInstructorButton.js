@@ -12,7 +12,9 @@ import {
   Typography,
   Tooltip,
 } from "@mui/material";
+
 import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
+
 
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -64,7 +66,7 @@ export default function AssignToAnInstructorButton({
       .catch((error) => {
         setError(error);
       });
-  }, [internshipId, instructorId]);
+  }, [sessionId, internshipId, instructorId]);
 
   const handleClickOpen = () => {
     setOpen(true);

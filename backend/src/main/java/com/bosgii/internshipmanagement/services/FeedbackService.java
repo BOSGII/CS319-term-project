@@ -29,4 +29,9 @@ public class FeedbackService {
         documentService.saveDocument(file,"feedbacks", savedFeedback.getId());
         return savedFeedback;
     }
+
+    public void changeFeedbackOfVersion(MultipartFile file, Version version){
+        Feedback feedback = feedbackRepository.findByVersionId(version.getId());
+        documentService.saveDocument(file, "feedbacks", feedback.getId());
+    }
 }

@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.scheduling.annotation.Async;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -118,7 +117,6 @@ public class ImportService {
                         company.setCompanyEmail(companyEmail);
                         company.setName(companyName);
                         //companyRepository.save(company);
-
                     }
                     //System.out.println("C id: "+company.getId());
                     Supervisor supervisor;
@@ -136,19 +134,12 @@ public class ImportService {
                         supervisor.setGraduationYear(supervisorGraduationYear);
                         supervisor.setUniversity(supervisorUniversity);
                         
-                        /*for(Internship internship: list){
-                            if(internship.getSupervisor().getName().equals(supervisorName) 
-                            && internship.getSupervisor().getUniversity().equals(supervisorUniversity)){
-                                supervisor.setId(internship.getSupervisor().getId());
-                                break;
-                            }
-                        }*/
                         //supervisorRepository.save(supervisor);
                     }
                     Student student = new Student();
                     student.setDepartment(studentDepartment);
                     student.setMail(studentMail);
-                    student.setRole("Student"); 
+                    student.setRole("student"); 
                     student.setFullName(studentFullName);
                     student.setId(studentId);
                     Internship internship = new Internship();
@@ -181,7 +172,6 @@ public class ImportService {
                 if(!optStudent.isPresent()) {
                     //sendEmail(student.getMail());
                     receivers.add(student);
-
                     //new password
                     student.setPassword(passwordEncoder.encode(student.getId().toString()));
                 }
@@ -249,7 +239,7 @@ public class ImportService {
         for(Student st: receivers){
             String recipientEmail = st.getMail();
             String subject = "Internship Management";
-            String body = "You are registered.";
+            String body = "You are registered. Your password: "  + st.getId().toString();
 
             try {
                 // Setup mail server properties

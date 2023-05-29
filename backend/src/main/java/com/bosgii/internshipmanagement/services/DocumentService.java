@@ -24,6 +24,12 @@ public class DocumentService {
         try {
             Files.copy(multipartFile.getInputStream(), root);
         } catch (Exception e) {
+            try {
+                Files.delete(root);
+                Files.copy(multipartFile.getInputStream(), root);
+            } catch (Exception ex){
+                return ex.getMessage();
+            }
             if (e instanceof FileAlreadyExistsException) {
                 return "A file of that name already exists.";
             }

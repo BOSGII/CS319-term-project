@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.core.io.Resource;
 
 import com.bosgii.internshipmanagement.entities.Version;
@@ -43,9 +44,19 @@ public class VersionController {
 		return versionService.downloadReportOfVersion(versionId);
 	}
 
+	@PutMapping("/versions/{versionId}/report")
+	public void changeReportOfVersion(@PathVariable Long versionId, @RequestBody MultipartFile file){
+		versionService.changeReportOfVersion(versionId, file);
+	}
+
 	@GetMapping("/versions/{versionId}/feedback")
 	public ResponseEntity<Resource> downloadFeedbackOfVersion(@PathVariable Long versionId) {
 		return versionService.downloadFeedbackOfVersion(versionId);
+	}
+
+	@PutMapping("/versions/{versionId}/feedback")
+	public void changeFeedbackOfVersion(@PathVariable Long versionId, @RequestBody MultipartFile file){
+		versionService.changeFeedbackOfVersion(versionId, file);
 	}
 
 	@PostMapping("/versions")
