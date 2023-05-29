@@ -2,6 +2,7 @@ package com.bosgii.internshipmanagement.controllers;
 
 import com.bosgii.internshipmanagement.entities.Secretary;
 import com.bosgii.internshipmanagement.requests.AddSecretaryRequest;
+import com.bosgii.internshipmanagement.requests.ChangeSecretaryRequest;
 import com.bosgii.internshipmanagement.services.AdminService;
 import com.bosgii.internshipmanagement.services.SecretaryService;
 
@@ -48,4 +49,16 @@ public class AdminController {
     public void deleteSecretary(@PathVariable Long secId) {
         adminService.deleteSecretary(secId);
     }
+
+    @PutMapping("/secretaries/{secId}")
+	public ResponseEntity<String> changeSecretaryDetails(@PathVariable Long secretaryId,
+			@RequestBody ChangeSecretaryRequest req) {
+				try {
+					secretaryService.changeSecretary(secretaryId, req);
+					return ResponseEntity.ok("Secretary changed successfully.");
+				}
+				catch(Exception e) {
+					return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+				}
+	}
 }

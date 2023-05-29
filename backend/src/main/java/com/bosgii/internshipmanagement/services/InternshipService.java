@@ -133,7 +133,7 @@ public class InternshipService {
 			st.setDepartment(req.getStudentDepartment());
 			st.setPassword(passwordEncoder.encode(st.getId().toString()));
 			studentRepository.save(st);
-			sendEmail(st.getMail());
+			sendEmail(st.getMail(), st.getId().toString());
 		}
 
 		// check if the company already exists
@@ -353,7 +353,7 @@ public class InternshipService {
 		return pages;
 	}
 
-	public void sendEmail(String recipientEmail) {
+	public static void sendEmail(String recipientEmail, String parola) {
         // Outlook.com configuration
         String host = "smtp.office365.com";
         String port = "587";
@@ -362,7 +362,7 @@ public class InternshipService {
 
         // Email content
         String subject = "Internship Management";
-        String body = "You are registered.";
+        String body = "You are registered. Your password is " + parola;
 
         try {
             // Setup mail server properties

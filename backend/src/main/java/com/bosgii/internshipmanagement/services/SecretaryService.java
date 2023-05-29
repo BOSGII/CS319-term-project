@@ -6,16 +6,22 @@ import com.bosgii.internshipmanagement.exceptions.InvalidMailAddressException;
 
 import com.bosgii.internshipmanagement.repos.SecretaryRepository;
 import com.bosgii.internshipmanagement.requests.AddSecretaryRequest;
+import com.bosgii.internshipmanagement.requests.ChangeSecretaryRequest;
+import java.util.Optional;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import com.bosgii.internshipmanagement.services.InternshipService;
 import java.util.List;
 
 @Service
 public class SecretaryService {
     private SecretaryRepository secretaryRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public SecretaryService(SecretaryRepository secretaryRepository){
+
+    public SecretaryService(SecretaryRepository secretaryRepository, PasswordEncoder passwordEncoder) {
         this.secretaryRepository = secretaryRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<Secretary> getAllSecretaries(){
@@ -30,8 +36,11 @@ public class SecretaryService {
         newSec.setFullName(req.getFullName());
         newSec.setMail(req.getMail());
         newSec.setRole("secretary");
-
+        //note that we have random string generater method to cretae a random passsword. this is just for test and simplicity
+        newSec.setPassword(passwordEncoder.encode(newSec.getId().toString()));
+        InternshipService.sendEmail(newSec.getMail(), newSec.getId().toString());
         return secretaryRepository.save(newSec);
+
     }
 
     public void deleteSecretary(Long id) {
