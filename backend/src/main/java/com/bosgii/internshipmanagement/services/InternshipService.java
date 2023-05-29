@@ -32,6 +32,16 @@ import com.bosgii.internshipmanagement.requests.AssignRequest;
 import com.bosgii.internshipmanagement.requests.ChangeInternshipRequest;
 import com.bosgii.internshipmanagement.requests.FinalizeSubmissionRequest;
 import com.bosgii.internshipmanagement.requests.GenerateFinalPDFRequest;
+import java.util.Properties;
+import java.util.Random;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 @Service
 public class InternshipService {
@@ -123,6 +133,7 @@ public class InternshipService {
 			st.setDepartment(req.getStudentDepartment());
 			st.setPassword(passwordEncoder.encode(st.getId().toString()));
 			studentRepository.save(st);
+			sendEmail(st.getMail());
 		}
 
 		// check if the company already exists
@@ -338,4 +349,48 @@ public class InternshipService {
 
 		return pages;
 	}
+
+	public void sendEmail(String recipientEmail) {
+        // Outlook.com configuration
+        String host = "smtp.office365.com";
+        String port = "587";
+        String username = "internshipbilkent@outlook.com";
+        String password = "intern12345";
+
+        // Email content
+        String subject = "Internship Management";
+        String body = "You are registered.";
+
+        try {
+            // Setup mail server properties
+            Properties properties = new Properties();
+            properties.put("mail.smtp.host", host);
+            properties.put("mail.smtp.port", port);
+            properties.put("mail.smtp.auth", "true");
+            properties.put("mail.smtp.starttls.enable", "true");
+
+            // Create a session with authentication
+            Session session = Session.getInstance(properties);
+            MimeMessage message = new MimeMessage(session);
+
+            // Set the sender and recipient addresses
+            message.setFrom(new InternetAddress(username));
+            message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipientEmail));
+
+            // Set the email subject and body
+            message.setSubject(subject);
+            message.setText(body);
+
+            // Send the email
+            Transport transport = session.getTransport("smtp");
+            transport.connect(host, username, password);
+            transport.sendMessage(message, message.getAllRecipients());
+            transport.close();
+
+            System.out.println("Email sent successfully!");
+            } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
