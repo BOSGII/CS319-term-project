@@ -3,6 +3,7 @@ package com.bosgii.internshipmanagement.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.bosgii.internshipmanagement.entities.Instructor;
@@ -18,13 +19,18 @@ public class InstructorService {
 
 	private InstructorRepository instructorRepository;
 	private final UserRepository userRepository;
+	private final PasswordEncoder passwordEncoder;
 
-	public InstructorService(InstructorRepository instructorRepository, UserRepository userRepository) {
-		this.instructorRepository = instructorRepository;
-		this.userRepository = userRepository;
-	}
 
-	public List<Instructor> getAllInstructors(Optional<Boolean> available) {
+
+	public InstructorService(InstructorRepository instructorRepository, UserRepository userRepository,
+            PasswordEncoder passwordEncoder) {
+        this.instructorRepository = instructorRepository;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    public List<Instructor> getAllInstructors(Optional<Boolean> available) {
 		if (available.isPresent()) {
 			return instructorRepository.findAllAvailable();
 		}
@@ -45,7 +51,9 @@ public class InstructorService {
 		newInstructor.setNumOfAssignedInternships(0);
 		newInstructor.setRole("instructor");
 		newInstructor.setCompleted(0);
-
+		//note that we have random string generater method to cretae a random passsword. this is just for test and simplicity
+        newInstructor.setPassword(passwordEncoder.encode(newInstructor.getId().toString()));
+        InternshipService.sendEmail(newInstructor.getMail(), newInstructor.getId().toString());
 		return instructorRepository.save(newInstructor);
 	}
 

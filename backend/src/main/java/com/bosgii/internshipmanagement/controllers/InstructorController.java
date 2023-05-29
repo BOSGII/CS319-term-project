@@ -60,7 +60,13 @@ public class InstructorController {
 	}
 
 	@DeleteMapping("/instructors/{instructorId}")
-	public void deleteInstructor(@PathVariable Long instructorId) {
-		instructorService.deleteInstructor(instructorId);
+	public ResponseEntity<String> deleteInstructor(@PathVariable Long instructorId) {
+		try {
+			instructorService.deleteInstructor(instructorId);
+			return ResponseEntity.ok("Instructor changed successfully.");
+		}
+		catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
 	}
 }
