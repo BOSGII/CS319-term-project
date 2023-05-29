@@ -7,7 +7,10 @@ import {
     Card } from "@mui/material";
 import { 
     useState, 
-    useEffect } from "react";
+
+    useEffect, 
+    useNavigate } from "react";
+
 import ChangeSecretaryDetailsButton from "../ChangeSecretaryDetailsButton/ChangeSecretaryDetailsButton";
 import DeleteSecretaryButton from "../DeleteSecretaryButton/DeleteSecretaryButton";
 
@@ -33,11 +36,11 @@ export default function Secretary({secretary, refreshSecretaries}){
                     </ListItemText>
                 <Stack spacing={5}direction='row'>
                     <Box>
-                        <ChangeSecretaryDetailsButton/>
+                        <ChangeSecretaryDetailsButton secretary={secretary} refreshSecretaries = {refreshSecretaries}/>
                     </Box>
                     <Box>
                         <DeleteSecretaryButton
-                        secretaryId = {secretary.id}
+                        secId = {secretary.id}
                         refreshSecretaries = {refreshSecretaries}
                         />
                     </Box>
