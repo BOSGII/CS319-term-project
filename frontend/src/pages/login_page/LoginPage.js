@@ -13,6 +13,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
 import { useContext, useState } from "react";
+import LoginIcon from '@mui/icons-material/Login';
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -84,7 +85,7 @@ export default function LoginPage() {
         </FormControl>
         <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
           <Button variant="contained" type="submit">
-            Login
+            Login <LoginIcon></LoginIcon>
           </Button>
         </Box>
       </form>

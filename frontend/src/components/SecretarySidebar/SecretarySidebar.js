@@ -9,6 +9,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import { useNavigate } from "react-router-dom";
+import HomeIcon from '@mui/icons-material/Home';
 
 const drawerWidth = 240;
 
@@ -56,7 +57,7 @@ export default function SecretarySideBar({ open, handleSidebarClose }) {
               navigate("/home", { replace: true });
             }}
           >
-            <ListItemText>Home</ListItemText>
+            <ListItemText> <HomeIcon></HomeIcon> Home</ListItemText>
           </ListItemButton>
         </ListItem>
       </List>
