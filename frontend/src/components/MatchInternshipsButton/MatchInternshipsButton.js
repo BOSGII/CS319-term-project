@@ -22,7 +22,7 @@ export default function MatchInternshipsButton({ refreshInternships }) {
   };
   const matchInternships = (matchType) => {
     axios
-      .post(`http://localhost:8080/api/match?matchType=${matchType}`, {
+      .get(`http://localhost:8080/api/match?matchType=${matchType}`,  {
         headers: {
           Authorization: `${sessionId}`,
         },

@@ -46,7 +46,7 @@ export default function Version({
         setRefresh(false);
         setIsPending(false);
       });
-  }, [refresh, submission, versionUnderFocus]);
+  }, [sessionId, refresh, submission, versionUnderFocus]);
 
   return (
     <>

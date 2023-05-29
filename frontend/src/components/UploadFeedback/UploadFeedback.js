@@ -16,7 +16,7 @@ export default function Upload({
 
   return (
       <>
-      <div style={{ marginLeft: '300px' }}>
+      <div style={{ marginLeft: '10px' }}>
         <FileUploader
           handleChange={handleChange}
           types={acceptedFileTypes}
