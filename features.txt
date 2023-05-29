@@ -11,13 +11,13 @@ MERGED feature-f9: Secretary /instructors page
 MERGED feature-f10: Student /my_internships page (list of internships -- at most two)
 MERGED feature-f11: Instructor /assigned_internships page (list of assigned internships)
 feature-f12: change internship functionality
-feature-f13: change instructor details functionality
+MERGED feature-f13: change instructor details functionality
 MERGED feature-f14: assignment of an internship to an instructor (create a special button for each internship)
 MERGED feature-f15: upload component
 MERGED feature-f16: version system (including comment section)
 MERGED feature-f17: import excel file button for adding internships to the system
 MERGED feature-f18: request revision component
-feature-f19: finalize report component
+MERGED feature-f19: finalize report component
 feature-f20: add signature for instructor component
 feature-f21: secretary set initial deadline button
 feature-f22: revision set deadline option
@@ -35,20 +35,20 @@ Backend features:
 MERGED feature-b1: Boilerplate code for a Spring Boot app (along with MySQL connection)
 MERGED feature-b2: Entity, Controller, Service, Repository components and related associations
 MERGED feature-b3: /students ,/students/{studentId}, /students/{studentId}/internships, /students/{studentId}/internships/{internshipType} responses
-feature-b4: Authentication using Spring Security
+MERGED feature-b4: Authentication using Spring Security
 MERGED feature-b5: File storage service
 MERGED feature-b6: Implement empty services, change internship/instructor details functionality
 feature-b7: Return empty json object instead of null from controllers
 MERGED feature-b8: read internships from excel
 feature-b9: Notifications using Observer pattern
 MERGED feature-b10: Matching internships to instructors using Strategy && Factory patterns
-feature-b11: DeadlineController, DeadlineService
+MERGED feature-b11: DeadlineController, DeadlineService
 MERGED feature-b12: report generation
-feature-b13: handle uploaded company evaluation form
+DUPLICATE "b19" feature-b13: handle uploaded company evaluation form
 feature-b14: statistics generator
 feature-b15: revise response objects (nested objects are mostly unused in frontend and causes overhead)
-feature-b16: TAController, TAService
-feature-b17: adjustments for final evaluation form generation (take some inputs from company evaluation form, some from instructor, etc.)
+MERGED feature-b16: TAController, TAService
+MERGED feature-b17: adjustments for final evaluation form generation (take some inputs from company evaluation form, some from instructor, etc.)
 MERGED feature-b18: CompanyEvaluation && CompanyEvaluationForm
 MERGED feature-b19: import internships service should return the line causing error to the frontend
 feature-b20: Admin controller/service
@@ -61,12 +61,12 @@ MERGED bugfix-b2: Internship entity duplicate methods are cleared
 bugfix-b3: Remove CS from InternshipType enum (CS299 -> 299 && CS399 -> 399)
 MERGED bugfix-b4: Assigning internship to an instructor causes all internship data to be deleted
 bugfix-b5: Handle delete internship, delete instructor buttons accordingly
-bugfix-b6: AddInstructor and AddTA checks
+MERGED bugfix-b6: AddInstructor and AddTA checks
 bugfix-b7: adjust Final PDF generation 
-bugfix-b8: saving passwords to database 
-bugfix-b9: get internships deadline check & frontend styling bugfix
-bugfix-b10: Tooltips
-bugfix-b11: Cors issue
+MERGED bugfix-b8: saving passwords to database 
+MERGED bugfix-b9: get internships deadline check & frontend styling bugfix
+MERGED bugfix-b10: Tooltips
+MERGED bugfix-b11: Cors issue
 
 
 
