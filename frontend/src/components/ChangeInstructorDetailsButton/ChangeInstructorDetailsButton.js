@@ -38,13 +38,13 @@ export default function ChangeInstructorDetailsButton({
     axios
       .put(
         `http://localhost:8080/api/instructors/${instructor.id}`,
-        { headers: { Authorization: `${sessionId}` } },
         {
           fullName: instructorFullName,
           mail: instructorMail,
           department: instructorDepartment,
           maxNumOfInternships: instructorMaxNumOfInternships,
-        }
+        },
+        { headers: { Authorization: `${sessionId}` } }
       )
       .then((response) => {
         refreshInstructors();

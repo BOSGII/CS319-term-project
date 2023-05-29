@@ -107,8 +107,7 @@ public class InternshipService {
 
 		// check if the company already exists
 		Company c;
-		Optional<Company> company = companyRepository.findByNameAndEmail(req.getCompanyName(),
-				req.getCompanyEmail());
+		Optional<Company> company = companyRepository.findByEmail(req.getCompanyEmail());
 		if (company.isPresent())
 			c = company.get();
 		else {
@@ -120,8 +119,7 @@ public class InternshipService {
 
 		// check if the supervisor already exists
 		Supervisor su;
-		Optional<Supervisor> supervisor = supervisorRepository.findByNameAndUniversity(
-				req.getSupervisorName(), req.getSupervisorUniversity());
+		Optional<Supervisor> supervisor = supervisorRepository.findByEmail(req.getSupervisorMail());
 		if (supervisor.isPresent())
 			su = supervisor.get();
 		else {
@@ -156,8 +154,7 @@ public class InternshipService {
 
 			// check if the company already exists
 			Company c;
-			Optional<Company> company = companyRepository.findByNameAndEmail(req.getCompanyName(),
-					req.getCompanyEmail());
+			Optional<Company> company = companyRepository.findByEmail(req.getCompanyEmail());
 			if (company.isPresent())
 				c = company.get();
 			else {
@@ -169,8 +166,7 @@ public class InternshipService {
 
 			// check if the supervisor already exists
 			Supervisor su;
-			Optional<Supervisor> supervisor = supervisorRepository.findByNameAndUniversity(
-					req.getSupervisorName(), req.getSupervisorUniversity());
+			Optional<Supervisor> supervisor = supervisorRepository.findByEmail(req.getSupervisorMail());
 			if (supervisor.isPresent())
 				su = supervisor.get();
 			else {
