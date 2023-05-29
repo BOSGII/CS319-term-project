@@ -27,6 +27,8 @@ import com.bosgii.internshipmanagement.repos.StudentRepository;
 import com.bosgii.internshipmanagement.repos.SupervisorRepository;
 //import com.bosgii.internshipmanagement.requests.AddInternshipRequest;
 import java.util.Properties;
+import java.util.Random;
+
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -52,7 +54,7 @@ public class ImportService {
         this.supervisorRepository = supervisorRepository;
     }
 
-    public List<Internship> importInternshipsFromExcelFile(MultipartFile file) {
+    public List<Internship> importInternshipsFromExcelFile(MultipartFile file) throws IllegalArgumentException{
 
         List<Internship> list = new ArrayList<Internship>();
         try (Workbook workbook = WorkbookFactory.create(file.getInputStream())) {
@@ -146,8 +148,9 @@ public class ImportService {
 
                 }
                 catch(Exception e){
-
+                    
                     throw new IllegalArgumentException("Problematic line detected on line " +(1 + row.getRowNum() )+ "!" );
+                    
                 }
 
             }
@@ -160,21 +163,21 @@ public class ImportService {
 
                 Optional<Student> optStudent = studentRepository.findById(student.getId());
                 if(!optStudent.isPresent()) {
-                
-                    studentRepository.save(student);
                     sendEmail(student.getMail());
                 }
                 
-                Optional<Company> optCompany = companyRepository.findByNameAndEmail(company.getName(), company.getCompanyEmail());
-                if(!optCompany.isPresent()) {
-                    companyRepository.save(company);
-                }
+                studentRepository.saveAndFlush(student);
+                    
+                
+                
+     
+                companyRepository.saveAndFlush(company);
+                
 
         
-                Optional<Supervisor> optSupervisor = supervisorRepository.findByNameAndUniversity(supervisor.getName(), supervisor.getEmail());
-                if(!optSupervisor.isPresent()) {
-                    supervisorRepository.save(supervisor);
-                } 
+  
+                supervisorRepository.saveAndFlush(supervisor);
+                
 
 
                 Optional<Internship> optInternship = internshipRepository.findByStudentIdAndType(student.getId(), internship.getType());
@@ -186,7 +189,7 @@ public class ImportService {
                     oldInternship.setEndDate(internship.getEndDate());
                     oldInternship.setSupervisor(supervisor);
 
-                    internshipRepository.save(oldInternship);
+                    internshipRepository.saveAndFlush(oldInternship);
                 }
                 else{
                     internshipRepository.saveAndFlush(internship);
@@ -243,9 +246,25 @@ public class ImportService {
     } catch (MessagingException e) {
         e.printStackTrace();
     }
-}
 
 
+
+
+    }
+
+    private static final String CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    public static String generateRandomString(int length) {
+        Random random = new Random();
+        StringBuilder stringBuilder = new StringBuilder(length);
+
+        for (int i = 0; i < length; i++) {
+            int randomIndex = random.nextInt(CHARACTERS.length());
+            char randomChar = CHARACTERS.charAt(randomIndex);
+            stringBuilder.append(randomChar);
+        }
+
+        return stringBuilder.toString();
+    }
 
 
 }
