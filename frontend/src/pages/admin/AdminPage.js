@@ -11,17 +11,7 @@ export default function AdminPage(){
     const sessionId = localStorage.getItem("sessionId");
 
     
-    const [secretaries, setSecretaries] = useState([{
-                id: 1,
-                name: 'John Doe',
-                email: 'johndoe@example.com',
-              },
-              {
-                id: 2,
-                name: 'Jane Smith',
-                email: 'janesmith@example.com',
-            },
-        ]); //setting secreatries, changing them
+    const [secretaries, setSecretaries] = useState([]); //setting secreatries, changing them
     const [isPending, setIsPending] = useState(false); //for loading
     const [refresh, setRefresh] = useState(false); //for refreshing
     const [error, setError] = useState(null); //for error handling
@@ -55,7 +45,7 @@ export default function AdminPage(){
     return(
         <Container sx={{mt: 15}}>
 
-            <Typography> Welcome to Admin Page. You can add secretarries from below button </Typography>
+            <Typography> Welcome to Admin Page. You can add secretaries from below button </Typography>
             <AddSecretaryButton refreshSecretaries={refreshSecretaries}/>
             <Typography> SECRETARIES </Typography>
 
