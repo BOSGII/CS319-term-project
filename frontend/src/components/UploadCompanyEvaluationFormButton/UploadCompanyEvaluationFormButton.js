@@ -32,6 +32,8 @@ export default function UploadCompanyEvaluationFormButton({
         .catch((error) => {
           console.log("upload company evaluation form error", error.message);
         });
+    } else {
+      alert("You need to upload the document AND enter the company evaluation grade!")
     }
   };
 
