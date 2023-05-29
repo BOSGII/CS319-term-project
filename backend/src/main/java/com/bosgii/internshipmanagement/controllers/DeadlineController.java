@@ -2,6 +2,7 @@ package com.bosgii.internshipmanagement.controllers;
 
 import java.util.Date;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,7 +22,13 @@ public class DeadlineController {
     }
 
     @PostMapping("/deadline")
-    public void setInitialDeadline(@RequestBody Date deadline) {
-        deadlineService.setInitialDeadline(deadline);
+    public ResponseEntity<String> setInitialDeadline(@RequestBody Date deadline) {
+        try {
+            deadlineService.setInitialDeadline(deadline);
+            return ResponseEntity.ok("Deadline created successfully.");
+        }
+        catch(Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
