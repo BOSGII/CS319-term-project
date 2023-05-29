@@ -68,6 +68,7 @@ bugfix-b9: get internships deadline check & frontend styling bugfix
 bugfix-b10: Tooltips
 
 
+
 Decide later:
 Deadlines for submitting reports, revisions, etc.
 TA
