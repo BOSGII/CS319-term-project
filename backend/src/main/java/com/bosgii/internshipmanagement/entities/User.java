@@ -2,11 +2,7 @@ package com.bosgii.internshipmanagement.entities;
 
 import java.util.regex.Pattern;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.bosgii.internshipmanagement.exceptions.InvalidMailAddressException;
-import com.bosgii.internshipmanagement.exceptions.UserIdExistsException;
-import com.bosgii.internshipmanagement.repos.UserRepository;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

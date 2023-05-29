@@ -7,8 +7,11 @@ import org.springframework.stereotype.Service;
 
 import com.bosgii.internshipmanagement.entities.Internship;
 import com.bosgii.internshipmanagement.entities.TA;
+import com.bosgii.internshipmanagement.exceptions.InvalidMailAddressException;
+import com.bosgii.internshipmanagement.exceptions.UserIdExistsException;
 import com.bosgii.internshipmanagement.repos.InternshipRepository;
 import com.bosgii.internshipmanagement.repos.TARepository;
+import com.bosgii.internshipmanagement.repos.UserRepository;
 import com.bosgii.internshipmanagement.requests.AddTARequest;
 import com.bosgii.internshipmanagement.requests.ChangeTARequest;
 
@@ -17,19 +20,24 @@ public class TAService {
     private final TARepository taRepository;
     private final InternshipService internshipService;
     private final InternshipRepository internshipRepository;
+    private final UserRepository userRepository;
 
-    public TAService(TARepository taRepository, InternshipService internshipService, InternshipRepository internshipRepository) {
+    public TAService(TARepository taRepository, InternshipService internshipService, InternshipRepository internshipRepository, UserRepository userRepository) {
         this.taRepository = taRepository;
         this.internshipService = internshipService;
         this.internshipRepository = internshipRepository;
+        this.userRepository = userRepository;
     }
 
     public List<TA> getAllTAs() {
         return taRepository.findAll();
     }
 
-    public TA createTA(AddTARequest req) {
+    public TA createTA(AddTARequest req) throws UserIdExistsException, InvalidMailAddressException {
         TA newTA = new TA();
+        if (userRepository.existsById(req.getId())) {
+			throw new UserIdExistsException(req.getId());
+		}
         newTA.setId(req.getId());
         newTA.setFullName(req.getFullName());
 		newTA.setMail(req.getMail());
@@ -42,7 +50,7 @@ public class TAService {
         return taRepository.save(newTA);
     }
 
-    public TA changeTADetails(Long taId, ChangeTARequest req) {
+    public TA changeTADetails(Long taId, ChangeTARequest req) throws InvalidMailAddressException {
         TA toBeUpdated;
 		Optional<TA> opt = taRepository.findById(taId);
 		

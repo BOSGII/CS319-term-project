@@ -26,7 +26,7 @@ public class ImportController {
 
     @PostMapping("/import")
     public ResponseEntity<String> importInternshipsFromExcelFile(@RequestBody MultipartFile file) {
-
+        System.out.println("controller methodu");
         try {
             importService.importInternshipsFromExcelFile(file);
 

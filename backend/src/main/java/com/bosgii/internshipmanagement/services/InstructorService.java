@@ -31,14 +31,16 @@ public class InstructorService {
 		return instructorRepository.findAll();
 	}
 
-	public Instructor createInstructor(AddInstructorRequest req) {
-		try {
-			Instructor newInstructor = new Instructor();
-			newInstructor.setId(req.getId());
-			newInstructor.setFullName(req.getFullName());
-			newInstructor.setMail(req.getMail());
-			newInstructor.setDepartment(req.getDepartment());
-			newInstructor.setMaxNumOfInternships(req.getMaxNumOfInternships());
+	public Instructor createInstructor(AddInstructorRequest req) throws InvalidMailAddressException, UserIdExistsException {
+		Instructor newInstructor = new Instructor();
+		if (userRepository.existsById(req.getId())) {
+			throw new UserIdExistsException(req.getId());
+		}
+		newInstructor.setId(req.getId());
+		newInstructor.setFullName(req.getFullName());
+		newInstructor.setMail(req.getMail());
+		newInstructor.setDepartment(req.getDepartment());
+		newInstructor.setMaxNumOfInternships(req.getMaxNumOfInternships());
 
 		newInstructor.setNumOfAssignedInternships(0);
 		newInstructor.setRole("instructor");
@@ -47,7 +49,7 @@ public class InstructorService {
 		return instructorRepository.save(newInstructor);
 	}
 
-	public Instructor changeInstructorDetails(Long instructorId, ChangeInstructorRequest req) {
+	public Instructor changeInstructorDetails(Long instructorId, ChangeInstructorRequest req) throws InvalidMailAddressException {
 		Instructor toBeUpdated;
 		Optional<Instructor> opt = instructorRepository.findById(instructorId);
 
