@@ -30,6 +30,7 @@ public class ImportController {
 
             return ResponseEntity.ok("File imported succesfully.");
         } catch(Exception e){
+        
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
