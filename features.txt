@@ -63,6 +63,7 @@ MERGED bugfix-b4: Assigning internship to an instructor causes all internship da
 bugfix-b5: Handle delete internship, delete instructor buttons accordingly
 bugfix-b6: AddInstructor and AddTA checks
 bugfix-b7: adjust Final PDF generation 
+bugfix-b8: saving passwords to database 
 
 
 
