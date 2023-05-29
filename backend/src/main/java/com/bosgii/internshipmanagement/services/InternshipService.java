@@ -6,15 +6,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import com.bosgii.internshipmanagement.entities.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.bosgii.internshipmanagement.entities.Company;
-import com.bosgii.internshipmanagement.entities.CompanyEvaluation;
-import com.bosgii.internshipmanagement.entities.Instructor;
-import com.bosgii.internshipmanagement.entities.Internship;
-import com.bosgii.internshipmanagement.entities.Student;
-import com.bosgii.internshipmanagement.entities.Supervisor;
 import com.bosgii.internshipmanagement.enums.InternshipStatus;
 import com.bosgii.internshipmanagement.enums.InternshipType;
 import com.bosgii.internshipmanagement.exceptions.InvalidMailAddressException;

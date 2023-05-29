@@ -2,6 +2,8 @@ package com.bosgii.internshipmanagement.services;
 
 import com.bosgii.internshipmanagement.entities.Instructor;
 import com.bosgii.internshipmanagement.entities.Internship;
+import com.bosgii.internshipmanagement.entities.Submission;
+import com.bosgii.internshipmanagement.enums.InternshipStatus;
 import com.bosgii.internshipmanagement.enums.InternshipType;
 import com.bosgii.internshipmanagement.repos.CompanyRepository;
 import com.bosgii.internshipmanagement.repos.InstructorRepository;
@@ -46,8 +48,9 @@ import java.util.Optional;
 
 @Service
 public class FinalPDFRequestService {
-
-    public FinalPDFRequestService(){
+    private InternshipRepository internshipRepository;
+    public FinalPDFRequestService(InternshipRepository internshipRepository){
+        this.internshipRepository = internshipRepository;
     }
 
     public ResponseEntity<Resource> GenerateFinalPdf(Internship internship, GenerateFinalPDFRequest req){
@@ -84,7 +87,14 @@ public class FinalPDFRequestService {
         }
 
         boolean overallSatisfactory = (partCP1>=7) && (partCP2>=25) && (partCP3 >= 7);
+
         boolean isPartAPassed = (pointOfEmployer>=7) && isWorkComp && isSupervisor;
+        if(overallSatisfactory && isPartAPassed){
+            internship.setStatus(InternshipStatus.SUCCESSFUL);
+        }else{
+            internship.setStatus(InternshipStatus.FAIL_UNSATISFACTORY_REPORT);
+        }
+        internshipRepository.save(internship);
 
 
         String pathOfDir = new FileSystemResource("").getFile().getAbsolutePath();
