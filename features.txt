@@ -66,6 +66,7 @@ bugfix-b7: adjust Final PDF generation
 bugfix-b8: saving passwords to database 
 bugfix-b9: get internships deadline check & frontend styling bugfix
 bugfix-b10: Tooltips
+bugfix-b11: Cors issue
 
 
 

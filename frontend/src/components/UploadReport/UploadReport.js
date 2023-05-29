@@ -17,7 +17,7 @@ export default function UploadReport({ internship, refreshInternship }) {
     if (internship.status === "UNDER_EVALUATION") {
       axios
         .get(
-          `localhost:8080/api/versions?internshipId=${internship.id}&versionNumber=${internship.numOfVersions}`,
+          `http://localhost:8080/api/versions?internshipId=${internship.id}&versionNumber=${internship.numOfVersions}`,
           {
             headers: {
               Authorization: `${sessionId}`,
