@@ -56,12 +56,13 @@ export default function Version({
       {isPending && <div>Loading...</div>}
       {version && (
         <Container sx={{ mt: 5 }}>
-          <button
+          <Button
+            variant="text"
             onClick={handleSidebarOpen}
             style={{ position: "absolute", left: "1rem", top: "5rem" }}
           >
             See All Versions
-          </button>
+          </Button>
           <Grid container spacing={2} sx={{ mt: 10 }}>
             <Grid item xs={6}>
               <Typography variant="h6" sx={{ mb: 1 }}>
