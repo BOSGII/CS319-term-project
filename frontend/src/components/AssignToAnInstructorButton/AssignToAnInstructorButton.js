@@ -10,7 +10,7 @@ import {
   Select,
   MenuItem,
   Typography,
-  Tooltip
+  Tooltip,
 } from "@mui/material";
 import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
 
@@ -95,7 +95,8 @@ export default function AssignToAnInstructorButton({
         }
         handleClose();
       })
-      .catch(() => {
+      .catch((error) => {
+        console.log(error.data.body);
         console.log("assign put error");
       });
   };

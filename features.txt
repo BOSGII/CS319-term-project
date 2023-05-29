@@ -30,7 +30,7 @@ MERGED feature-f28: download report/feedback functionality
 feature-f29: admin page/pages
 feature-f30:
 feature-f31: styling for comment sections (both student and instructor)
-feature-f32: error message when imported excel does not obey format
+MERGED feature-f32: error message when imported excel does not obey format
 feature-f33: download uploaded company evaluation form / change form && company grade
 feature-f34: change report and feedback of a submission
 feature-f35: secretary home page (show some statistics about internship status)
