@@ -2,10 +2,10 @@ package com.bosgii.internshipmanagement.documents;
 
 import com.bosgii.internshipmanagement.entities.CompanyEvaluation;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Entity
-@Table(name="CompanyEvaluationForm")
+@Table(name = "CompanyEvaluationForm")
 public class CompanyEvaluationForm {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

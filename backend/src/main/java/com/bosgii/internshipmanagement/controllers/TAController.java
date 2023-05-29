@@ -2,6 +2,7 @@ package com.bosgii.internshipmanagement.controllers;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,7 @@ import com.bosgii.internshipmanagement.requests.AddTARequest;
 import com.bosgii.internshipmanagement.requests.ChangeTARequest;
 import com.bosgii.internshipmanagement.services.TAService;
 
+@CrossOrigin("http://localhost:3000/")
 @RestController
 @RequestMapping("/api")
 public class TAController {
@@ -31,20 +33,20 @@ public class TAController {
     }
 
     @PostMapping("/tas")
-	public TA createTA(@RequestBody AddTARequest req) {
-		return taService.createTA(req);
-	}
+    public TA createTA(@RequestBody AddTARequest req) {
+        return taService.createTA(req);
+    }
 
-	@PutMapping("tas/{taId}")
-	public TA changeTADetails(@PathVariable Long taId,
-			@RequestBody ChangeTARequest req) {
-		return taService.changeTADetails(taId, req);
-	}
+    @PutMapping("tas/{taId}")
+    public TA changeTADetails(@PathVariable Long taId,
+            @RequestBody ChangeTARequest req) {
+        return taService.changeTADetails(taId, req);
+    }
 
-	@DeleteMapping("/tas/{taId}")
-	public void deleteTA(@PathVariable Long taId) {
-		taService.deleteTA(taId);
-	}
+    @DeleteMapping("/tas/{taId}")
+    public void deleteTA(@PathVariable Long taId) {
+        taService.deleteTA(taId);
+    }
 
     @PostMapping("/tas/match")
     public void matchTAs() {

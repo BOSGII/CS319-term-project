@@ -1,8 +1,9 @@
 package com.bosgii.internshipmanagement.services;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-
 
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,8 @@ import com.bosgii.internshipmanagement.requests.AddCompanyEvaluationRequest;
 import com.bosgii.internshipmanagement.requests.AddInternshipRequest;
 import com.bosgii.internshipmanagement.requests.AssignRequest;
 import com.bosgii.internshipmanagement.requests.ChangeInternshipRequest;
+import com.bosgii.internshipmanagement.requests.FinalizeSubmissionRequest;
+import com.bosgii.internshipmanagement.requests.GenerateFinalPDFRequest;
 
 @Service
 public class InternshipService {
@@ -34,10 +37,12 @@ public class InternshipService {
 	private final InstructorRepository instructorRepository;
 	private final CompanyEvaluationRepository companyEvaluationRepository;
 	private final CompanyEvaluationFormService companyEvaluationFormService;
-	
+	private final FinalPDFRequestService finalPDFRequestService;
+
 	public InternshipService(InternshipRepository internshipRepository, StudentRepository studentRepository,
-			CompanyRepository companyRepository, SupervisorRepository supervisorRepository, InstructorRepository instructorRepository, CompanyEvaluationRepository companyEvaluationRepository,
-			CompanyEvaluationFormService companyEvaluationFormService) {
+			CompanyRepository companyRepository, SupervisorRepository supervisorRepository,
+			InstructorRepository instructorRepository, CompanyEvaluationRepository companyEvaluationRepository,
+			CompanyEvaluationFormService companyEvaluationFormService, FinalPDFRequestService finalPDFRequestService) {
 		this.internshipRepository = internshipRepository;
 		this.studentRepository = studentRepository;
 		this.companyRepository = companyRepository;
@@ -45,6 +50,7 @@ public class InternshipService {
 		this.instructorRepository = instructorRepository;
 		this.companyEvaluationRepository = companyEvaluationRepository;
 		this.companyEvaluationFormService = companyEvaluationFormService;
+		this.finalPDFRequestService = finalPDFRequestService;
 	}
 
 	public List<Internship> getAllInternships(Optional<Long> studentId, Optional<Long> instructorId) {
@@ -53,7 +59,7 @@ public class InternshipService {
 			return internshipRepository.getAllByStudentId(studentId.get());
 		} else if (instructorId.isPresent()) {
 			return internshipRepository.getAllByInstructorId(instructorId.get());
-		} 
+		}
 
 		return internshipRepository.findAll();
 	}
@@ -61,8 +67,8 @@ public class InternshipService {
 	public Optional<Internship> getOneInternshipById(Long internshipId) {
 		return internshipRepository.findById(internshipId);
 	}
-	
-	public Optional<Internship> findInternshipByStudentIdAndType(Long studentId, InternshipType type){
+
+	public Optional<Internship> findInternshipByStudentIdAndType(Long studentId, InternshipType type) {
 		return internshipRepository.findByStudentIdAndType(studentId, type);
 	}
 
@@ -78,10 +84,9 @@ public class InternshipService {
 		// check if the student already exists
 		Student st;
 		Optional<Student> student = studentRepository.findById(req.getStudentId());
-		if(student.isPresent()) {
+		if (student.isPresent()) {
 			st = student.get();
-		}
-		else {
+		} else {
 			st = new Student();
 			st.setId(req.getStudentId());
 			st.setFullName(req.getStudentFullName());
@@ -90,7 +95,7 @@ public class InternshipService {
 			st.setDepartment(req.getStudentDepartment());
 			studentRepository.save(st);
 		}
-		
+
 		// check if the company already exists
 		Company c;
 		Optional<Company> company = companyRepository.findByNameAndEmail(req.getCompanyName(),
@@ -119,14 +124,14 @@ public class InternshipService {
 			su.setGraduationYear(req.getSupervisorGraduationYear());
 			supervisorRepository.save(su);
 		}
-		
+
 		// creating new internship
 		Internship i = new Internship();
 		i.setStudent(st);
 		i.setCompany(c);
 		i.setSupervisor(su);
 		i.setStatus(InternshipStatus.WAITING_FOR_COMPANY_APPROVAL);
-		
+
 		i.setType(type);
 		i.setStartDate(req.getStartDate());
 		i.setEndDate(req.getEndDate());
@@ -174,7 +179,7 @@ public class InternshipService {
 			toBeUpdated.setStartDate(req.getStartDate());
 			toBeUpdated.setEndDate(req.getEndDate());
 			toBeUpdated.setType(req.getType());
-			
+
 			return internshipRepository.save(toBeUpdated);
 		}
 		return null;
@@ -187,19 +192,21 @@ public class InternshipService {
 		return opt.get();
 	}
 
-    public Internship assignToDifferentInstructor(Long internshipId, AssignRequest req) {
+	public Internship assignToDifferentInstructor(Long internshipId, AssignRequest req) {
 		Internship toBeUpdated = internshipRepository.findById(internshipId).get();
-		if(req.getNewInstructorId() == null){
+		if (req.getNewInstructorId() == null) {
 			Instructor currentAssignedInstructor = toBeUpdated.getInstructor();
-			if(currentAssignedInstructor != null) {
-				currentAssignedInstructor.setNumOfAssignedInternships(currentAssignedInstructor.getNumOfAssignedInternships() - 1);
+			if (currentAssignedInstructor != null) {
+				currentAssignedInstructor
+						.setNumOfAssignedInternships(currentAssignedInstructor.getNumOfAssignedInternships() - 1);
 				instructorRepository.save(currentAssignedInstructor);
 			}
 			toBeUpdated.setInstructor(null);
 		} else {
 			Instructor currentAssignedInstructor = toBeUpdated.getInstructor();
-			if(currentAssignedInstructor != null) {
-				currentAssignedInstructor.setNumOfAssignedInternships(currentAssignedInstructor.getNumOfAssignedInternships() - 1);
+			if (currentAssignedInstructor != null) {
+				currentAssignedInstructor
+						.setNumOfAssignedInternships(currentAssignedInstructor.getNumOfAssignedInternships() - 1);
 				instructorRepository.save(currentAssignedInstructor);
 			}
 			Instructor newAssignedInstructor = instructorRepository.findById(req.getNewInstructorId()).get();
@@ -208,10 +215,10 @@ public class InternshipService {
 			toBeUpdated.setInstructor(newAssignedInstructor);
 		}
 
-        return internshipRepository.save(toBeUpdated);
-    }
+		return internshipRepository.save(toBeUpdated);
+	}
 
-	public void handleNewSubmission(Long internshipId){
+	public void handleNewSubmission(Long internshipId) {
 		Internship i = internshipRepository.findById(internshipId).get();
 		i.setStatus(InternshipStatus.UNDER_EVALUATION);
 		internshipRepository.save(i);
@@ -226,23 +233,84 @@ public class InternshipService {
 		Internship i = internshipRepository.findById(internshipId).get();
 		Optional<CompanyEvaluation> ce = companyEvaluationRepository.findByInternshipId(internshipId);
 
-		if(ce.isPresent()){
+		if (ce.isPresent()) {
 			ce.get().setSupervisorGrade(req.getSupervisorGrade());
 			companyEvaluationRepository.save(ce.get());
 
 			// TODO: handle change file
-			if(req.getFile() != null){
+			if (req.getFile() != null) {
 
 			}
-		}else {
+		} else {
 			CompanyEvaluation newCe = new CompanyEvaluation();
 			newCe.setInternship(i);
 			newCe.setSupervisorGrade(req.getSupervisorGrade());
 			companyEvaluationRepository.saveAndFlush(newCe);
 			companyEvaluationFormService.addCompanyEvaluationFormToCompanyEvaluation(req.getFile(), newCe);
-			i.setStatus(InternshipStatus.UNDER_EVALUATION);
+			i.setStatus(InternshipStatus.NOT_SUBMITTED);
 		}
 
 		return internshipRepository.saveAndFlush(i);
+	}
+
+	public void handleFinalizeInternship(Long internshipId, FinalizeSubmissionRequest req) {
+		Internship i = internshipRepository.findById(internshipId).get();
+		// map FinalizeSubmissionRequest to GenerateFinalPDFRequest
+		GenerateFinalPDFRequest pdfReq = new GenerateFinalPDFRequest();
+		CompanyEvaluation ce = companyEvaluationRepository.findByInternshipId(internshipId).get();
+		pdfReq.setPointOfEmployer(ce.getSupervisorGrade());
+		pdfReq.setIsWorkComp(req.getWorkDoneRelated().equals("YES") ? true : false);
+		pdfReq.setIsSupervisorComp(req.getSupervisorRelated().equals("YES") ? true : false);
+		if (req.getCompanyEvaluation().equals("Strongly Recommend")) {
+			pdfReq.setEvaluationOfCompanyByInstructor(1);
+		} else if (req.getCompanyEvaluation().equals("Satisfied")) {
+			pdfReq.setEvaluationOfCompanyByInstructor(2);
+		} else if (req.getCompanyEvaluation().equals("Not Recommending")) {
+			pdfReq.setEvaluationOfCompanyByInstructor(3);
+		}
+
+		ArrayList<Integer> scores = new ArrayList<Integer>();
+		scores.add(req.getGrade1());
+		scores.add(req.getGrade2());
+		scores.add(req.getGrade3());
+		scores.add(req.getGrade4());
+		scores.add(req.getGrade5());
+		scores.add(req.getGrade6());
+		scores.add(req.getGrade7());
+
+		pdfReq.setScores(scores);
+
+		ArrayList<ArrayList<Integer>> pages = new ArrayList<ArrayList<Integer>>();
+		pages.add(csvToList(req.getPages1()));
+		pages.add(csvToList(req.getPages2()));
+		pages.add(csvToList(req.getPages3()));
+		pages.add(csvToList(req.getPages4()));
+		pages.add(csvToList(req.getPages5()));
+		pages.add(csvToList(req.getPages6()));
+		pages.add(csvToList(req.getPages7()));
+
+		pdfReq.setPages(pages);
+
+		finalPDFRequestService.GenerateFinalPdf(i, pdfReq);
+	}
+
+	private ArrayList<Integer> csvToList(String csv) {
+		ArrayList<Integer> pages = new ArrayList<Integer>();
+
+		if (csv.isEmpty())
+			return pages;
+
+		// Remove spaces between values
+		csv = csv.replaceAll("\\s+", "");
+
+		// Split the CSV string by comma
+		List<String> values = Arrays.asList(csv.split(","));
+
+		// Convert each value to an integer and add to the result list
+		for (String value : values) {
+			pages.add(Integer.parseInt(value));
+		}
+
+		return pages;
 	}
 }

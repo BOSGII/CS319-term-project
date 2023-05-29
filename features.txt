@@ -50,7 +50,8 @@ feature-b15: revise response objects (nested objects are mostly unused in fronte
 feature-b16: TAController, TAService
 feature-b17: adjustments for final evaluation form generation (take some inputs from company evaluation form, some from instructor, etc.)
 MERGED feature-b18: CompanyEvaluation && CompanyEvaluationForm
-MERGED feature-b19: import internships service should return the line causing error to the frontend 
+MERGED feature-b19: import internships service should return the line causing error to the frontend
+feature-b20: Admin controller/service
 
 
 
@@ -61,6 +62,7 @@ bugfix-b3: Remove CS from InternshipType enum (CS299 -> 299 && CS399 -> 399)
 MERGED bugfix-b4: Assigning internship to an instructor causes all internship data to be deleted
 bugfix-b5: Handle delete internship, delete instructor buttons accordingly
 bugfix-b6: AddInstructor and AddTA checks
+bugfix-b7: adjust Final PDF generation 
 
 
 

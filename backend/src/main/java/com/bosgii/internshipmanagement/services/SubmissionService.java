@@ -9,6 +9,7 @@ import com.bosgii.internshipmanagement.enums.InternshipType;
 import com.bosgii.internshipmanagement.enums.SubmissionStatus;
 import com.bosgii.internshipmanagement.repos.SubmissionRepository;
 import com.bosgii.internshipmanagement.requests.ChangeSubmissionRequest;
+import com.bosgii.internshipmanagement.requests.FinalizeSubmissionRequest;
 
 @Service
 public class SubmissionService {
@@ -96,4 +97,12 @@ public class SubmissionService {
 	public Submission getOneSubmissionByInternshipId(Long internshipId) {
 		return submissionRepository.findSubmissionByInternshipId(internshipId).get();
 	}
+
+    public Submission finalizeSubmission(Long submissionId, FinalizeSubmissionRequest req) {
+		Submission s = submissionRepository.findById(submissionId).get();
+		s.setStatus(SubmissionStatus.CLOSED);
+		Long internshipId = submissionRepository.getInternshipId(submissionId);
+		internshipService.handleFinalizeInternship(internshipId, req);
+        return submissionRepository.save(s);
+    }
 }

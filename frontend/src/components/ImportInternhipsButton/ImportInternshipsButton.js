@@ -4,17 +4,18 @@ import Upload from "../Upload/Upload";
 import axios from "axios";
 
 export default function ImportInternshipsButton({ refreshInternships }) {
+  const sessionId = localStorage.getItem("sessionId");
   const [open, setOpen] = useState(false);
 
   const handleSubmit = (file) => {
     if (file) {
       let formData = new FormData();
       formData.append("file", file);
-
       axios
-        .post(`/api/import`, formData, {
+        .post(`http://localhost:8080/api/import`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
+            Authorization: `${sessionId}`,
           },
         })
         .then((response) => {

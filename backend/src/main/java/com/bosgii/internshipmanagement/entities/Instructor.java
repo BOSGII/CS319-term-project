@@ -1,16 +1,16 @@
 package com.bosgii.internshipmanagement.entities;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+
+import javax.persistence.*;
 
 @Entity
-@Table(name="Instructor")
-public class Instructor extends Evaluator{
+@Table(name = "Instructor")
+public class Instructor extends Evaluator {
     int maxNumOfInternships;
-    
-        public Instructor() {
-            
-        }
-    
+
+    public Instructor() {
+
+    }
+
     public int getMaxNumOfInternships() {
         return maxNumOfInternships;
     }
@@ -18,5 +18,5 @@ public class Instructor extends Evaluator{
     public void setMaxNumOfInternships(int maxNumOfInternships) {
         this.maxNumOfInternships = maxNumOfInternships;
     }
-	
+
 }

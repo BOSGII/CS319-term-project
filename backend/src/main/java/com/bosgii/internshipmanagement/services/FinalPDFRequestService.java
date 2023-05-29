@@ -46,29 +46,14 @@ import java.util.Optional;
 
 @Service
 public class FinalPDFRequestService {
-    InternshipService internshipService;
-    InternshipRepository internshipRepository;
-    CompanyRepository companyRepository;
-    InstructorRepository instructorRepository;
-    StudentRepository studentRepository;
 
-
-    public FinalPDFRequestService(InternshipService internshipService,InternshipRepository internshipRepository, CompanyRepository companyRepository, InstructorRepository instructorRepository, StudentRepository studentRepository){
-        this.internshipService = internshipService;
-        this.internshipRepository = internshipRepository;
-        this.companyRepository = companyRepository;
-        this.instructorRepository = instructorRepository;
-        this.studentRepository = studentRepository;
+    public FinalPDFRequestService(){
     }
-    public ResponseEntity<Resource> GenerateFinalPdf(Long internshipId, GenerateFinalPDFRequest req){
-        Optional<Internship> internship = internshipService.getOneInternshipById(internshipId);
 
-        if(internship.isEmpty())
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-
+    public ResponseEntity<Resource> GenerateFinalPdf(Internship internship, GenerateFinalPDFRequest req){
+        Long internshipId = internship.getId();
         int pointOfEmployer = req.getPointOfEmployer();
         boolean isWorkComp = req.getIsWorkComp();
-        System.out.println(isWorkComp);
         boolean isSupervisor = req.getIsSupervisorComp();
         ArrayList<ArrayList<Integer>> pages = req.getPages();
         ArrayList<Integer> scores = req.getScores();
@@ -88,7 +73,7 @@ public class FinalPDFRequestService {
         Document document = new Document(pdf);*/
         String pathOfDir = new FileSystemResource("").getFile().getAbsolutePath();
         Path rootDir = Path.of(pathOfDir);
-        rootDir = rootDir.resolve("documents").resolve("finalPDF").resolve(internshipId+".pdf");
+        rootDir = rootDir.resolve("backend/documents").resolve("final_pdf").resolve(internshipId+".pdf");
         PdfWriter pdfWriter = null;
 
         try {
@@ -123,7 +108,7 @@ public class FinalPDFRequestService {
                     .setFontSize(12).setFixedPosition(265F,705F,250F);
 
             String whichInternship = "CS 299 [X]        CS 399 [ ]";
-            if(internship.get().getType() == InternshipType.CS399)
+            if(internship.getType() == InternshipType.CS399)
                 whichInternship = "CS 299 [ ]        CS 399 [X]";
             // determine which internship
 
@@ -226,7 +211,7 @@ public class FinalPDFRequestService {
 
 
             String evolName = "Instructor";
-            Instructor instructor = internship.get().getInstructor();
+            Instructor instructor = internship.getInstructor();
             evolName = instructor.getFullName();
             Paragraph parOfEvolName = new Paragraph(evolName).setFontSize(12).setFixedPosition(352F,198F,100F);
             document.add(parOfEvolName);
@@ -440,7 +425,7 @@ public class FinalPDFRequestService {
 
         String pathPNG = new FileSystemResource("").getFile().getAbsolutePath();
         Path root = Path.of(pathPNG);
-        root = root.resolve("documents").resolve("bilkent.png");
+        root = root.resolve("backend/documents").resolve("bilkent.png");
 
         try {
             ImageData imageData = ImageDataFactory.create(root.toString());
@@ -454,7 +439,7 @@ public class FinalPDFRequestService {
 
         String pathSign = new FileSystemResource("").getFile().getAbsolutePath();
         Path rootSign = Path.of(pathSign);
-        rootSign = rootSign.resolve("documents").resolve("signuture.png");
+        rootSign = rootSign.resolve("backend/documents").resolve("signuture.png");
 
         try {
             ImageData imageDataSign = ImageDataFactory.create(rootSign.toString());
@@ -468,10 +453,8 @@ public class FinalPDFRequestService {
 
         //getStudent direkt null dönüyor burada neden anlamadım getCompanyde buluyor ama
         //  büyük ihtimalle ben databasede doğru dürüst oluşturamadım student
-        //internship.get().getStudent().getFullName();
-        System.out.println(internship.get().getId());
-        String name = String.valueOf(studentRepository.findById(21903048L));
-        String companyDepartment = internship.get().getCompany().getName();
+        String name = internship.getStudent().getFullName();
+        String companyDepartment = internship.getCompany().getName();
 
 
         Paragraph parOfname = new Paragraph(name).setFixedPosition(185F,677F,100F);
@@ -547,7 +530,6 @@ public class FinalPDFRequestService {
         document.close();
         Resource resource;
 
-        System.out.println("hel");
         try {
             resource = new UrlResource(rootDir.toUri());
             return new ResponseEntity<>(resource,HttpStatus.OK);
