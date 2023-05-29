@@ -47,7 +47,7 @@ export default function SubmissionPage() {
     };
 
     getInternshipFromServer();
-  }, [user, internshipId, refresh, addNewVersionButtonPressed]);
+  }, [sessionId, user, internshipId, refresh, addNewVersionButtonPressed]);
 
   return (
     <Container>

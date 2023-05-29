@@ -4,6 +4,7 @@ import java.util.Properties;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -199,4 +200,18 @@ public class VersionService {
 			e.printStackTrace();
 		}
 	}
+
+    public void changeReportOfVersion(Long versionId, MultipartFile file) {
+		Version v = versionRepository.findById(versionId).get();
+		v.setReportFileName(file.getOriginalFilename());
+		reportService.changeReportOfVersion(file, v);
+		versionRepository.save(v);
+    }
+
+    public void changeFeedbackOfVersion(Long versionId, MultipartFile file) {
+		Version v = versionRepository.findById(versionId).get();
+		v.setFeedbackFileName(file.getOriginalFilename());
+		feedbackService.changeFeedbackOfVersion(file, v);
+		versionRepository.save(v);
+    }
 }

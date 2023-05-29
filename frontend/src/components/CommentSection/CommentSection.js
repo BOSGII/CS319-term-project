@@ -24,7 +24,7 @@ export default function CommentSection({ versionStatus, versionId }) {
       .catch((error) => {
         setError(error);
       });
-  }, [versionId]);
+  }, [sessionId, versionId]);
 
   return (
     <>

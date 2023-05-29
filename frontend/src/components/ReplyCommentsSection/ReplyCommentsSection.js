@@ -37,7 +37,7 @@ export default function ReplyCommentsSection({
       .catch((error) => {
         setError(error);
       });
-  }, [versionId, setReplies]);
+  }, [sessionId, versionId, setReplies]);
   return (
     <>
       {error && <div>{error.message}</div>}
@@ -56,9 +56,9 @@ export default function ReplyCommentsSection({
                   value={replies[index]}
                   onChange={(el) => handleInputChange(el.target.value, index)}
                   style={{
-                    width: '100%',
-                    height: '150px', // Adjust the height as desired
-                    resize: 'none', // Prevent resizing of the textarea
+                    width: "100%",
+                    height: "150px", // Adjust the height as desired
+                    resize: "none", // Prevent resizing of the textarea
                   }}
                 />
               </Grid>
