@@ -54,6 +54,7 @@ export default function SecretarySideBar({ open, handleSidebarClose }) {
         <ListItem disablePadding>
           <ListItemButton
             onClick={() => {
+              handleSidebarClose();
               navigate("/home", { replace: true });
             }}
           >
@@ -66,6 +67,7 @@ export default function SecretarySideBar({ open, handleSidebarClose }) {
         <ListItem disablePadding>
           <ListItemButton
             onClick={() => {
+              handleSidebarClose();
               navigate("/instructors", { replace: true });
             }}
           >
@@ -75,6 +77,7 @@ export default function SecretarySideBar({ open, handleSidebarClose }) {
         <ListItem disablePadding>
           <ListItemButton
             onClick={() => {
+              handleSidebarClose();
               // TODO
             }}
           >
@@ -87,6 +90,7 @@ export default function SecretarySideBar({ open, handleSidebarClose }) {
         <ListItem disablePadding>
           <ListItemButton
             onClick={() => {
+              handleSidebarClose();
               navigate("/internships", { replace: true });
             }}
           >

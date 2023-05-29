@@ -1,7 +1,12 @@
 package com.bosgii.internshipmanagement.entities;
-import jakarta.persistence.Entity;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
-public class TA extends Evaluator{
-	
+@Table(name = "TA")
+public class TA extends Evaluator {
+    public TA() {
+    }
+
 }

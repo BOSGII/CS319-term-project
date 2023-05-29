@@ -22,7 +22,7 @@ export default function CustomNavbar() {
   const handleSidebarClose = () => {
     setOpen(false);
   };
-  
+
   return (
     <>
       <AppBar position="fixed">
@@ -40,7 +40,17 @@ export default function CustomNavbar() {
           >
             <MenuIcon />
           </IconButton>
-          <img src="bilkent.png" alt="bilkent logo" style={{ width:"70px", height:"70px", marginLeft: 220, marginTop:5, marginBottom:5 }}></img>
+          <img
+            src="bilkent.png"
+            alt="bilkent logo"
+            style={{
+              width: "70px",
+              height: "70px",
+              marginLeft: 220,
+              marginTop: 5,
+              marginBottom: 5,
+            }}
+          ></img>
           <Typography
             variant="h6"
             component="div"
@@ -56,6 +66,7 @@ export default function CustomNavbar() {
             color="inherit"
             onClick={() => {
               setUser({ id: null, role: null });
+              handleSidebarClose();
               navigate("/login");
             }}
           >

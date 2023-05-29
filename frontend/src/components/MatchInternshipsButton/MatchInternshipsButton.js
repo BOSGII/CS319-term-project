@@ -10,6 +10,7 @@ import axios from "axios";
 import { useState } from "react";
 
 export default function MatchInternshipsButton({ refreshInternships }) {
+  const sessionId = localStorage.getItem("sessionId");
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -19,17 +20,21 @@ export default function MatchInternshipsButton({ refreshInternships }) {
   const handleClose = () => {
     setOpen(false);
   };
-
   const matchInternships = (matchType) => {
     axios
-      .post(`/api/match?matchType=${matchType}`)
+      .get(`http://localhost:8080/api/match?matchType=${matchType}`,  {
+        headers: {
+          Authorization: `${sessionId}`,
+        },
+      })
       .then((response) => {
         refreshInternships();
         handleClose();
-        console.log(response.data);
       })
-      .catch(() => {
-        console.log("match post error");
+      .catch((error) => {
+        if (error.response.status === 400) {
+          alert(error.response.data);
+        }
       });
   };
 

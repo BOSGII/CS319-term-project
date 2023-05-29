@@ -15,14 +15,17 @@ export default function Upload({
   };
 
   return (
-    <>
-      <FileUploader
-        handleChange={handleChange}
-        types={acceptedFileTypes}
-        fileOrFiles={file}
-      ></FileUploader>
+      <>
+      <div style={{ marginLeft: '300px' }}>
+        <FileUploader
+          handleChange={handleChange}
+          types={acceptedFileTypes}
+          fileOrFiles={file}
+        />
+      </div>
       <Typography>Uploaded file: {file ? file.name : "None"}</Typography>
       <Button
+        style={{ fontSize: "18px" }}
         onClick={() => {
           if (file) {
             handleSubmit(file);
@@ -34,6 +37,7 @@ export default function Upload({
         Submit
       </Button>
       <Button
+        style={{ fontSize: "18px" }}
         onClick={() => {
           setFile(null);
           handleCancel();

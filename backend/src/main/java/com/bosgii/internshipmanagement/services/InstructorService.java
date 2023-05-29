@@ -6,7 +6,10 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.bosgii.internshipmanagement.entities.Instructor;
+import com.bosgii.internshipmanagement.exceptions.InvalidMailAddressException;
+import com.bosgii.internshipmanagement.exceptions.UserIdExistsException;
 import com.bosgii.internshipmanagement.repos.InstructorRepository;
+import com.bosgii.internshipmanagement.repos.UserRepository;
 import com.bosgii.internshipmanagement.requests.AddInstructorRequest;
 import com.bosgii.internshipmanagement.requests.ChangeInstructorRequest;
 
@@ -14,20 +17,25 @@ import com.bosgii.internshipmanagement.requests.ChangeInstructorRequest;
 public class InstructorService {
 
 	private InstructorRepository instructorRepository;
+	private final UserRepository userRepository;
 
-	public InstructorService(InstructorRepository instructorRepository) {
+	public InstructorService(InstructorRepository instructorRepository, UserRepository userRepository) {
 		this.instructorRepository = instructorRepository;
+		this.userRepository = userRepository;
 	}
 
 	public List<Instructor> getAllInstructors(Optional<Boolean> available) {
-		if(available.isPresent()){
+		if (available.isPresent()) {
 			return instructorRepository.findAllAvailable();
 		}
 		return instructorRepository.findAll();
 	}
 
-	public Instructor createInstructor(AddInstructorRequest req) {
+	public Instructor createInstructor(AddInstructorRequest req) throws InvalidMailAddressException, UserIdExistsException {
 		Instructor newInstructor = new Instructor();
+		if (userRepository.existsById(req.getId())) {
+			throw new UserIdExistsException(req.getId());
+		}
 		newInstructor.setId(req.getId());
 		newInstructor.setFullName(req.getFullName());
 		newInstructor.setMail(req.getMail());
@@ -37,14 +45,14 @@ public class InstructorService {
 		newInstructor.setNumOfAssignedInternships(0);
 		newInstructor.setRole("instructor");
 		newInstructor.setCompleted(0);
-		
+
 		return instructorRepository.save(newInstructor);
 	}
 
-	public Instructor changeInstructorDetails(Long instructorId, ChangeInstructorRequest req) {
+	public Instructor changeInstructorDetails(Long instructorId, ChangeInstructorRequest req) throws InvalidMailAddressException {
 		Instructor toBeUpdated;
 		Optional<Instructor> opt = instructorRepository.findById(instructorId);
-		
+
 		if (opt.isPresent()) {
 			toBeUpdated = opt.get();
 		} else {

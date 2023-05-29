@@ -18,6 +18,7 @@ export default function Internship({ internship, refreshInternships }) {
   );
 
   useEffect(() => {
+    
     setStudentId(internship.student.id);
     setInternshipType(internship.type);
     setInternshipStatus(internship.status);
@@ -26,38 +27,48 @@ export default function Internship({ internship, refreshInternships }) {
 
   return (
     <Card elevation={10} style={{ borderRadius: 15 }}>
-      <ListItem style={{justifyContent: "space-between"}}>
-          <Stack direction={"column"} spacing={1} alignItems={"left"} marginRight={40}>
-            <ListItemText>{internshipType} </ListItemText>
-            <ListItemText>Student Id:{studentId} </ListItemText>
-            <ListItemText>Instructor Id: {instructorId === -1 ? "Not assigned" : instructorId}</ListItemText>
-            <ListItemText>Status:{" "} {internshipStatus}</ListItemText>
-          </Stack>
-          <Stack direction={"row"} spacing={5} alignItems={"right"}>
-            {user.role === "secretary" && (
-              <Stack direction={"row"} spacing={5}>
-                <ChangeInternshipDetailsButton />
-                <UploadCompanyEvaluationFormButton />
-                <AssignToAnInstructorButton
-                  internshipId={internship.id}
-                  instructorId={instructorId}
-                  setInstructorId={setInstructorId}
-                  refreshInternships={refreshInternships}
-                />
-              </Stack >
-            )}
-            <SeeSubmissionButton
-              internshipId={internship.id}
-              internshipStatus={internship.status}
-              internshipType={internship.type}
-            />
-            {user.role === "secretary" && (
-              <DeleteInternshipButton
+
+      <ListItem style={{ justifyContent: "space-between" }}>
+        <Stack
+          direction={"column"}
+          spacing={1}
+          alignItems={"left"}
+        >
+          <ListItemText>{internshipType} </ListItemText>
+          <ListItemText>Student Id:{studentId} </ListItemText>
+          <ListItemText>
+            Instructor Id: {instructorId === -1 ? "Not assigned" : instructorId}
+          </ListItemText>
+          <ListItemText>Status: {internshipStatus}</ListItemText>
+        </Stack>
+        <Stack direction={"row"} spacing={5} alignItems={"right"}>
+          {user.role === "secretary" && (
+            <Stack direction={"row"} spacing={5}>
+              <ChangeInternshipDetailsButton />
+              <UploadCompanyEvaluationFormButton
                 internshipId={internship.id}
+                setInternshipStatus={setInternshipStatus}
+              />
+              <AssignToAnInstructorButton
+                internshipId={internship.id}
+                instructorId={instructorId}
+                setInstructorId={setInstructorId}
                 refreshInternships={refreshInternships}
               />
-            )}
             </Stack>
+          )}
+          <SeeSubmissionButton
+            internshipId={internship.id}
+            internshipStatus={internship.status}
+            internshipType={internship.type}
+          />
+          {user.role === "secretary" && (
+            <DeleteInternshipButton
+              internshipId={internship.id}
+              refreshInternships={refreshInternships}
+            />
+          )}
+        </Stack>
       </ListItem>
     </Card>
   );
