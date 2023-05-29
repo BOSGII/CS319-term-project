@@ -8,9 +8,8 @@ public class GenerateFinalPDFRequest {
     boolean isWorkComp;
     boolean isSupervisorComp;
     int evaluationOfCompanyByInstructor;//recommended : 1   satisfied : 2   not recommended : 3
-    ArrayList<ArrayList<Integer>> pages;
-    ArrayList<Integer> scores;
-
+    ArrayList<String> pages;
+    ArrayList<String> scores;
 
     public int getPointOfEmployer() {
         return pointOfEmployer;
@@ -32,33 +31,38 @@ public class GenerateFinalPDFRequest {
         return isSupervisorComp;
     }
 
-    public void setIsSupervisorComp(boolean ısSupervisorComp) {
-        this.isSupervisorComp = ısSupervisorComp;
+    public void setIsSupervisorComp(boolean isSupervisorComp) {
+        this.isSupervisorComp = isSupervisorComp;
     }
 
     public int getEvaluationOfCompanyByInstructor() {
         return evaluationOfCompanyByInstructor;
     }
 
-    public void setEvaluationOfCompanyByInstructor(int evaluationOfCompany) {
-        this.evaluationOfCompanyByInstructor = evaluationOfCompany;
+    public void setEvaluationOfCompanyByInstructor(int evaluationOfCompanyByInstructor) {
+        this.evaluationOfCompanyByInstructor = evaluationOfCompanyByInstructor;
     }
 
-    public ArrayList<ArrayList<Integer>> getPages() {
+    public ArrayList<String> getPages() {
         return pages;
     }
 
-    public void setPages(ArrayList<ArrayList<Integer>> pages) {
+    public void setPages(ArrayList<String> pages) {
         this.pages = pages;
     }
 
-    public ArrayList<Integer> getScores() {
+    public ArrayList<String> getScores() {
         return scores;
     }
 
-    public void setScores(ArrayList<Integer> scores) {
+    public void setScores(ArrayList<String> scores) {
         this.scores = scores;
     }
+
+
+
+
+
 
 
 

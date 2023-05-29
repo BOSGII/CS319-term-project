@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.scheduling.annotation.Async;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,7 +34,6 @@ import java.util.Random;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -136,6 +136,13 @@ public class ImportService {
                         supervisor.setGraduationYear(supervisorGraduationYear);
                         supervisor.setUniversity(supervisorUniversity);
                         
+                        /*for(Internship internship: list){
+                            if(internship.getSupervisor().getName().equals(supervisorName) 
+                            && internship.getSupervisor().getUniversity().equals(supervisorUniversity)){
+                                supervisor.setId(internship.getSupervisor().getId());
+                                break;
+                            }
+                        }*/
                         //supervisorRepository.save(supervisor);
                     }
                     Student student = new Student();
@@ -174,6 +181,7 @@ public class ImportService {
                 if(!optStudent.isPresent()) {
                     //sendEmail(student.getMail());
                     receivers.add(student);
+
                     //new password
                     student.setPassword(passwordEncoder.encode(student.getId().toString()));
                 }

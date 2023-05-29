@@ -22,6 +22,10 @@ public class DeadlineService {
     }
 
     public void setInitialDeadline(Date deadline) {
+        Date now = new Date();
+        if (now.compareTo(deadline) > 0)
+            throw new IllegalArgumentException("Deadline cannot be in past!");
+
         List<Internship> allInternships = internshipService.getAllInternships(Optional.empty(), Optional.empty());
         for (Internship singleInternship: allInternships) {
             singleInternship.setDeadline(deadline);
