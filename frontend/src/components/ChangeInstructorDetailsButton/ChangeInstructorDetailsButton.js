@@ -1,4 +1,4 @@
-import { Button, IconButton, Modal, TextField } from "@mui/material";
+import { Button, IconButton, Modal, TextField, Tooltip } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import { useState } from "react";
 import axios from "axios";
@@ -56,13 +56,15 @@ export default function ChangeInstructorDetailsButton({
   };
   return (
     <>
-      <IconButton
-        onClick={() => {
-          setOpen(true);
-        }}
-      >
-        <EditIcon></EditIcon>
-      </IconButton>
+      <Tooltip title="Change Instructor Details">
+        <IconButton
+          onClick={() => {
+            setOpen(true);
+          }}
+        >
+          <EditIcon></EditIcon>
+        </IconButton>
+      </Tooltip>
       <Modal
         sx={{
           display: "flex",

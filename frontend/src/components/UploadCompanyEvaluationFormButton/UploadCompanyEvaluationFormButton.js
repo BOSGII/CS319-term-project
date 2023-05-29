@@ -1,4 +1,4 @@
-import { IconButton, Dialog, Typography } from "@mui/material";
+import { IconButton, Dialog, Typography, Tooltip } from "@mui/material";
 import UploadIcon from "@mui/icons-material/Upload";
 import { useState } from "react";
 import axios from "axios";
@@ -40,13 +40,15 @@ export default function UploadCompanyEvaluationFormButton({
 
   return (
     <>
-      <IconButton
-        onClick={() => {
-          setOpen(true);
-        }}
-      >
-        <UploadIcon></UploadIcon>
-      </IconButton>
+      <Tooltip title="Upload Company Evaluation Form">
+        <IconButton
+          onClick={() => {
+            setOpen(true);
+          }}
+        >
+          <UploadIcon></UploadIcon>
+        </IconButton>
+      </Tooltip>
       <Dialog
         open={open}
         onClose={() => {

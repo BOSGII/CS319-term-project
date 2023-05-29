@@ -10,6 +10,7 @@ import {
   Select,
   MenuItem,
   Typography,
+  Tooltip
 } from "@mui/material";
 import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
 
@@ -101,9 +102,11 @@ export default function AssignToAnInstructorButton({
 
   return (
     <div>
-      <IconButton onClick={handleClickOpen}>
-        <ChangeCircleIcon></ChangeCircleIcon>
-      </IconButton>
+      <Tooltip title="Assign to an Instructor">
+        <IconButton onClick={handleClickOpen}>
+          <ChangeCircleIcon></ChangeCircleIcon>
+        </IconButton>
+      </Tooltip>
       {error && <div>{error.message}</div>}
       {availableInstructors && (
         <Dialog

@@ -1,4 +1,4 @@
-import { IconButton, Card, ListItem, ListItemText, Stack } from "@mui/material";
+import { IconButton, Card, ListItem, ListItemText, Tooltip, Stack } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ChangeInstructorDetailsButton from "../ChangeInstructorDetailsButton/ChangeInstructorDetailsButton";
@@ -50,6 +50,7 @@ export default function Instructor({ instructor, refreshInstructors }) {
             instructor={instructor}
             refreshInstructors={refreshInstructors}
           />
+          <Tooltip title="See Assigned Internships">
           <IconButton
             onClick={() => {
               navigate(`/instructors/${instructor.id}`);
@@ -57,6 +58,7 @@ export default function Instructor({ instructor, refreshInstructors }) {
           >
             <VisibilityIcon></VisibilityIcon>
           </IconButton>
+          </Tooltip>
           <DeleteInstructorButton
             instructorId={instructor.id}
             refreshInstructors={refreshInstructors}
