@@ -45,12 +45,12 @@ public class AdminController {
 
     }
 
-    @DeleteMapping("/secretaries/{secId}")
-    public void deleteSecretary(@PathVariable Long secId) {
-        adminService.deleteSecretary(secId);
+    @DeleteMapping("/secretaries/{secretaryId}")
+    public void deleteSecretary(@PathVariable Long secretaryId) {
+        adminService.deleteSecretary(secretaryId);
     }
 
-    @PutMapping("/secretaries/{secId}")
+    @PutMapping("/secretaries/{secretaryId}")
 	public ResponseEntity<String> changeSecretaryDetails(@PathVariable Long secretaryId,
 			@RequestBody ChangeSecretaryRequest req) {
 				try {
