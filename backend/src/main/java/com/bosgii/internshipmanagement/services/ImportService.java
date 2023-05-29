@@ -239,7 +239,7 @@ public class ImportService {
         for(Student st: receivers){
             String recipientEmail = st.getMail();
             String subject = "Internship Management";
-            String body = "You are registered.";
+            String body = "You are registered. Your password: "  + st.getId().toString();
 
             try {
                 // Setup mail server properties
