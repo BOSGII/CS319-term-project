@@ -75,6 +75,9 @@ MERGED bugfix-b8: saving passwords to database, async emails, excel
 MERGED bugfix-b9: get internships deadline check & frontend styling bugfix
 MERGED bugfix-b10: Tooltips
 MERGED bugfix-b11: Cors issue
+MERGED bugfix-b12: matcher authorization issue
+MERGED bugfix-b13: email format 
+MERGED bugfix-b14: generated report can be downloaded
 
 
 
