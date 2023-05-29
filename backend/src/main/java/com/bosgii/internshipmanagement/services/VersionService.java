@@ -1,10 +1,9 @@
 package com.bosgii.internshipmanagement.services;
 import java.util.Optional;
+import java.util.Properties;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -13,13 +12,20 @@ import org.springframework.http.ResponseEntity;
 
 import com.bosgii.internshipmanagement.entities.Version;
 import com.bosgii.internshipmanagement.enums.VersionStatus;
-import com.bosgii.internshipmanagement.documents.Report;
 import com.bosgii.internshipmanagement.entities.Comment;
 import com.bosgii.internshipmanagement.entities.Submission;
 import com.bosgii.internshipmanagement.repos.CommentRepository;
 import com.bosgii.internshipmanagement.repos.VersionRepository;
 import com.bosgii.internshipmanagement.requests.AddVersionRequest;
 import com.bosgii.internshipmanagement.requests.AskForRevisionRequest;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
 
 @Service
 public class VersionService {
@@ -146,8 +152,51 @@ public class VersionService {
 		} else {
 			version.setIsFeedbackFileProvided(false);
 		}
-		
-        return versionRepository.save(version);
+		sendEmail(version.getSubmission().getInternship().getStudent().getMail());
+        return versionRepository.save(version); 
     }
 
+	public static void sendEmail(String recipientEmail) {
+		// Outlook.com configuration
+		String host = "smtp.office365.com";
+		String port = "587";
+		String username = "internshipbilkent@outlook.com";
+		String password = "intern12345";
+	
+		// Email content
+		String subject = "Internship Management";
+		String body = "Your grader has given you a feedback on your last internship report version.\n" +
+						"You may need to submit a new version!";
+	
+		try {
+			// Setup mail server properties
+			Properties properties = new Properties();
+			properties.put("mail.smtp.host", host);
+			properties.put("mail.smtp.port", port);
+			properties.put("mail.smtp.auth", "true");
+			properties.put("mail.smtp.starttls.enable", "true");
+	
+			// Create a session with authentication
+			Session session = Session.getInstance(properties);
+			MimeMessage message = new MimeMessage(session);
+	
+			// Set the sender and recipient addresses
+			message.setFrom(new InternetAddress(username));
+			message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipientEmail));
+	
+			// Set the email subject and body
+			message.setSubject(subject);
+			message.setText(body);
+	
+			// Send the email
+			Transport transport = session.getTransport("smtp");
+			transport.connect(host, username, password);
+			transport.sendMessage(message, message.getAllRecipients());
+			transport.close();
+	
+			System.out.println("Email sent successfully!");
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+	}
 }

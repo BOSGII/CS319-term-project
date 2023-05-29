@@ -1,6 +1,10 @@
 package com.bosgii.internshipmanagement.entities;
-import jakarta.persistence.Entity;
 
+import javax.persistence.*;
+
+/* 
+import javax.persistence.Entity;
+*/
 @Entity
 public class Secretary extends User {
 

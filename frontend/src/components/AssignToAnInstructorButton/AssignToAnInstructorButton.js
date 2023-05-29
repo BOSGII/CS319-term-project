@@ -1,5 +1,6 @@
 import {
   Button,
+  IconButton,
   Dialog,
   DialogActions,
   DialogContent,
@@ -9,7 +10,9 @@ import {
   Select,
   MenuItem,
   Typography,
+  Tooltip,
 } from "@mui/material";
+import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
 
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -21,6 +24,8 @@ export default function AssignToAnInstructorButton({
   setInstructorId,
   refreshInternships,
 }) {
+  const sessionId = localStorage.getItem("sessionId");
+
   const location = useLocation();
   const [open, setOpen] = useState(false);
   const [availableInstructors, setAvailableInstructors] = useState([]);
@@ -30,7 +35,11 @@ export default function AssignToAnInstructorButton({
 
   useEffect(() => {
     axios
-      .get("/api/instructors?available=true")
+      .get("http://localhost:8080/api/instructors?available=true", {
+        headers: {
+          Authorization: `${sessionId}`,
+        },
+      })
       .then((response) => {
         setAvailableInstructors(response.data);
       })
@@ -39,7 +48,11 @@ export default function AssignToAnInstructorButton({
       });
 
     axios
-      .get(`/api/internships/${internshipId}`)
+      .get(`http://localhost:8080/api/internships/${internshipId}`, {
+        headers: {
+          Authorization: `${sessionId}`,
+        },
+      })
       .then((response) => {
         setCurrentInstructorId(
           response.data.instructor ? response.data.instructor.id : ""
@@ -63,9 +76,17 @@ export default function AssignToAnInstructorButton({
 
   const assign = () => {
     axios
-      .post(`/api/internships/${internshipId}`, {
-        newInstructorId: selectedInstructorId,
-      })
+      .post(
+        `http://localhost:8080/api/internships/${internshipId}`,
+        {
+          newInstructorId: selectedInstructorId,
+        },
+        {
+          headers: {
+            Authorization: `${sessionId}`,
+          },
+        }
+      )
       .then((response) => {
         if (location.pathname === "/internships") {
           setInstructorId(selectedInstructorId);
@@ -74,17 +95,19 @@ export default function AssignToAnInstructorButton({
         }
         handleClose();
       })
-      .catch(() => {
+      .catch((error) => {
+        console.log(error.data.body);
         console.log("assign put error");
       });
   };
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Assign/
-        Reassign
-      </Button>
+      <Tooltip title="Assign to an Instructor">
+        <IconButton onClick={handleClickOpen}>
+          <ChangeCircleIcon></ChangeCircleIcon>
+        </IconButton>
+      </Tooltip>
       {error && <div>{error.message}</div>}
       {availableInstructors && (
         <Dialog

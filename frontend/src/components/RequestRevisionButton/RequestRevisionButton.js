@@ -1,9 +1,11 @@
 import { Button, Dialog, Typography } from "@mui/material";
 import Upload from "../Upload/Upload";
+import UploadFeedback from "../UploadFeedback/UploadFeedback";
 import { useState } from "react";
 import axios from "axios";
 
 export default function RequestRevisionButton({ versionId, refreshVersion }) {
+  const sessionId = localStorage.getItem("sessionId");
   const [open, setOpen] = useState(false);
   const [comments, setComments] = useState([]);
   const [showInput, setShowInput] = useState(false);
@@ -56,9 +58,12 @@ export default function RequestRevisionButton({ versionId, refreshVersion }) {
     if (comments) {
       formData.append("comments", comments);
     }
-
     axios
-      .post(`/api/versions/${versionId}`, formData)
+      .post(`http://localhost:8080/api/versions/${versionId}`, formData, {
+        headers: {
+          Authorization: `${sessionId}`,
+        },
+      })
       .then((response) => {
         refreshVersion();
       })
@@ -97,18 +102,17 @@ export default function RequestRevisionButton({ versionId, refreshVersion }) {
           {comments?.map((comment, index) => (
             <li key={index}>
               {index === editIndex ? (
-                <>
-                  <input
-                    type="text"
-                    value={editedComment}
-                    onChange={(e) => setEditedComment(e.target.value)}
-                  />
-                  <Button
-                    onClick={() => handleSaveComment(index, editedComment)}
-                  >
-                    Save
-                  </Button>
-                </>
+              <>
+                <textarea
+                  rows={8}
+                  value={editedComment}
+                  onChange={(e) => setEditedComment(e.target.value)}
+                  style={{ width: '100%', height: '130px', resize: 'none' }}
+                />
+                <Button onClick={() => handleSaveComment(index, editedComment)}>
+                  Save
+                </Button>
+              </>
               ) : (
                 <>
                   {comment}
@@ -128,23 +132,34 @@ export default function RequestRevisionButton({ versionId, refreshVersion }) {
           ))}
         </ul>
         {showInput && editIndex === -1 && (
-          <div>
-            <input
-              type="text"
-              value={newComment}
-              onChange={(el) => setNewComment(el.target.value)}
-            />
-            <Button onClick={handleAddComment}>Add</Button>
-          </div>
+        <div style={{ marginTop: '20px' }}>
+          <textarea
+            rows={8}
+            value={newComment}
+            onChange={(el) => setNewComment(el.target.value)}
+            style={{
+              width: '80%',
+              height: '130px',
+              resize: 'none',
+            }}
+          />
+          <Button onClick={handleAddComment}>
+            Add
+          </Button>
+        </div>
         )}
-        <Typography>Upload feedback</Typography>
-        <Upload
-          acceptedFileTypes={["PDF"]}
-          handleSubmit={handleSubmit}
-          handleCancel={() => {
-            setOpen(false);
-          }}
-        />
+        
+        <Typography  style={{ marginBottom: '10px' }}>
+          Upload feedback
+        </Typography>
+        <UploadFeedback
+        acceptedFileTypes={["PDF"]}
+        handleSubmit={handleSubmit}
+        handleCancel={() => {
+          setOpen(false);
+        }}
+        
+      />
       </Dialog>
     </>
   );

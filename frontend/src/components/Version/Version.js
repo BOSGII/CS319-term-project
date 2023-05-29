@@ -13,6 +13,7 @@ export default function Version({
   setAddNewVersionButtonPressed,
   handleSidebarOpen,
 }) {
+  const sessionId = localStorage.getItem("sessionId");
   const { user } = useContext(UserContext);
   const [version, setVersion] = useState(null);
   const [isPending, setIsPending] = useState(false);
@@ -25,10 +26,14 @@ export default function Version({
 
   useEffect(() => {
     setIsPending(true);
-
     axios
       .get(
-        `/api/versions?submissionId=${submission.id}&versionNumber=${versionUnderFocus}`
+        `http://localhost:8080/api/versions?submissionId=${submission.id}&versionNumber=${versionUnderFocus}`,
+        {
+          headers: {
+            Authorization: `${sessionId}`,
+          },
+        }
       )
       .then((response) => {
         setVersion(response.data);
@@ -41,7 +46,7 @@ export default function Version({
         setRefresh(false);
         setIsPending(false);
       });
-  }, [refresh, submission, versionUnderFocus]);
+  }, [sessionId, refresh, submission, versionUnderFocus]);
 
   return (
     <>
@@ -62,7 +67,7 @@ export default function Version({
               </Typography>
               <DownloadFile
                 fileName={version.reportFileName}
-                url={`/api/versions/${version.id}/report`}
+                url={`http://localhost:8080/api/versions/${version.id}/report`}
               />
             </Grid>
             <Grid item xs={6}>
@@ -74,7 +79,7 @@ export default function Version({
               version.isFeedbackFileProvided ? (
                 <DownloadFile
                   fileName={version.feedbackFileName}
-                  url={`/api/versions/${version.id}/feedback`}
+                  url={`http://localhost:8080/api/versions/${version.id}/feedback`}
                 />
               ) : (
                 <Typography>Feedback file is not provided.</Typography>
@@ -110,7 +115,7 @@ export default function Version({
                 versionId={version.id}
                 refreshVersion={refreshVersion}
               />
-              <FinalizeButton />
+              <FinalizeButton submissionId={submission.id} />
             </>
           )}
         </Container>
