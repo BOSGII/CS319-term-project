@@ -2,9 +2,7 @@ package com.bosgii.internshipmanagement.controllers;
 
 
 import com.bosgii.internshipmanagement.entities.Secretary;
-import com.bosgii.internshipmanagement.entities.TA;
 import com.bosgii.internshipmanagement.requests.AddSecretaryRequest;
-import com.bosgii.internshipmanagement.requests.AddTARequest;
 import com.bosgii.internshipmanagement.services.AdminService;
 import com.bosgii.internshipmanagement.services.SecretaryService;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin("http://localhost:3000")
 @RequestMapping("/api")
 public class AdminController {
 

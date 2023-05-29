@@ -43,7 +43,7 @@ public class AppConfig extends WebSecurityConfigurerAdapter {
                 .and();
 
         http.authorizeRequests()
-                .antMatchers("/login", "/process_register").permitAll()
+                .antMatchers("/login", "/process_register","/api/*").permitAll()
                 .anyRequest().authenticated();
         http.addFilterBefore(
                 sessionFilter,

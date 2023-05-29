@@ -5,6 +5,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.bosgii.internshipmanagement.entities.Admin;
 import com.bosgii.internshipmanagement.entities.Instructor;
 import com.bosgii.internshipmanagement.entities.Secretary;
 import com.bosgii.internshipmanagement.entities.Student;
@@ -13,6 +14,8 @@ import com.bosgii.internshipmanagement.repos.InstructorRepository;
 import com.bosgii.internshipmanagement.repos.SecretaryRepository;
 import com.bosgii.internshipmanagement.repos.StudentRepository;
 import com.bosgii.internshipmanagement.repos.TARepository;
+import com.bosgii.internshipmanagement.repos.AdminRepository;
+
 
 @Service
 public class DatabaseLoader {
@@ -22,16 +25,18 @@ public class DatabaseLoader {
     private final PasswordEncoder passwordEncoder;
     private final InstructorRepository instructorRepository;
     private final TARepository taRepository;
+    private final AdminRepository adminRepository;
 
 
     public DatabaseLoader(StudentRepository studentRepository, PasswordEncoder passwordEncoder,
             SecretaryRepository secretaryRepository, InstructorRepository instructorRepository,
-            TARepository taRepository) {
+            TARepository taRepository, AdminRepository adminRepository) {
         this.studentRepository = studentRepository;
         this.passwordEncoder = passwordEncoder;
         this.secretaryRepository = secretaryRepository;
         this.instructorRepository = instructorRepository;
         this.taRepository = taRepository;
+        this.adminRepository = adminRepository;
     }
 
     @PostConstruct
@@ -55,6 +60,15 @@ public class DatabaseLoader {
         secretary.setRole("secretary");
 
         secretaryRepository.save(secretary);
+
+        Admin admin = new Admin();
+        admin.setId(22222L);
+        admin.setFullName("admo");
+        admin.setMail("admo@ad.com");
+        admin.setPassword(passwordEncoder.encode("222"));
+        admin.setRole("admin");
+
+        adminRepository.save(admin);
 
         Instructor instructor = new Instructor();
         instructor.setId(123L);
