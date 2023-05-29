@@ -21,8 +21,11 @@ export default function SetDeadlineButton({refreshInternships}) {
                 }
             }).then((response) => {
                 refreshInternships();
+                setOpen(false);
             }).catch((error) => {
-                console.error(error);
+                if (error.response.status === 400) {
+                    alert(error.response.data);
+                  }
             })
         }
     };

@@ -63,6 +63,8 @@ public class DatabaseLoader {
         instructor.setMail("david@dav.com");
         instructor.setPassword(passwordEncoder.encode("111"));
         instructor.setRole("instructor");
+        instructor.setDepartment("CS");
+        instructor.setMaxNumOfInternships(20);
 
         instructorRepository.save(instructor);
 
