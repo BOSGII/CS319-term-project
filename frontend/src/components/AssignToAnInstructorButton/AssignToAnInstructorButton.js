@@ -11,7 +11,7 @@ import {
   MenuItem,
   Typography,
 } from "@mui/material";
-import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
+import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
 
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -23,6 +23,8 @@ export default function AssignToAnInstructorButton({
   setInstructorId,
   refreshInternships,
 }) {
+  const sessionId = localStorage.getItem("sessionId");
+
   const location = useLocation();
   const [open, setOpen] = useState(false);
   const [availableInstructors, setAvailableInstructors] = useState([]);
@@ -31,12 +33,11 @@ export default function AssignToAnInstructorButton({
   const [currentInstructorId, setCurrentInstructorId] = useState("");
 
   useEffect(() => {
-    const sessionId = localStorage.getItem('sessionId');
     axios
       .get("http://localhost:8080/api/instructors?available=true", {
         headers: {
-          Authorization: `${sessionId}`
-        }
+          Authorization: `${sessionId}`,
+        },
       })
       .then((response) => {
         setAvailableInstructors(response.data);
@@ -46,7 +47,11 @@ export default function AssignToAnInstructorButton({
       });
 
     axios
-      .get(`/api/internships/${internshipId}`)
+      .get(`http://localhost:8080/api/internships/${internshipId}`, {
+        headers: {
+          Authorization: `${sessionId}`,
+        },
+      })
       .then((response) => {
         setCurrentInstructorId(
           response.data.instructor ? response.data.instructor.id : ""
@@ -70,9 +75,17 @@ export default function AssignToAnInstructorButton({
 
   const assign = () => {
     axios
-      .post(`/api/internships/${internshipId}`, {
-        newInstructorId: selectedInstructorId,
-      })
+      .post(
+        `http://localhost:8080/api/internships/${internshipId}`,
+        {
+          newInstructorId: selectedInstructorId,
+        },
+        {
+          headers: {
+            Authorization: `${sessionId}`,
+          },
+        }
+      )
       .then((response) => {
         if (location.pathname === "/internships") {
           setInstructorId(selectedInstructorId);

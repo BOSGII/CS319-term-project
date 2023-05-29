@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function FinalizeButton({ submissionId, refreshSubmission }) {
+  const sessionId = localStorage.getItem("sessionId");
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [result, setResult] = useState({
@@ -93,7 +94,15 @@ export default function FinalizeButton({ submissionId, refreshSubmission }) {
           isCSVValid(result.pages7)
         ) {
           axios
-            .post(`http://localhost:8080/api/submissions/${submissionId}/finalize`, result)
+            .post(
+              `http://localhost:8080/api/submissions/${submissionId}/finalize`,
+              result,
+              {
+                headers: {
+                  Authorization: `${sessionId}`,
+                },
+              }
+            )
             .then((response) => {
               refreshSubmission();
             })

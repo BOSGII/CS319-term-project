@@ -1,5 +1,5 @@
 import { IconButton } from "@mui/material";
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
 
 import axios from "axios";
 
@@ -7,13 +7,14 @@ export default function DeleteInstructorButton({
   instructorId,
   refreshInstructors,
 }) {
+  const sessionId = localStorage.getItem("sessionId");
+
   const handleDeleteInstructor = () => {
-    const sessionId = localStorage.getItem('sessionId');
     axios
       .delete(`http://localhost:8080/api/instructors/${instructorId}`, {
         headers: {
-          Authorization: `${sessionId}`
-        }
+          Authorization: `${sessionId}`,
+        },
       })
       .then(() => {
         refreshInstructors();
@@ -23,5 +24,9 @@ export default function DeleteInstructorButton({
       });
   };
 
-  return <IconButton onClick={handleDeleteInstructor}><CloseIcon color="error"></CloseIcon></IconButton>;
+  return (
+    <IconButton onClick={handleDeleteInstructor}>
+      <CloseIcon color="error"></CloseIcon>
+    </IconButton>
+  );
 }

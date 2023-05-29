@@ -35,12 +35,12 @@ public class AuthenticationController {
     @PostMapping("/login")
     public ResponseEntity<ResponseDTO> login(@RequestBody UserDTO user) {
         manager.authenticate(
-                new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+                new UsernamePasswordAuthenticationToken(user.getId(), user.getPassword()));
 
-        final String sessionId = sessionRegistry.registerSession(user.getUsername());
-        Optional<User> userOptional = userRepo.findById(Long.valueOf(user.getUsername()));
+        final String sessionId = sessionRegistry.registerSession(user.getId());
+        Optional<User> userOptional = userRepo.findById(Long.valueOf(user.getId()));
         if (!userOptional.isPresent()) {
-            throw new UsernameNotFoundException("User not found with username: " + user.getUsername());
+            throw new UsernameNotFoundException("User not found with username: " + user.getId());
         }
         String roleName = userOptional.get().getRole();
         ResponseDTO response = new ResponseDTO();

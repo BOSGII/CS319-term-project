@@ -7,6 +7,7 @@ import Versions from "../../components/Versions/Versions";
 import { InternshipIDContext } from "../../contexts/InternshipIDContext";
 
 export default function SubmissionPage() {
+  const sessionId = localStorage.getItem("sessionId");
   const { user } = useContext(UserContext);
   const { internshipId } = useContext(InternshipIDContext);
 
@@ -26,11 +27,11 @@ export default function SubmissionPage() {
   useEffect(() => {
     const getInternshipFromServer = () => {
       setIsPending(true);
-      const sessionId = localStorage.getItem('sessionId');
       axios
-        .get(`http://localhost:8080/api/internships/${internshipId}`,
-        {headers: {
-          Authorization: `${sessionId}`}
+        .get(`http://localhost:8080/api/internships/${internshipId}`, {
+          headers: {
+            Authorization: `${sessionId}`,
+          },
         })
         .then((response) => {
           setInternship(response.data);

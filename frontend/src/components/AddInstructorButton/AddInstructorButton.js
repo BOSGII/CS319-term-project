@@ -3,6 +3,8 @@ import { useState } from "react";
 import axios from "axios";
 
 export default function AddInstructorButton({ refreshInstructors }) {
+  const sessionId = localStorage.getItem("sessionId");
+
   // Define state variables for the form fields
   const [instructor, setInstructor] = useState({
     id: "",
@@ -25,12 +27,11 @@ export default function AddInstructorButton({ refreshInstructors }) {
   // Define a function to handle the form submit
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const sessionId = localStorage.getItem('sessionId');
     axios
       .post("http://localhost:8080/api/instructors", instructor, {
         headers: {
-          Authorization: `${sessionId}`
-        }
+          Authorization: `${sessionId}`,
+        },
       })
       .then((response) => {
         refreshInstructors();

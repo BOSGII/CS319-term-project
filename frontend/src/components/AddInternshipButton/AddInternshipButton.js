@@ -10,6 +10,8 @@ import { useState } from "react";
 import axios from "axios";
 
 export default function AddInternshipButton({ refreshInternships }) {
+  const sessionId = localStorage.getItem("sessionId");
+
   // Define state variables for the form fields
   const [internship, setInternship] = useState({
     type: "",
@@ -41,12 +43,11 @@ export default function AddInternshipButton({ refreshInternships }) {
   // Define a function to handle the form submit
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const sessionId = localStorage.getItem('sessionId');
     axios
       .post("http://localhost:8080/api/internships", internship, {
         headers: {
-          Authorization: `${sessionId}`
-        }
+          Authorization: `${sessionId}`,
+        },
       })
       .then((response) => {
         refreshInternships();
@@ -88,16 +89,17 @@ export default function AddInternshipButton({ refreshInternships }) {
         open={open}
         onClose={() => setOpen(false)}
       >
-        <form  
-        style={{
-                backgroundColor: "white",
-                maxHeight: "90vh",
-                overflowY: "auto",
-                padding: "1rem",
-                maxWidth: "400px",
-                width: "100%",
-              }}
-        onSubmit={handleSubmit}>
+        <form
+          style={{
+            backgroundColor: "white",
+            maxHeight: "90vh",
+            overflowY: "auto",
+            padding: "1rem",
+            maxWidth: "400px",
+            width: "100%",
+          }}
+          onSubmit={handleSubmit}
+        >
           <div style={{ padding: "1rem" }}>
             <InputLabel id="internship-type">Type</InputLabel>
             <Select
@@ -243,7 +245,6 @@ export default function AddInternshipButton({ refreshInternships }) {
           </div>
         </form>
       </Modal>
-
     </>
   );
 }

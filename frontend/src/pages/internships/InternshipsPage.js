@@ -9,6 +9,7 @@ import axios from "axios";
 import ImportInternshipsButton from "../../components/ImportInternhipsButton/ImportInternshipsButton";
 
 export default function InternshipsPage() {
+  const sessionId = localStorage.getItem("sessionId");
   const { user } = useContext(UserContext);
   const location = useLocation();
 
@@ -22,7 +23,6 @@ export default function InternshipsPage() {
   };
 
   useEffect(() => {
-    const sessionId = localStorage.getItem('sessionId');
     const getInternshipsFromServer = () => {
       let fetchUrl;
 
@@ -30,7 +30,6 @@ export default function InternshipsPage() {
         case "student":
           fetchUrl = `http://localhost:8080/api/internships?studentId=${user.id}`;
 
-        
           break;
         case "instructor":
           fetchUrl = `http://localhost:8080/api/internships?instructorId=${user.id}`;
@@ -47,17 +46,17 @@ export default function InternshipsPage() {
           break;
         default:
           fetchUrl = `http://localhost:8080/api/internships?studentId=${user.id}`;
-    
+
           break;
       }
 
       setIsPending(true);
 
       axios
-        .get(fetchUrl,{
+        .get(fetchUrl, {
           headers: {
-            Authorization: `${sessionId}`
-          }
+            Authorization: `${sessionId}`,
+          },
         })
         .then((response) => {
           setInternships(response.data);
@@ -66,7 +65,6 @@ export default function InternshipsPage() {
         .catch((error) => {
           setError(error);
           console.log(error);
-
         })
         .finally(() => {
           setIsPending(false);
@@ -78,24 +76,24 @@ export default function InternshipsPage() {
   }, [user, location, refresh]);
 
   return (
-    <Container sx={{mt: 10}}>
-      <Stack alignItems='center' spacing = {5}>
-      <Typography>internships page</Typography>
-      {user.role === "secretary" && location.pathname === "/internships" && (
-        <Stack direction = "row" spacing = {2}>
-          <ImportInternshipsButton refreshInternships={refreshInternships} />
-          <AddInternshipButton refreshInternships={refreshInternships} />
-          <MatchInternshipsButton refreshInternships={refreshInternships} />
-        </Stack>
-      )}
-      {error && <div>{error.message}</div>}
-      {isPending && <div>loading...</div>}
-      {internships && (
-        <InternshipList
-          internships={internships}
-          refreshInternships={refreshInternships} // used for deleting an internship
-        />
-      )}
+    <Container sx={{ mt: 10 }}>
+      <Stack alignItems="center" spacing={5}>
+        <Typography>internships page</Typography>
+        {user.role === "secretary" && location.pathname === "/internships" && (
+          <Stack direction="row" spacing={2}>
+            <ImportInternshipsButton refreshInternships={refreshInternships} />
+            <AddInternshipButton refreshInternships={refreshInternships} />
+            <MatchInternshipsButton refreshInternships={refreshInternships} />
+          </Stack>
+        )}
+        {error && <div>{error.message}</div>}
+        {isPending && <div>loading...</div>}
+        {internships && (
+          <InternshipList
+            internships={internships}
+            refreshInternships={refreshInternships} // used for deleting an internship
+          />
+        )}
       </Stack>
     </Container>
   );
