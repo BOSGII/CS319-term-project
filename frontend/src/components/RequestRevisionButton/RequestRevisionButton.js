@@ -4,6 +4,7 @@ import { useState } from "react";
 import axios from "axios";
 
 export default function RequestRevisionButton({ versionId, refreshVersion }) {
+  const sessionId = localStorage.getItem("sessionId");
   const [open, setOpen] = useState(false);
   const [comments, setComments] = useState([]);
   const [showInput, setShowInput] = useState(false);
@@ -56,9 +57,12 @@ export default function RequestRevisionButton({ versionId, refreshVersion }) {
     if (comments) {
       formData.append("comments", comments);
     }
-
     axios
-      .post(`/api/versions/${versionId}`, formData)
+      .post(`http://localhost:8080/api/versions/${versionId}`, formData, {
+        headers: {
+          Authorization: `${sessionId}`,
+        },
+      })
       .then((response) => {
         refreshVersion();
       })

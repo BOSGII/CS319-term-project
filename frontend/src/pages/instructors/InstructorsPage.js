@@ -6,6 +6,7 @@ import AddInstructorButton from "../../components/AddInstructorButton/AddInstruc
 import { useEffect, useState } from "react";
 
 export default function InstructorsPage() {
+  const sessionId = localStorage.getItem("sessionId");
   const [instructors, setInstructors] = useState([]);
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState(null);
@@ -20,7 +21,11 @@ export default function InstructorsPage() {
       setIsPending(true);
 
       axios
-        .get("/api/instructors")
+        .get("http://localhost:8080/api/instructors", {
+          headers: {
+            Authorization: `${sessionId}`,
+          },
+        })
         .then((response) => {
           setInstructors(response.data);
         })
@@ -34,9 +39,8 @@ export default function InstructorsPage() {
     };
     getInstructorsFromServer();
   }, [refresh]);
-
   return (
-    <Container sx={{mt: 10}}>
+    <Container sx={{ mt: 10 }}>
       <Typography>Secretary page showing all instructors</Typography>
       <AddInstructorButton refreshInstructors={refreshInstructors} />
       {error && <div>{error.message} </div>}

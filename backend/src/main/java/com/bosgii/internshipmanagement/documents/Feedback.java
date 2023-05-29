@@ -1,11 +1,11 @@
 package com.bosgii.internshipmanagement.documents;
 
 import com.bosgii.internshipmanagement.entities.Version;
-
-import jakarta.persistence.*;
+import javax.persistence.*;
+//import javax.persistence.*;
 
 @Entity
-@Table(name="Feedback")
+@Table(name = "Feedback")
 public class Feedback {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,5 +30,3 @@ public class Feedback {
         this.version = version;
     }
 }
-
-

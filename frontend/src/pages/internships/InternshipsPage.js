@@ -9,6 +9,7 @@ import axios from "axios";
 import ImportInternshipsButton from "../../components/ImportInternhipsButton/ImportInternshipsButton";
 
 export default function InternshipsPage() {
+  const sessionId = localStorage.getItem("sessionId");
   const { user } = useContext(UserContext);
   const location = useLocation();
 
@@ -24,35 +25,46 @@ export default function InternshipsPage() {
   useEffect(() => {
     const getInternshipsFromServer = () => {
       let fetchUrl;
+
       switch (user.role) {
         case "student":
-          fetchUrl = `/api/internships?studentId=${user.id}`;
+          fetchUrl = `http://localhost:8080/api/internships?studentId=${user.id}`;
+
           break;
         case "instructor":
-          fetchUrl = `/api/internships?instructorId=${user.id}`;
+          fetchUrl = `http://localhost:8080/api/internships?instructorId=${user.id}`;
           break;
 
         case "secretary":
           if (location.pathname === "/internships") {
-            fetchUrl = `/api/internships`;
+            fetchUrl = `http://localhost:8080/api/internships`;
           } else {
             // /instructors/{instructorId}
             const instructorId = location.pathname.split("/").at(-1);
-            fetchUrl = `/api/internships?instructorId=${instructorId}`;
+            fetchUrl = `http://localhost:8080/api/internships?instructorId=${instructorId}`;
           }
           break;
         default:
+          fetchUrl = `http://localhost:8080/api/internships?studentId=${user.id}`;
+
+          break;
       }
 
       setIsPending(true);
 
       axios
-        .get(fetchUrl)
+        .get(fetchUrl, {
+          headers: {
+            Authorization: `${sessionId}`,
+          },
+        })
         .then((response) => {
           setInternships(response.data);
+          console.log(response);
         })
         .catch((error) => {
           setError(error);
+          console.log(error);
         })
         .finally(() => {
           setIsPending(false);
@@ -64,24 +76,24 @@ export default function InternshipsPage() {
   }, [user, location, refresh]);
 
   return (
-    <Container sx={{mt: 10}}>
-      <Stack alignItems='center' spacing = {5}>
-      <Typography>internships page</Typography>
-      {user.role === "secretary" && location.pathname === "/internships" && (
-        <Stack direction = "row" spacing = {2}>
-          <ImportInternshipsButton refreshInternships={refreshInternships} />
-          <AddInternshipButton refreshInternships={refreshInternships} />
-          <MatchInternshipsButton refreshInternships={refreshInternships} />
-        </Stack>
-      )}
-      {error && <div>{error.message}</div>}
-      {isPending && <div>loading...</div>}
-      {internships && (
-        <InternshipList
-          internships={internships}
-          refreshInternships={refreshInternships} // used for deleting an internship
-        />
-      )}
+    <Container sx={{ mt: 10 }}>
+      <Stack alignItems="center" spacing={5}>
+        <Typography>internships page</Typography>
+        {user.role === "secretary" && location.pathname === "/internships" && (
+          <Stack direction="row" spacing={2}>
+            <ImportInternshipsButton refreshInternships={refreshInternships} />
+            <AddInternshipButton refreshInternships={refreshInternships} />
+            <MatchInternshipsButton refreshInternships={refreshInternships} />
+          </Stack>
+        )}
+        {error && <div>{error.message}</div>}
+        {isPending && <div>loading...</div>}
+        {internships && (
+          <InternshipList
+            internships={internships}
+            refreshInternships={refreshInternships} // used for deleting an internship
+          />
+        )}
       </Stack>
     </Container>
   );

@@ -1,10 +1,13 @@
 package com.bosgii.internshipmanagement.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import javax.persistence.*;
 
+/* 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+*/
 @Entity
-@Table(name="Admin")
+@Table(name = "Admin")
 public class Admin extends User {
 
 }

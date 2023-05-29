@@ -1,10 +1,13 @@
 package com.bosgii.internshipmanagement.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import javax.persistence.*;
 
+/* 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+*/
 @Entity
-@Table(name="Student")
+@Table(name = "Student")
 public class Student extends User {
 	private String department;
 
@@ -15,4 +18,5 @@ public class Student extends User {
 	public void setDepartment(String department) {
 		this.department = department;
 	}
+
 }

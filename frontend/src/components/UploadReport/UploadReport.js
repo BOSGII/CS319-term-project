@@ -6,10 +6,10 @@ import axios from "axios";
 import ReplyCommentsSection from "../ReplyCommentsSection/ReplyCommentsSection";
 
 export default function UploadReport({ internship, refreshInternship }) {
+  const sessionId = localStorage.getItem("sessionId");
   const navigate = useNavigate();
 
   const [oldVersion, setOldVersion] = useState(null);
-
   const [replies, setReplies] = useState([]);
 
   useEffect(() => {
@@ -17,7 +17,12 @@ export default function UploadReport({ internship, refreshInternship }) {
     if (internship.status === "UNDER_EVALUATION") {
       axios
         .get(
-          `/api/versions?internshipId=${internship.id}&versionNumber=${internship.numOfVersions}`
+          `localhost:8080/api/versions?internshipId=${internship.id}&versionNumber=${internship.numOfVersions}`,
+          {
+            headers: {
+              Authorization: `${sessionId}`,
+            },
+          }
         )
         .then((response) => {
           setOldVersion(response.data);
@@ -50,7 +55,15 @@ export default function UploadReport({ internship, refreshInternship }) {
       }
 
       axios
-        .post(`/api/versions?internshipId=${internship.id}`, formData)
+        .post(
+          `http://localhost:8080/api/versions?internshipId=${internship.id}`,
+          formData,
+          {
+            headers: {
+              Authorization: `${sessionId}`,
+            },
+          }
+        )
         .then((response) => {
           refreshInternship();
         })

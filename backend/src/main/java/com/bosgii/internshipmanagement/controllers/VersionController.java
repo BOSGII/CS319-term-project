@@ -3,6 +3,7 @@ package com.bosgii.internshipmanagement.controllers;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,8 +22,8 @@ import com.bosgii.internshipmanagement.requests.AskForRevisionRequest;
 import com.bosgii.internshipmanagement.requests.ChangeVersionRequest;
 import com.bosgii.internshipmanagement.services.VersionService;
 
-
 @RestController
+@CrossOrigin("http://localhost:3000/")
 @RequestMapping("/api")
 public class VersionController {
 	VersionService versionService;
@@ -32,27 +33,28 @@ public class VersionController {
 	}
 
 	@GetMapping("/versions")
-	public Optional<Version> getOneVersion(@RequestParam Optional<Long> submissionId, @RequestParam Optional<Long> internshipId, @RequestParam int versionNumber){
+	public Optional<Version> getOneVersion(@RequestParam Optional<Long> submissionId,
+			@RequestParam Optional<Long> internshipId, @RequestParam int versionNumber) {
 		return versionService.getOneVersion(submissionId, internshipId, versionNumber);
 	}
 
 	@GetMapping("/versions/{versionId}/report")
-	public ResponseEntity<Resource> downloadReportOfVersion(@PathVariable Long versionId){
+	public ResponseEntity<Resource> downloadReportOfVersion(@PathVariable Long versionId) {
 		return versionService.downloadReportOfVersion(versionId);
 	}
 
 	@GetMapping("/versions/{versionId}/feedback")
-	public ResponseEntity<Resource> downloadFeedbackOfVersion(@PathVariable Long versionId){
+	public ResponseEntity<Resource> downloadFeedbackOfVersion(@PathVariable Long versionId) {
 		return versionService.downloadFeedbackOfVersion(versionId);
 	}
 
 	@PostMapping("/versions")
-	public Version addVersionOnASubmission(@RequestParam Long internshipId, @ModelAttribute AddVersionRequest req ){
+	public Version addVersionOnASubmission(@RequestParam Long internshipId, @ModelAttribute AddVersionRequest req) {
 		return versionService.addVersionOnASubmission(internshipId, req);
 	}
 
 	@PostMapping("/versions/{versionId}")
-	public Version requestRevisionForVersion(@PathVariable Long versionId, @ModelAttribute AskForRevisionRequest req){
+	public Version requestRevisionForVersion(@PathVariable Long versionId, @ModelAttribute AskForRevisionRequest req) {
 		return versionService.requestRevisionForVersion(versionId, req);
 	}
 
@@ -60,7 +62,7 @@ public class VersionController {
 	public Version changeVersion(@PathVariable Long versionId, @RequestBody ChangeVersionRequest req) {
 		return null;
 	}
-	
+
 	@DeleteMapping("/versions/{versionId}")
 	public Version deleteVersion(@PathVariable Long versionId) {
 		return versionService.deleteVersion(versionId);
