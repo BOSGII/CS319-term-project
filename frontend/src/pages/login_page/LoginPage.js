@@ -118,15 +118,7 @@ const handleSubmit = (event) => {
           onChange={(e) => setPassword(e.target.value)}
         // eslint-disable-next-line react/jsx-no-comment-textnodes
         />
-        <FormControl fullWidth margin="normal">
-          <InputLabel>Role</InputLabel>
-          <Select value={role} onChange={(e) => setRole(e.target.value)}>
-            <MenuItem value="student">Student</MenuItem>
-            <MenuItem value="admin">Admin</MenuItem>
-            <MenuItem value="instructor">Instructor</MenuItem>
-            <MenuItem value="secretary">Secretary</MenuItem>
-          </Select>
-        </FormControl>
+
         <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
           <Button variant="contained" type="submit">
             Login
