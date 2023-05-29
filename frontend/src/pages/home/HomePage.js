@@ -5,7 +5,6 @@ import AdminHomePage from "./AdminHomePage";
 import { useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
 
-
 export default function HomePage() {
   // TODO: determine role based on authentication
   const { user } = useContext(UserContext);

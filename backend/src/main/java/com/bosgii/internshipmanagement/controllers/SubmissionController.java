@@ -2,6 +2,9 @@ package com.bosgii.internshipmanagement.controllers;
 
 import java.util.Optional;
 
+
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,5 +52,10 @@ public class SubmissionController {
 	@PostMapping("/submissions/{submissionId}/finalize")
 	public Submission finalizeSubmission(@PathVariable Long submissionId, @RequestBody FinalizeSubmissionRequest req){
 		return submissionService.finalizeSubmission(submissionId, req);
+	}
+
+	@GetMapping("/submissions/{submissionId}/finalReport")
+	public ResponseEntity<Resource> downloadFinalReport(@PathVariable Long submissionId){
+		return submissionService.downloadFinalReport(submissionId);
 	}
 }
