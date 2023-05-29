@@ -105,7 +105,7 @@ public class ImportService {
                    
                     Company company;
                     
-                    Optional<Company> optCompany = companyRepository.findByNameAndEmail(companyName, companyEmail);
+                    Optional<Company> optCompany = companyRepository.findByEmail(companyEmail);
                    
                     if(optCompany.isPresent()) {
                         company = optCompany.get();
@@ -127,7 +127,8 @@ public class ImportService {
                     }
                     //System.out.println("C id: "+company.getId());
                     Supervisor supervisor;
-                    Optional<Supervisor> optSupervisor = supervisorRepository.findByNameAndUniversity(supervisorName, supervisorUniversity);
+                    Optional<Supervisor> optSupervisor = supervisorRepository.findByEmail(supervisorMail);
+                    
                     if(optSupervisor.isPresent()) {
                         supervisor = optSupervisor.get();
                     }
@@ -191,14 +192,14 @@ public class ImportService {
                 }
                 studentRepository.saveAndFlush(student);
                     
-                Optional<Company> optCompany = companyRepository.findByNameAndEmail(company.getName(), company.getCompanyEmail());
+                Optional<Company> optCompany = companyRepository.findByEmail(company.getCompanyEmail());
                 if(optCompany.isPresent()) {
                     company.setId(optCompany.get().getId());
                 }
                 
                 companyRepository.saveAndFlush(company);
                 
-                Optional<Supervisor> optSupervisor = supervisorRepository.findByNameAndUniversity(supervisor.getName(), supervisor.getUniversity());
+                Optional<Supervisor> optSupervisor = supervisorRepository.findByEmail( supervisor.getEmail());
                 if(optSupervisor.isPresent()) {
                     supervisor.setId(optSupervisor.get().getId());
                 }

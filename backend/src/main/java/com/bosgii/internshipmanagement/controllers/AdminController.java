@@ -7,6 +7,9 @@ import com.bosgii.internshipmanagement.requests.AddSecretaryRequest;
 import com.bosgii.internshipmanagement.requests.AddTARequest;
 import com.bosgii.internshipmanagement.services.AdminService;
 import com.bosgii.internshipmanagement.services.SecretaryService;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,8 +31,14 @@ public class AdminController {
     }
 
     @PostMapping("/secretaries")
-    public Secretary createSecretary(@RequestBody AddSecretaryRequest req) {
-        return adminService.createSecretary(req);
+    public ResponseEntity<String> createSecretary(@RequestBody AddSecretaryRequest req) {
+        try {
+            adminService.createSecretary(req);
+            return ResponseEntity.ok("Secretary created successfully.");
+        }
+        catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/secretaries/{secId}")
