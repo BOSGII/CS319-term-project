@@ -8,12 +8,10 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function FinalizeButton({ submissionId, refreshSubmission }) {
   const sessionId = localStorage.getItem("sessionId");
-  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [result, setResult] = useState({
     workDoneRelated: "",

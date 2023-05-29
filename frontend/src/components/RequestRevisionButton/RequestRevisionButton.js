@@ -1,5 +1,4 @@
 import { Button, Dialog, Typography } from "@mui/material";
-import Upload from "../Upload/Upload";
 import UploadFeedback from "../UploadFeedback/UploadFeedback";
 import { useState } from "react";
 import axios from "axios";
@@ -102,17 +101,19 @@ export default function RequestRevisionButton({ versionId, refreshVersion }) {
           {comments?.map((comment, index) => (
             <li key={index}>
               {index === editIndex ? (
-              <>
-                <textarea
-                  rows={8}
-                  value={editedComment}
-                  onChange={(e) => setEditedComment(e.target.value)}
-                  style={{ width: '100%', height: '130px', resize: 'none' }}
-                />
-                <Button onClick={() => handleSaveComment(index, editedComment)}>
-                  Save
-                </Button>
-              </>
+                <>
+                  <textarea
+                    rows={8}
+                    value={editedComment}
+                    onChange={(e) => setEditedComment(e.target.value)}
+                    style={{ width: "100%", height: "130px", resize: "none" }}
+                  />
+                  <Button
+                    onClick={() => handleSaveComment(index, editedComment)}
+                  >
+                    Save
+                  </Button>
+                </>
               ) : (
                 <>
                   {comment}
@@ -132,34 +133,31 @@ export default function RequestRevisionButton({ versionId, refreshVersion }) {
           ))}
         </ul>
         {showInput && editIndex === -1 && (
-        <div style={{ marginTop: '20px' }}>
-          <textarea
-            rows={8}
-            value={newComment}
-            onChange={(el) => setNewComment(el.target.value)}
-            style={{
-              width: '80%',
-              height: '130px',
-              resize: 'none',
-            }}
-          />
-          <Button onClick={handleAddComment}>
-            Add
-          </Button>
-        </div>
+          <div style={{ marginTop: "20px" }}>
+            <textarea
+              rows={8}
+              value={newComment}
+              onChange={(el) => setNewComment(el.target.value)}
+              style={{
+                width: "80%",
+                height: "130px",
+                resize: "none",
+              }}
+            />
+            <Button onClick={handleAddComment}>Add</Button>
+          </div>
         )}
-        
-        <Typography  style={{ marginBottom: '10px' }}>
+
+        <Typography style={{ marginBottom: "10px" }}>
           Upload feedback
         </Typography>
         <UploadFeedback
-        acceptedFileTypes={["PDF"]}
-        handleSubmit={handleSubmit}
-        handleCancel={() => {
-          setOpen(false);
-        }}
-        
-      />
+          acceptedFileTypes={["PDF"]}
+          handleSubmit={handleSubmit}
+          handleCancel={() => {
+            setOpen(false);
+          }}
+        />
       </Dialog>
     </>
   );

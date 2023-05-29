@@ -58,7 +58,7 @@ export default function Versions({
     };
 
     getSubmissionFromServer();
-  }, [refresh, internship]);
+  }, [sessionId, refresh, internship]);
 
   return (
     <>

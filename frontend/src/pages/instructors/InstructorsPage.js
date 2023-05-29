@@ -38,7 +38,7 @@ export default function InstructorsPage() {
         });
     };
     getInstructorsFromServer();
-  }, [refresh]);
+  }, [sessionId, refresh]);
   return (
     <Container sx={{ mt: 10 }}>
       <Typography>Secretary page showing all instructors</Typography>

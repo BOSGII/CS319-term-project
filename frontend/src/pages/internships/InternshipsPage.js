@@ -74,7 +74,7 @@ export default function InternshipsPage() {
     };
 
     getInternshipsFromServer();
-  }, [user, location, refresh]);
+  }, [sessionId, user, location, refresh]);
 
   return (
     <Container sx={{ mt: 10 }}>
