@@ -27,6 +27,26 @@ export default function AddInstructorButton({ refreshInstructors }) {
   // Define a function to handle the form submit
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (
+      !instructor.id ||
+      !instructor.department ||
+      !instructor.mail ||
+      !instructor.fullName ||
+      !instructor.maxNumOfInternships
+    ) {
+      alert("All input fields must be filled");
+      return;
+    }
+
+    if (isNaN(instructor.id)) {
+      alert("Student id must be a number");
+      return;
+    }
+
+    if (instructor.maxNumOfInternships < 0) {
+      alert("Max Number of Assigned should be nonnegative");
+      return;
+    }
     axios
       .post("http://localhost:8080/api/instructors", instructor, {
         headers: {
