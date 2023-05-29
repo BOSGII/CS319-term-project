@@ -29,4 +29,10 @@ public class ReportService {
         documentService.saveDocument(file, "reports", savedReport.getId());
         return savedReport;
     }
+
+    public void changeReportOfVersion(MultipartFile file, Version version){
+        System.out.println(file.getSize());
+        Report report = reportRepository.findByVersionId(version.getId());
+        documentService.saveDocument(file, "reports", report.getId());
+    }
 }
