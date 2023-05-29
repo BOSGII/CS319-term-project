@@ -50,7 +50,7 @@ public abstract class User {
 		if (EMAIL_PATTERN.matcher(mail).matches())
 			this.mail = mail;
 		else
-			throw new InvalidMailAddressException(mail + " address is not a valid email address");
+			throw new InvalidMailAddressException(mail);
 	}
 
 	public String getRole() {

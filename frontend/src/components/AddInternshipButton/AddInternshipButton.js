@@ -97,6 +97,9 @@ export default function AddInternshipButton({ refreshInternships }) {
         });
       })
       .catch((error) => {
+        if (error.response.status === 400) {
+          alert(error.response.data);
+        }
         console.log("/internships post error");
       });
   };

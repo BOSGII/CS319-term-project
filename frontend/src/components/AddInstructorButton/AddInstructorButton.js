@@ -65,7 +65,9 @@ export default function AddInstructorButton({ refreshInstructors }) {
         });
       })
       .catch((error) => {
-        console.log("/instructors post error");
+        if (error.response.status === 400) {
+          alert(error.response.data);
+        }
       });
   };
 
