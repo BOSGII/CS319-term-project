@@ -7,6 +7,7 @@ import AddInternshipButton from "../../components/AddInternshipButton/AddInterns
 import MatchInternshipsButton from "../../components/MatchInternshipsButton/MatchInternshipsButton";
 import axios from "axios";
 import ImportInternshipsButton from "../../components/ImportInternhipsButton/ImportInternshipsButton";
+import SetDeadlineButton from "../../components/SetDeadlineButton/SetDeadlineButton";
 
 export default function InternshipsPage() {
   const sessionId = localStorage.getItem("sessionId");
@@ -84,6 +85,7 @@ export default function InternshipsPage() {
             <ImportInternshipsButton refreshInternships={refreshInternships} />
             <AddInternshipButton refreshInternships={refreshInternships} />
             <MatchInternshipsButton refreshInternships={refreshInternships} />
+            <SetDeadlineButton refreshInternships={refreshInternships} />
           </Stack>
         )}
         {error && <div>{error.message}</div>}
