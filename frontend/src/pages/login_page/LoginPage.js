@@ -48,6 +48,7 @@ export default function LoginPage() {
     })
       .then((response) => {
         if (!response.ok) {
+          alert("wrong username and password");
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         return response.json();
