@@ -27,6 +27,8 @@ import com.bosgii.internshipmanagement.repos.StudentRepository;
 import com.bosgii.internshipmanagement.repos.SupervisorRepository;
 //import com.bosgii.internshipmanagement.requests.AddInternshipRequest;
 import java.util.Properties;
+import java.util.Random;
+
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -244,9 +246,25 @@ public class ImportService {
     } catch (MessagingException e) {
         e.printStackTrace();
     }
-}
 
 
+
+
+    }
+
+    private static final String CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    public static String generateRandomString(int length) {
+        Random random = new Random();
+        StringBuilder stringBuilder = new StringBuilder(length);
+
+        for (int i = 0; i < length; i++) {
+            int randomIndex = random.nextInt(CHARACTERS.length());
+            char randomChar = CHARACTERS.charAt(randomIndex);
+            stringBuilder.append(randomChar);
+        }
+
+        return stringBuilder.toString();
+    }
 
 
 }

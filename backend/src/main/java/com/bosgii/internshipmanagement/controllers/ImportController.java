@@ -29,8 +29,7 @@ public class ImportController {
             importService.importInternshipsFromExcelFile(file);
 
             return ResponseEntity.ok("File imported succesfully.");
-        }
-        catch(Exception e){
+        } catch(Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
