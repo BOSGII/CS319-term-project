@@ -60,6 +60,7 @@ MERGED feature-b17: adjustments for final evaluation form generation (take some 
 MERGED feature-b18: CompanyEvaluation && CompanyEvaluationForm
 MERGED feature-b19: import internships service should return the line causing error to the frontend
 MERGED feature-b20: Admin controller/service
+feature-b21: change secretary, set password, email 
 
 
 
