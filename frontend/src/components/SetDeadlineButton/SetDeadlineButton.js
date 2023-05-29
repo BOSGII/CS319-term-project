@@ -1,4 +1,4 @@
-import { Button, Dialog, Stack} from "@mui/material";
+import { Button, Dialog, Stack, TextField} from "@mui/material";
 import { useState } from 'react';
 import axios from 'axios';
 
@@ -14,10 +14,9 @@ export default function SetDeadlineButton({refreshInternships}) {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        if (date) {
         axios
-            .post('http://localhost:8080/api/deadline', {
-                date: date
-            }, { headers: {
+            .post('http://localhost:8080/api/deadline', new Date(date), { headers: {
                 Authorization: `${sessionId}`,
                 }
             }).then((response) => {
@@ -25,6 +24,7 @@ export default function SetDeadlineButton({refreshInternships}) {
             }).catch((error) => {
                 console.error(error);
             })
+        }
     };
 
     return (
@@ -46,10 +46,12 @@ export default function SetDeadlineButton({refreshInternships}) {
         >
         <Stack spacing={3} >
         <form onSubmit={handleSubmit}>
-            <label>
-            Deadline:
-            <input type="date" value={date} onChange={handleDateChange} />
-            </label>
+            <TextField 
+                margin="normal"
+                type="date" 
+                label="Deadline"
+                value={date} 
+                onChange={handleDateChange} />
         </form>
         <Button 
             variant="contained" 
