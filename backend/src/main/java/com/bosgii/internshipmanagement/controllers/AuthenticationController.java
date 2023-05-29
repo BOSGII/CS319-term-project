@@ -48,12 +48,4 @@ public class AuthenticationController {
         System.out.println(sessionId);
         return ResponseEntity.ok(response);
     }
-
-    @PostMapping("/process_register")
-    public void processRegister(@RequestBody User user) {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String encodedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
-        userRepo.save(user);
-    }
 }
