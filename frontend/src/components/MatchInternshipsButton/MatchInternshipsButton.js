@@ -30,10 +30,11 @@ export default function MatchInternshipsButton({ refreshInternships }) {
       .then((response) => {
         refreshInternships();
         handleClose();
-        console.log(response.data);
       })
-      .catch(() => {
-        console.log("match post error");
+      .catch((error) => {
+        if (error.response.status === 400) {
+          alert(error.response.data);
+        }
       });
   };
 

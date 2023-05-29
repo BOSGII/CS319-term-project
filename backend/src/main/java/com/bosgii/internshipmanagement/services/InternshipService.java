@@ -2,6 +2,7 @@ package com.bosgii.internshipmanagement.services;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -74,14 +75,28 @@ public class InternshipService {
 	}
 
 	public List<Internship> getAllInternships(Optional<Long> studentId, Optional<Long> instructorId) {
+		List<Internship> internships;
+
 		// studentId and instructorId cannot be present at the same time
 		if (studentId.isPresent()) {
-			return internshipRepository.getAllByStudentId(studentId.get());
+			internships = internshipRepository.getAllByStudentId(studentId.get());
 		} else if (instructorId.isPresent()) {
-			return internshipRepository.getAllByInstructorId(instructorId.get());
+			internships = internshipRepository.getAllByInstructorId(instructorId.get());
+		} else {
+			internships = internshipRepository.findAll();
 		}
+		
+		// check deadline status
+		Date date = new Date();
 
-		return internshipRepository.findAll();
+		for (Internship i: internships) {
+			if (i.getDeadline() != null && i.getDeadline().compareTo(date) < 0) {
+				i.setStatus(InternshipStatus.FAIL_NO_SUBMISSION);
+			}
+		}
+		internshipRepository.saveAll(internships);
+
+		return internships;
 	}
 
 	public Optional<Internship> getOneInternshipById(Long internshipId) {
@@ -290,7 +305,7 @@ public class InternshipService {
 			pdfReq.setEvaluationOfCompanyByInstructor(3);
 		}
 
-		ArrayList<Integer> scores = new ArrayList<Integer>();
+		ArrayList<String> scores = new ArrayList<String>();
 		scores.add(req.getGrade1());
 		scores.add(req.getGrade2());
 		scores.add(req.getGrade3());
@@ -301,14 +316,14 @@ public class InternshipService {
 
 		pdfReq.setScores(scores);
 
-		ArrayList<ArrayList<Integer>> pages = new ArrayList<ArrayList<Integer>>();
-		pages.add(csvToList(req.getPages1()));
-		pages.add(csvToList(req.getPages2()));
-		pages.add(csvToList(req.getPages3()));
-		pages.add(csvToList(req.getPages4()));
-		pages.add(csvToList(req.getPages5()));
-		pages.add(csvToList(req.getPages6()));
-		pages.add(csvToList(req.getPages7()));
+		ArrayList<String> pages = new ArrayList<String>();
+		pages.add(req.getPages1());
+		pages.add(req.getPages2());
+		pages.add(req.getPages3());
+		pages.add(req.getPages4());
+		pages.add(req.getPages5());
+		pages.add(req.getPages6());
+		pages.add(req.getPages7());
 
 		pdfReq.setPages(pages);
 
