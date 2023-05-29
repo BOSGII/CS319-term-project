@@ -32,7 +32,6 @@ export default function Internship({ internship, refreshInternships }) {
           direction={"column"}
           spacing={1}
           alignItems={"left"}
-          marginRight={40}
         >
           <ListItemText>{internshipType} </ListItemText>
           <ListItemText>Student Id:{studentId} </ListItemText>
