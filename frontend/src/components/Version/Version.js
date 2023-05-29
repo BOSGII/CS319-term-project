@@ -71,10 +71,12 @@ export default function Version({
                 fileName={version.reportFileName}
                 url={`http://localhost:8080/api/versions/${version.id}/report`}
               />
-              <ChangeFileButton
-                putUrl={`http://localhost:8080/api/versions/${version.id}/report`}
-                refreshVersion={refreshVersion}
-              />
+              {version.status !== "OLD_VERSION" && version.status !== "REVISION_REQUIRED" && user.role === "student" &&
+                <ChangeFileButton
+                  putUrl={`http://localhost:8080/api/versions/${version.id}/report`}
+                  refreshVersion={refreshVersion}
+                />
+              }
             </Grid>
             <Grid item xs={6}>
               <Typography variant="h6" sx={{ mb: 1 }}>
@@ -88,10 +90,12 @@ export default function Version({
                     fileName={version.feedbackFileName}
                     url={`http://localhost:8080/api/versions/${version.id}/feedback`}
                   />
-                  <ChangeFileButton
-                    putUrl={`http://localhost:8080/api/versions/${version.id}/feedback`}
-                    refreshVersion={refreshVersion}
-                  />
+                  {version.status !== "OLD_VERSION" && user.role === "instructor" &&
+                    <ChangeFileButton
+                      putUrl={`http://localhost:8080/api/versions/${version.id}/feedback`}
+                      refreshVersion={refreshVersion}
+                    />
+                  }
                 </>
               ) : (
                 <Typography>Feedback file is not provided.</Typography>
